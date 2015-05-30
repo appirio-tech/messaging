@@ -26,7 +26,7 @@ window.__karma__.loaded = ->
   window.__karma__.start()
 
 beforeEach ->
-  module 'appirio-tech-timeline'
+  module 'appirio-tech-messenger'
 
 # Transfer fakeserver responses to $httpBackend
 beforeEach inject ($httpBackend) ->

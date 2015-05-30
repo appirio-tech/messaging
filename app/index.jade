@@ -1,23 +1,21 @@
 - var scripts = []
 - scripts.push('constants')
-- scripts.push('timeline.module')
-- scripts.push('timeline.routes')
-- scripts.push('timeline-api.service')
-- scripts.push('user-api.service')
-- scripts.push('timeline.controller')
-- scripts.push('timeline.service')
+- scripts.push('messenger.module')
+- scripts.push('messenger.routes')
+- scripts.push('messenger.controller')
+- scripts.push('messenger.service')
 
 - var bowers = []
 - bowers.push('angular/angular')
 - bowers.push('angular-resource/angular-resource')
 - bowers.push('angular-ui-router/release/angular-ui-router')
 
-- var cssPaths   = ['main', 'timeline', 'submissions', 'messages']
-- var landscapes = ['timeline', 'submissions']
+- var cssPaths   = ['main', 'messenger']
+- var landscapes = []
 - var desktops   = []
 
 doctype html
-html(ng-app='appirio-tech-timeline')
+html(ng-app='appirio-tech-messenger')
   head
     script(type="text/javascript", src="/scripts/json-fixtures.js")
 
@@ -37,7 +35,7 @@ html(ng-app='appirio-tech-timeline')
 
       AutoConfigFakeServer.consume(schemas);
 
-    title Timeline
+    title Messenger
 
     meta(charset='utf-8')
 
@@ -55,7 +53,7 @@ html(ng-app='appirio-tech-timeline')
       link(href="styles/#{path}.desktop.css", rel="stylesheet", media="(min-width: 767px)")
 
   body
-    main.layout-main.timeline("role"="main", class="{{ pageClass }}", ui-view="")
+    main.layout-main.messenger("role"="main", class="{{ pageClass }}", ui-view="")
 
     each path in bowers
       script(src="bower_components/#{path}.js", type="text/javascript")
