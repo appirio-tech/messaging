@@ -1,0 +1,24 @@
+li(ng-class="{ completed: vm.quote.completed, passed: vm.quote.passed }")
+  section.checkpoint
+    .progress
+      .percent 10%
+
+      .status Complete
+
+      .day Day 1
+
+    .lead
+
+    .point
+
+    .lead-after
+
+    label(ng-hide="vm.quote.completed") Generate Quote
+
+    label(ng-show="vm.quote.completed") Quote has been generated.
+
+  p(ng-show="vm.quote.completed && !vm.payment.completed")
+    a(href="#") View quote and pay to continue.
+
+  p(ng-show="vm.quote.completed && !vm.payment.completed")
+    em Co-Pilot will not be assigned until your payment has been approved.

@@ -1,0 +1,22 @@
+li.notification.messages.no-progress
+  section.checkpoint
+    .point 6
+
+    .lead-after
+
+    label(ng-hide="vm.coPilot.completed") Messages
+
+    label(ng-show="vm.coPilot.completed")
+      .avatar-box(ng-show="vm.coPilot.completed")
+        img.avatar(ng-src="{{ vm.avatars[member.handle] }}")
+
+        img.avatar(ng-src="{{ vm.avatars[member.handle] }}")
+
+        span.message Maybe it's best if we stick with the current logo and 
+
+        a(href="#") view all
+
+  form
+    textarea(placeholder="Add your message.")
+
+    button Go!

@@ -1,0 +1,204 @@
+@import "work-includes";
+
+.layout-main.timeline {
+  padding: 15px 20px;
+
+  .avatar-box {
+    padding         : 4px;
+    background-color: white;
+    display         : table;
+
+    .avatar {
+      display       : inline-block;
+      width         : 35px;
+      height        : 35px;
+      border        : 1px solid grey;
+      border-radius : 35px;
+      margin-right  : 6px;
+      vertical-align: middle;
+    }
+
+    p {
+      display       : inline-block;
+      width         : 240px;
+      vertical-align: middle;
+    }
+  }
+
+  > ul {
+    position : relative;
+
+    > li {
+      $point-width     : 27px;
+      $big-point-width : 37px;
+      $timeline-width  : 3px;
+      $spacing         : 20px;
+      $head-width      : $point-width/2 + $timeline-width/2;
+      $head-width-big  : $big-point-width/2 + $timeline-width/2;
+      $lead-after-width: 10px;
+
+      border-left   : $timeline-width solid grey;
+      color         : grey;
+      padding-bottom: $point-width;
+      margin-left   : $head-width-big;
+
+      // this will be used to hide the extra borders
+      &::before, &:last-child::after {
+        content         : "";
+        position        : absolute;
+        width           : $timeline-width;
+        margin-left     : -$timeline-width;
+        height          : $point-width;
+        background-color: grey;
+        z-index         : 0;
+      }
+
+      &:first-child::before, &:last-child::after {
+        background-color: white !important;
+      }
+
+      &:last-child::after {
+        height: $point-width / 2;
+      }
+
+      &:last-child {
+        padding-bottom: 0;
+
+        &::after {
+          margin-top: -10px;
+        }
+      }
+
+      .checkpoint {
+        margin-left: -$head-width;
+        white-space: nowrap;
+        overflow   : hidden;
+        z-index    : 1;
+        position   : relative;
+
+        > * {
+          display       : inline-block;
+          vertical-align: middle;
+        }
+
+        .progress, .lead {
+          display: none;
+        }
+
+        .lead-after {
+          border-top   : $lead-after-width solid transparent;
+          border-bottom: $lead-after-width solid transparent;
+          border-right : $lead-after-width solid blue;
+          margin-left  : $spacing;
+          visibility   : hidden;
+        }
+
+        .point {
+          $border-width: 3px;
+
+          width           : $point-width;
+          height          : $point-width;
+          line-height     : $point-width - ($border-width * 2);
+          border          : $border-width solid white;
+          border-radius   : 50%;
+          background-color: grey;
+          text-align      : center;
+          color           : #fff;
+
+          .info {
+            display: none;
+          }
+        }
+
+        label {
+          white-space: initial;
+          width      : 80%; // dont know why but this fixes overflow issue
+        }
+      }
+
+      > *:nth-child(n + 2) {
+        display: block;
+        margin-left: $spacing + $lead-after-width + ($point-width/2);
+        margin-top: 10px;
+      }
+
+      &.milestone {
+        .checkpoint {
+          margin-left: -$head-width-big;
+
+          .lead-after {
+            margin-left: $spacing - ($big-point-width/2 - $point-width/2);
+          }
+
+          label {
+            font-size: 20px;
+          }
+        }
+
+        .point {
+          width : $big-point-width;
+          height: $big-point-width;
+        }
+      }
+
+      &.passed {
+        border-color: green;
+      }
+
+      &.completed {
+        &::before {
+          background-color: green;
+        }
+
+        .point {
+          background-color: green;
+
+          &.notification {
+            background-color: red;
+          }
+        }
+
+        .progress {
+          .percent {
+            color: green;
+          }
+        }
+      }
+
+      &.no-progress {
+        .checkpoint {
+          margin-left: -$head-width;
+        }
+      }
+
+      &.info {
+        .checkpoint {
+          .point {
+            background-color: blue;
+
+            .info {
+              display: block;
+            }
+          }
+
+          .lead-after {
+            visibility: visible;
+          }
+
+          label {
+            padding: 5px;
+          }
+        }
+
+        a {
+          color: blue;
+        }
+
+        label {
+          background-color: blue;
+          color           : white;
+        }
+      }
+    }
+  }
+}

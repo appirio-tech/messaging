@@ -1,0 +1,11 @@
+li.no-progress(ng-class="{ completed: vm.feedback.completed, passed: vm.feedback.passed }")
+  section.checkpoint
+    .point
+
+    .lead-after
+
+    label(ng-hide="vm.feedback.completed") Give Feedback?
+
+    label(ng-show="vm.feedback.completed") Feedback given to 
+
+      a(href="#") {{ vm.feedbackHandle }}

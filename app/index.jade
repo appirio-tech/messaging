@@ -1,0 +1,65 @@
+- var scripts = []
+- scripts.push('constants')
+- scripts.push('timeline.module')
+- scripts.push('timeline.routes')
+- scripts.push('timeline-api.service')
+- scripts.push('user-api.service')
+- scripts.push('timeline.controller')
+- scripts.push('timeline.service')
+
+- var bowers = []
+- bowers.push('angular/angular')
+- bowers.push('angular-resource/angular-resource')
+- bowers.push('angular-ui-router/release/angular-ui-router')
+
+- var cssPaths   = ['main', 'timeline', 'submissions', 'messages']
+- var landscapes = ['timeline', 'submissions']
+- var desktops   = []
+
+doctype html
+html(ng-app='appirio-tech-timeline')
+  head
+    script(type="text/javascript", src="/scripts/json-fixtures.js")
+
+    script(type="text/javascript", src="/bower_components/sinon/index.js")
+
+    script(type="text/javascript", src="/bower_components/auto-config-fake-server/dist/scripts/auto-config-fake-server.js")
+
+    script(type="text/javascript").
+      AutoConfigFakeServer.init();
+
+      AutoConfigFakeServer.fakeServer.autoRespond = true;
+
+      schemas = [
+        FIXTURES['bower_components/appirio-tech-api-schemas/v3.json'],
+        FIXTURES['bower_components/appirio-tech-api-schemas/v2.json']
+      ];
+
+      AutoConfigFakeServer.consume(schemas);
+
+    title Timeline
+
+    meta(charset='utf-8')
+
+    meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
+
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no')
+
+    each path in cssPaths
+      link(href="styles/#{path}.css", rel="stylesheet")
+
+    each path in landscapes
+      link(href="styles/#{path}.landscape.css", rel="stylesheet", media="(min-width: 568px)")
+
+    each path in desktops
+      link(href="styles/#{path}.desktop.css", rel="stylesheet", media="(min-width: 767px)")
+
+  body
+    main.layout-main.timeline("role"="main", class="{{ pageClass }}", ui-view="")
+
+    each path in bowers
+      script(src="bower_components/#{path}.js", type="text/javascript")
+
+    each path in scripts
+      script(src="scripts/#{path}.js", type="text/javascript")
+
