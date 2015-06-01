@@ -1,5 +1,5 @@
 (function() {
   'use strict';
-  angular.module('appirio-tech-messenger', ['ui.router', 'ngResource', 'app.constants']);
+  angular.module('appirio-tech-messaging', ['ui.router', 'ngResource', 'app.constants']);
 
 }).call(this);

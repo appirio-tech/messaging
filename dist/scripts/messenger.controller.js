@@ -1,8 +1,8 @@
 (function() {
   'use strict';
-  var MessengerController;
+  var MessagingController;
 
-  MessengerController = function(MessengerService) {
+  MessagingController = function(MessagingService) {
     var activate, vm;
     vm = this;
     vm.greetings = null;
@@ -13,8 +13,8 @@
     return vm;
   };
 
-  MessengerController.$inject = ['MessengerService'];
+  MessagingController.$inject = ['MessagingService'];
 
-  angular.module('appirio-tech-messenger').controller('MessengerController', MessengerController);
+  angular.module('appirio-tech-messaging').controller('MessagingController', MessagingController);
 
 }).call(this);

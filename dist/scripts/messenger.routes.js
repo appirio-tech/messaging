@@ -5,17 +5,17 @@
   config = function($stateProvider) {
     var state;
     state = {
-      url: '/messenger/:workId',
-      title: 'Messenger',
-      controller: 'MessengerController',
+      url: '/messaging/:workId',
+      title: 'Messaging',
+      controller: 'MessagingController',
       controllerAs: 'vm',
-      templateUrl: 'views/messenger.html'
+      templateUrl: 'views/messaging.html'
     };
-    return $stateProvider.state('messenger', state);
+    return $stateProvider.state('messaging', state);
   };
 
   config.$inject = ['$stateProvider'];
 
-  angular.module('appirio-tech-messenger').config(config).run();
+  angular.module('appirio-tech-messaging').config(config).run();
 
 }).call(this);

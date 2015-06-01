@@ -1,3 +1,3 @@
-# messenger component
-[![Build Status](https://magnum.travis-ci.com/appirio-tech/messenger.svg?token=sjYcnNqPWxBpKgooh32F)](https://magnum.travis-ci.com/appirio-tech/messenger)
-[![Coverage Status](https://coveralls.io/repos/appirio-tech/messenger/badge.svg?t=BJiqmL)](https://coveralls.io/r/appirio-tech/messenger)
+# messaging component
+[![Build Status](https://magnum.travis-ci.com/appirio-tech/messaging.svg?token=sjYcnNqPWxBpKgooh32F)](https://magnum.travis-ci.com/appirio-tech/messaging)
+[![Coverage Status](https://coveralls.io/repos/appirio-tech/messaging/badge.svg?t=BJiqmL)](https://coveralls.io/r/appirio-tech/messaging)

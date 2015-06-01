@@ -8,6 +8,6 @@
 
   srv.$inject = [];
 
-  angular.module('appirio-tech-messenger').factory('MessengerService', srv);
+  angular.module('appirio-tech-messaging').factory('MessagingService', srv);
 
 }).call(this);

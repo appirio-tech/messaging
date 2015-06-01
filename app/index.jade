@@ -1,21 +1,21 @@
 - var scripts = []
 - scripts.push('constants')
-- scripts.push('messenger.module')
-- scripts.push('messenger.routes')
-- scripts.push('messenger.controller')
-- scripts.push('messenger.service')
+- scripts.push('messaging.module')
+- scripts.push('messaging.routes')
+- scripts.push('messaging.controller')
+- scripts.push('messaging.service')
 
 - var bowers = []
 - bowers.push('angular/angular')
 - bowers.push('angular-resource/angular-resource')
 - bowers.push('angular-ui-router/release/angular-ui-router')
 
-- var cssPaths   = ['main', 'messenger']
+- var cssPaths   = ['main', 'messaging']
 - var landscapes = []
 - var desktops   = []
 
 doctype html
-html(ng-app='appirio-tech-messenger')
+html(ng-app='appirio-tech-messaging')
   head
     script(type="text/javascript", src="/scripts/json-fixtures.js")
 
@@ -35,7 +35,7 @@ html(ng-app='appirio-tech-messenger')
 
       AutoConfigFakeServer.consume(schemas);
 
-    title Messenger
+    title Messaging
 
     meta(charset='utf-8')
 
@@ -53,7 +53,7 @@ html(ng-app='appirio-tech-messenger')
       link(href="styles/#{path}.desktop.css", rel="stylesheet", media="(min-width: 767px)")
 
   body
-    main.layout-main.messenger("role"="main", class="{{ pageClass }}", ui-view="")
+    main.layout-main.messaging("role"="main", class="{{ pageClass }}", ui-view="")
 
     each path in bowers
       script(src="bower_components/#{path}.js", type="text/javascript")
