@@ -4,7 +4,7 @@
     "node": ">=0.10.0"
   },
   "devDependencies": {
-    "appirio-gulp-tasks": "0.0.6",
+    "appirio-gulp-tasks": "0.0.9",
     "appirio-work-styles": "0.0.1",
     "autoprefixer-core": "^4.0.2",
     "browser-sync": "^1.8.2",

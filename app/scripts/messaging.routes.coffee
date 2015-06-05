@@ -2,7 +2,7 @@
 
 config = ($stateProvider) ->
   state =
-    url         : '/messaging/:workId'
+    url         : '/messaging/:id'
     title       : 'Messaging'
     controller  : 'MessagingController'
     controllerAs: 'vm'
