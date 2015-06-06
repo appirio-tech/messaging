@@ -17,8 +17,7 @@ window.__karma__.loaded = ->
   AutoConfigFakeServer.fakeServer.respondImmediately = true
 
   schemas = [
-    FIXTURES['bower_components/appirio-tech-api-schemas/v3.json']
-    FIXTURES['bower_components/appirio-tech-api-schemas/v2.json']
+    FIXTURES['bower_components/appirio-tech-api-schemas/v3-messages.json']
   ]
 
   AutoConfigFakeServer.consume schemas

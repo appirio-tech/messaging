@@ -4,10 +4,11 @@ $.browserSync = require 'browser-sync'
 $.karma       = require('karma').server
 
 karmaConfig =
-  configFile  : __dirname + '/karma.conf.coffee'
-  coverage    : 'app/**/*.coffee'
+  configFile : __dirname + '/karma.conf.coffee'
+  basePath   : __dirname
+  coverage   : 'app/**/*.coffee'
   # Dont include coverage files
-  coffeeFiles : [
+  coffeeFiles: [
     'tests/specs/**/*.coffee'
   ]
   files: [
@@ -25,8 +26,7 @@ karmaConfig =
   ]
 
 fixtureFiles = [
-  'bower_components/appirio-tech-api-schemas/v3.json'
-  'bower_components/appirio-tech-api-schemas/v2.json'
+  'bower_components/appirio-tech-api-schemas/v3-messages.json'
 ]
 
 configs =
