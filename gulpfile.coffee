@@ -33,7 +33,7 @@ configs.fixtureFiles = [
 ]
 
 configs.templateCache =
-  files : ['.tmp/views/messaging.html']
+  files : ['.tmp/views/messaging.html', '.tmp/views/messaging.directive.html']
   root  : 'views/'
   module: 'appirio-tech-messaging'
 

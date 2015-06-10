@@ -4,7 +4,8 @@
 
 }).call(this);
 
-angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<h1>Messaging</h1><messaging thread-id=\"123\"></messaging>");}]);
+angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<h1>Messaging</h1><messaging thread-id=\"123\"></messaging>");
+$templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"n in [42, 42, 43, 43] track by $index\"><div class=\"avatar\"></div><div class=\"message\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><ul class=\"attachments\"><li></li><li></li></ul><time>5 minutes ago</time></div></li></ul><form><textarea placeholder=\"Send a message&hellip;\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");}]);
 (function() {
   'use strict';
   var MessagingController;
