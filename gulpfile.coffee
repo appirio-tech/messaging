@@ -47,6 +47,20 @@ configs.coverageReporter =
   type: 'lcov'
   dir: 'coverage'
 
+configs.buildFiles =
+  concat:
+    'main.js': [
+      '.tmp/scripts/messaging.module.js',
+      '.tmp/scripts/templates.js',
+      '.tmp/scripts/messaging.controller.js',
+      '.tmp/scripts/messaging.directive.js',
+      '.tmp/scripts/messaging.routes.js',
+      '.tmp/scripts/messaging.service.js',
+      '.tmp/scripts/messages-api.service.js'
+    ]
+    'main.css': [
+      '.tmp/styles/messaging.css'
+    ]
 
 ##
 ## Normally, you wouldnt need to edit below this line ##
