@@ -4,6 +4,7 @@
 - scripts.push('messaging.routes')
 - scripts.push('messaging.controller')
 - scripts.push('messaging.service')
+- scripts.push('messaging.directive')
 
 - var bowers = []
 - bowers.push('angular/angular')
@@ -29,8 +30,7 @@ html(ng-app='appirio-tech-messaging')
       AutoConfigFakeServer.fakeServer.autoRespond = true;
 
       schemas = [
-        FIXTURES['bower_components/appirio-tech-api-schemas/v3.json'],
-        FIXTURES['bower_components/appirio-tech-api-schemas/v2.json']
+        FIXTURES['bower_components/appirio-tech-api-schemas/v3-messages.json']
       ];
 
       AutoConfigFakeServer.consume(schemas);

@@ -3,6 +3,37 @@
 .layout-main.messaging {
   padding: 15px 20px;
   max-width: 600px;
+}
+
+messaging.widget {
+  max-width: 300px;
+
+  .messages {
+    max-height: 120px;
+  }
+
+  form {
+    textarea {
+      height : 30px;
+    }
+
+    button.attach {
+      display: none;
+    }
+
+    button.enter {
+      float           : left;
+      width           : 100px;
+      background-color: blue;
+      color           : white
+    }
+  }
+}
+
+messaging {
+  display: block;
+
+  @include clearfix;
 
   .messages {
     max-height      : 500px;
