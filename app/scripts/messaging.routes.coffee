@@ -17,6 +17,13 @@ config = ($stateProvider) ->
     controllerAs: 'vm'
     templateUrl : 'views/messaging-widget.html'
 
+  states['threads'] =
+    url         : '/threads'
+    title       : 'Threads'
+    controller  : 'MessagingController'
+    controllerAs: 'vm'
+    templateUrl : 'views/threads.html'
+
   for key, state of states
     $stateProvider.state key, state
 

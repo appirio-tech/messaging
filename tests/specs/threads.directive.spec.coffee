@@ -1,9 +1,9 @@
 'use strict'
 
 element = null
-html    = '<messaging thread-id="123"></messaging>'
+html    = '<threads></threads>'
 
-describe 'MessagingDirective', ->
+describe 'ThreadDirective', ->
   beforeEach inject ($compile, $rootScope) ->
     compiled = $compile html
     element  = compiled $rootScope

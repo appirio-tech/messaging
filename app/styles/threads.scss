@@ -1,0 +1,63 @@
+@import "work-includes";
+
+threads {
+  display: block;
+  background-color: white;
+
+  ul {
+    li {
+      @include clearfix;
+
+      padding: 10px 6px;
+      border-top: 1px solid #ccc;
+
+      header {
+        * {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        h4 {
+          max-width: 70%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+
+        time {
+          width: 30%;
+          text-align: right;
+        }
+      }
+
+      main {
+        margin-top: 10px;
+        $avatar-diameter: 35px;
+
+        .avatar {
+          width           : $avatar-diameter;
+          height          : $avatar-diameter;
+          background-color: green;
+          border-radius   : $avatar-diameter;
+          position        : absolute;
+        }
+
+        .message {
+          float      : left;
+          overflow   : hidden;
+          margin-left: $avatar-diameter + 20px;;
+          min-height : $avatar-diameter;
+
+          .co-pilot {
+            margin-bottom: 5px;
+          }
+
+          p {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
+    }
+  }
+}
