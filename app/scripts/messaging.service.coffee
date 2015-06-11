@@ -1,26 +1,49 @@
 'use strict'
 
-createdAt = null
+srv = (MessagesAPIService, AVATAR_URL, UserAPIService) ->
+  getMessages = (params, onChange) ->
+    queryParams =
+      filter : 'workId=' + params.workId
+      orderBy: 'createdAt'
 
-srv = (MessagesAPIService) ->
-  retrieveCreatedAt = (params, displayCreatedAt) ->
-  	queryParams =
-  		filter: 'workId=' + params.workId
+    messaging =
+      messages: []
+      avatars : {}
 
-  	resource = MessagesAPIService.query queryParams
+    resource = MessagesAPIService.query queryParams
 
-  	resource.$promise.then (response) ->
-      buildMessages response, displayCreatedAt
+    resource.$promise.then (response) ->
+      messaging.messages = response
 
-  	resource.$promise.catch ->
+      for message in messaging.messages
+        buildAvatar message.createdBy, messaging, onChange
 
-  	resource.$promise.finally ->
+      onChange? messaging
 
-  buildMessages = (messages, displayCreatedAt) ->
-    displayCreatedAt? messages
+    resource.$promise.catch ->
 
-  retrieveCreatedAt: retrieveCreatedAt
+    resource.$promise.finally ->
 
-srv.$inject = ['MessagesAPIService']
+  buildAvatar = (handle, messaging, onChange) ->
+    unless messaging.avatars[handle]
+      userParams =
+        handle: handle
+
+      user = UserAPIService.get userParams
+
+      user.$promise.then (response) ->
+        messaging.avatars[handle] = AVATAR_URL + response?.photoLink
+
+        onChange? messaging
+
+      user.$promise.catch ->
+        # need handle error
+
+      user.$promise.finally ->
+        # need handle finally
+
+  getMessages: getMessages
+
+srv.$inject = ['MessagesAPIService', 'AVATAR_URL', 'UserAPIService']
 
 angular.module('appirio-tech-messaging').factory 'MessagingService', srv

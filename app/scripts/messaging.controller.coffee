@@ -1,20 +1,17 @@
 'use strict'
 
 MessagingController = (MessagingService, $stateParams) ->
-  vm          = this
-  vm.messages = null
+  vm           = this
+  vm.messaging = {}
 
   activate = ->
-    vm.greetings = 'Hello World!'
-
     params =
       workId: $stateParams.id
 
-    MessagingService.retrieveCreatedAt params, displayCreatedAt
+    onChange = (messages) ->
+      vm.messaging = messages
 
-  displayCreatedAt = (messages) ->
-    vm.messages = messages
-    timeDifference vm.messages[0].createdAt
+    MessagingService.getMessages params, onChange
 
   timeDifference = (timeDifference) ->
     date = new Date()

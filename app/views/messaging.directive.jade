@@ -1,6 +1,6 @@
 ul.messages
-  li(ng-repeat="message in vm.messages track by $index")
-    .avatar
+  li(ng-repeat="message in vm.messaging.messages track by $index")
+    img.avatar(ng-src="{{ vm.messaging.avatars[message.createdBy] }}")
 
     .message
       p {{ message.body }}
