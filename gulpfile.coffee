@@ -64,6 +64,7 @@ configs.buildFiles =
     ]
     'main.css': [
       '.tmp/styles/messaging.css'
+      '.tmp/styles/threads.css'
     ]
 
 ##
