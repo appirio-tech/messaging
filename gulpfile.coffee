@@ -18,7 +18,7 @@ configs.karma =
     'bower_components/angular-mocks/angular-mocks.js'
     'bower_components/angular-resource/angular-resource.js'
     'bower_components/angular-ui-router/release/angular-ui-router.js'
-    'bower_components/auto-config-fake-server/dist/scripts/auto-config-fake-server.js'
+    'bower_components/auto-config-fake-server/dist/auto-config-fake-server.js'
     'tests/specs/helper.coffee'
     '.tmp/scripts/constants.js'
     '.tmp/scripts/json-fixtures.js'
