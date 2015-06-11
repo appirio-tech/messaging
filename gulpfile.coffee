@@ -58,6 +58,7 @@ configs.buildFiles =
       '.tmp/scripts/templates.js',
       '.tmp/scripts/messaging.controller.js',
       '.tmp/scripts/messaging.directive.js',
+      '.tmp/scripts/threads.directive.js',
       '.tmp/scripts/messaging.service.js',
       '.tmp/scripts/messages-api.service.js'
     ]

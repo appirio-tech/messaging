@@ -4,8 +4,9 @@
 
 }).call(this);
 
-angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<h1>Messaging</h1><messaging thread-id=\"123\"></messaging>");
-$templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"n in [42, 42, 43, 43] track by $index\"><div class=\"avatar\"></div><div class=\"message\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><ul class=\"attachments\"><li></li><li></li></ul><time>5 minutes ago</time></div></li></ul><form><textarea placeholder=\"Send a message&hellip;\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");}]);
+angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<h1>Messaging</h1><hr/><messaging thread-id=\"123\"></messaging>");
+$templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"n in [42, 42, 43, 43] track by $index\"><div class=\"avatar\"></div><div class=\"message\"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><ul class=\"attachments\"><li></li><li></li></ul><time>5 minutes ago</time></div></li></ul><form><textarea placeholder=\"Send a message&hellip;\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");
+$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"n in [42, 42, 43, 43] track by $index\"><header><h4>NASA - DTN Dashboard winner DTN Dashboard winner DTN Dashboard winner DTN Dashboard winner</h4><time>5 mins ago</time></header><main><div class=\"avatar\"></div><div class=\"message\"><div class=\"co-pilot\">Jimbo Co-pilot:</div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div></main></li></ul>");}]);
 (function() {
   'use strict';
   var MessagingController;
@@ -33,7 +34,10 @@ $templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li 
 
   directive = function(MessagingService) {
     var link;
-    link = function() {};
+    link = function(scope, element, attrs) {
+      var messages;
+      return messages = element.find('ul');
+    };
     return {
       restrict: 'E',
       templateUrl: 'views/messaging.directive.html',
@@ -49,36 +53,24 @@ $templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li 
 
 (function() {
   'use strict';
-  var config;
+  var directive;
 
-  config = function($stateProvider) {
-    var key, results, state, states;
-    states = {};
-    states['messaging'] = {
-      url: '/messaging/:id',
-      title: 'Messaging',
-      controller: 'MessagingController',
-      controllerAs: 'vm',
-      templateUrl: 'views/messaging.html'
+  directive = function(MessagingService) {
+    var link;
+    link = function(scope, element, attrs) {
+      var messages;
+      return messages = element.find('ul');
     };
-    states['messaging-widget'] = {
-      url: '/messaging-widget/:id',
-      title: 'Messaging Widget',
-      controller: 'MessagingController',
-      controllerAs: 'vm',
-      templateUrl: 'views/messaging-widget.html'
+    return {
+      restrict: 'E',
+      templateUrl: 'views/threads.directive.html',
+      link: link
     };
-    results = [];
-    for (key in states) {
-      state = states[key];
-      results.push($stateProvider.state(key, state));
-    }
-    return results;
   };
 
-  config.$inject = ['$stateProvider'];
+  directive.$inject = ['MessagingService'];
 
-  angular.module('appirio-tech-messaging').config(config).run();
+  angular.module('appirio-tech-messaging').directive('threads', directive);
 
 }).call(this);
 
