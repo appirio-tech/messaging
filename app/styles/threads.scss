@@ -31,7 +31,7 @@ threads {
       }
 
       main {
-        margin-top: 10px;
+        margin-top: 5px;
         $avatar-diameter: 35px;
 
         .avatar {
@@ -44,7 +44,7 @@ threads {
 
         .message {
           overflow   : hidden;
-          margin-left: $avatar-diameter + 20px;;
+          margin-left: $avatar-diameter + 5px;
           min-height : $avatar-diameter;
 
           .co-pilot {
