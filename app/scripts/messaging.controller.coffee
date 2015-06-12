@@ -13,11 +13,6 @@ MessagingController = (MessagingService, $stateParams) ->
 
     MessagingService.getMessages params, onChange
 
-  timeDifference = (timeDifference) ->
-    date = new Date()
-    createdTime = new Date(timeDifference)
-    vm.messages.timeDiff = date - createdTime
-
   activate()
 
   vm
