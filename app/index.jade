@@ -8,6 +8,9 @@
 - scripts.push('threads.directive')
 - scripts.push('messages-api.service')
 - scripts.push('user-api.service')
+- scripts.push('threads.service')
+- scripts.push('threads-api.service')
+- scripts.push('threads.controller')
 
 - var bowers = []
 - bowers.push('angular/angular')
@@ -34,6 +37,7 @@ html(ng-app='appirio-tech-messaging')
 
       schemas = [
         FIXTURES['bower_components/appirio-tech-api-schemas/v3-messages.json'],
+        FIXTURES['bower_components/appirio-tech-api-schemas/v3-threads.json'],
         FIXTURES['bower_components/appirio-tech-api-schemas/v2.json']
       ];
 

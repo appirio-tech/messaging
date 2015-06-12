@@ -1,24 +1,24 @@
 'use strict'
 
-srv      = null
-messages = null
+srv    = null
+threads = null
 
-describe 'MessagesAPIService', ->
-  beforeEach inject (MessagesAPIService) ->
-    srv = MessagesAPIService
+describe 'ThreadsAPIService', ->
+  beforeEach inject (ThreadsAPIService) ->
+    srv = ThreadsAPIService
 
   it 'should have a query method', ->
     expect(srv.query).to.be.isFunction
 
-  describe 'MessagesAPIService.query', ->
+  describe 'ThreadsAPIService.query', ->
     beforeEach inject ($httpBackend) ->
       params =
         workId: '123'
 
       srv.query(params).$promise.then (response) ->
-        messages = response
+        threads = response.threads
 
       $httpBackend.flush()
 
     it 'should have at some results', ->
-      expect(messages.length).to.be.ok
+      expect(threads.length).to.be.ok
