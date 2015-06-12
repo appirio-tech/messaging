@@ -62,7 +62,11 @@ configs.buildFiles =
       '.tmp/scripts/messaging.directive.js',
       '.tmp/scripts/threads.directive.js',
       '.tmp/scripts/messaging.service.js',
-      '.tmp/scripts/messages-api.service.js'
+      '.tmp/scripts/messages-api.service.js',
+      '.tmp/scripts/threads-api.services.js',
+      '.tmp/scripts/threads.controller.js',
+      '.tmp/scripts/threads.services.js',
+      '.tmp/scripts/user-api.service.js'
     ]
     'main.css': [
       '.tmp/styles/messaging.css'
