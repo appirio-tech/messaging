@@ -1,8 +1,9 @@
 'use strict'
 
-MessagingController = (MessagingService, $stateParams) ->
-  vm           = this
-  vm.messaging = {}
+MessagingController = ($scope, MessagingService, $stateParams) ->
+  vm            = this
+  vm.messaging  = {}
+  vm.newMessage = ''
 
   activate = ->
     params =
@@ -13,10 +14,21 @@ MessagingController = (MessagingService, $stateParams) ->
 
     MessagingService.getMessages params, onChange
 
+  # sendMessage = ->
+  #   params =
+  #     workId: $stateParams.id,
+  #     body: vm.newMessage,
+#       context: 'work',
+#       updatedBy:"",
+#       reads: [],
+#       attachments: 
+
+
+
   activate()
 
   vm
 
-MessagingController.$inject = ['MessagingService', '$stateParams']
+MessagingController.$inject = ['$scope', 'MessagingService', '$stateParams']
 
 angular.module('appirio-tech-messaging').controller 'MessagingController', MessagingController
