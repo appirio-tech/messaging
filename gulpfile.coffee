@@ -30,6 +30,8 @@ configs.karma =
 
 configs.fixtureFiles = [
   'bower_components/appirio-tech-api-schemas/v3-messages.json'
+  'bower_components/appirio-tech-api-schemas/v3.json'
+  'bower_components/appirio-tech-api-schemas/v2.json'
 ]
 
 configs.templateCache =

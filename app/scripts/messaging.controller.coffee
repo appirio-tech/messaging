@@ -1,17 +1,22 @@
 'use strict'
 
-MessagingController = (MessagingService) ->
+MessagingController = (MessagingService, $stateParams) ->
   vm           = this
-  vm.greetings = null
+  vm.messaging = {}
 
   activate = ->
-    vm.greetings = 'Hello World!'
+    params =
+      workId: $stateParams.id
+
+    onChange = (messages) ->
+      vm.messaging = messages
+
+    MessagingService.getMessages params, onChange
 
   activate()
 
   vm
 
-MessagingController.$inject = ['MessagingService']
+MessagingController.$inject = ['MessagingService', '$stateParams']
 
 angular.module('appirio-tech-messaging').controller 'MessagingController', MessagingController
-
