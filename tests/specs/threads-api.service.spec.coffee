@@ -16,7 +16,7 @@ describe 'ThreadsAPIService', ->
         workId: '123'
 
       srv.query(params).$promise.then (response) ->
-        threads = response
+        threads = response.threads
 
       $httpBackend.flush()
 
