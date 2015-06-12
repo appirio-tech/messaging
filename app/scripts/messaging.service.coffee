@@ -42,8 +42,19 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService) ->
       user.$promise.finally ->
         # need handle finally
 
+  postMessage = (message, onChange) ->
+    resource = MessagesAPIService.save message
+
+    resource.$promise.then (response) ->
+
+    resource.$promise.catch ->
+
+    resource.$promise.finally ->
+
   getMessages: getMessages
+  postMessage: postMessage
 
 srv.$inject = ['MessagesAPIService', 'AVATAR_URL', 'UserAPIService']
 
 angular.module('appirio-tech-messaging').factory 'MessagingService', srv
+

@@ -1,33 +1,43 @@
 'use strict'
 
 MessagingController = ($scope, MessagingService, $stateParams) ->
-  vm            = this
-  vm.messaging  = {}
-  vm.newMessage = ''
+  vm = this
+
+  onChange = (messages) ->
+    vm.messaging = messages
 
   activate = ->
+    vm.messaging  = {}
+    vm.newMessage = ''
+
     params =
       workId: $stateParams.id
 
-    onChange = (messages) ->
-      vm.messaging = messages
-
     MessagingService.getMessages params, onChange
 
-  # sendMessage = ->
-  #   params =
-  #     workId: $stateParams.id,
-  #     body: vm.newMessage,
-#       context: 'work',
-#       updatedBy:"",
-#       reads: [],
-#       attachments: 
+    vm.sendMessage = sendMessage
 
+    vm
 
+  sendMessage = ->
+    if vm.newMessage.length
+      message =
+        workId     : $stateParams.id
+        threadId   : $scope.threadId
+        createdBy  : $scope.createdBy
+        createdAt  : 'a minute ago'
+        body       : vm.newMessage
+        context    : 'work'
+        updatedBy  : ''
+        reads      : []
+        attachments: []
+
+      vm.messaging.messages.push message
+
+      MessagingService.postMessage message, onChange
+      vm.newMessage = ''
 
   activate()
-
-  vm
 
 MessagingController.$inject = ['$scope', 'MessagingService', '$stateParams']
 
