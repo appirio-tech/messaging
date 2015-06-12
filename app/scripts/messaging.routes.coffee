@@ -6,8 +6,6 @@ config = ($stateProvider) ->
   states['messaging'] =
     url         : '/messaging/:id'
     title       : 'Messaging'
-    controller  : 'MessagingController'
-    controllerAs: 'vm'
     templateUrl : 'views/messaging.html'
 
   states['messaging-widget'] =

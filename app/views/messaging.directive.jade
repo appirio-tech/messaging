@@ -11,8 +11,8 @@ ul.messages
 
       time created at: {{ message.createdAt }}
 
-form
-  textarea(placeholder!="Send a message&hellip;")
+form(ng-submit="vm.sendMessage()")
+  textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
 
   button.enter(type="submit") Enter
 

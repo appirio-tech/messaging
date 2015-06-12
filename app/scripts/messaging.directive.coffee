@@ -2,13 +2,16 @@
 
 directive = (MessagingService) ->
   link = (scope, element, attrs) ->
-    messages = element.find 'ul'
+    # Nothing to do yet
 
-  restrict   : 'E'
-  templateUrl: 'views/messaging.directive.html'
-  link       : link
-  # scope      :
-  #   show: 'thread-id'
+  restrict    : 'E'
+  templateUrl : 'views/messaging.directive.html'
+  link        : link
+  controller  : 'MessagingController'
+  controllerAs: 'vm'
+  scope:
+    threadId : '@threadId'
+    createdBy: '@createdBy'
 
 directive.$inject = ['MessagingService']
 
