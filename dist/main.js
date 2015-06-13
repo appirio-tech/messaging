@@ -6,7 +6,7 @@
 
 angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<messaging thread-id=\"123\" created-by=\"abc\"></messaging>");
 $templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"message in vm.messaging.messages track by $index\"><img ng-src=\"{{ vm.messaging.avatars[message.createdBy] }}\" class=\"avatar\"/><div class=\"message\"><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><time>created at: {{ message.createdAt }}</time></div></li></ul><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");
-$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"n in [42, 42, 43, 43] track by $index\"><header><h4>NASA - DTN Dashboard winner DTN Dashboard winner DTN Dashboard winner DTN Dashboard winner</h4><time>5 mins ago</time></header><main><div class=\"avatar\"></div><div class=\"message\"><div class=\"co-pilot\">Jimbo Co-pilot:</div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p></div></main></li></ul>");}]);
+$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><header><h4>{{ thread.subject }}</h4><time>{{ thread.messages[0].createdAt }}</time></header><main><img ng-src=\"{{ vm.avatars[thread.messages[0].createdBy] }}\" class=\"avatar\"/><div class=\"message\"><div class=\"co-pilot\">{{ thread.messages[0].createdBy }}:</div><p>{{ thread.messages[0].body }}</p></div></main></li></ul>");}]);
 (function() {
   'use strict';
   var MessagingController;
@@ -87,15 +87,14 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"n in [42,
   var directive;
 
   directive = function(MessagingService) {
-    var link;
-    link = function(scope, element, attrs) {
-      var messages;
-      return messages = element.find('ul');
-    };
     return {
       restrict: 'E',
       templateUrl: 'views/threads.directive.html',
-      link: link
+      controller: 'ThreadsController',
+      controllerAs: 'vm',
+      scope: {
+        subscriber: '@subscriber'
+      }
     };
   };
 
@@ -179,9 +178,9 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"n in [42,
     return (parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0) || [];
   };
 
-  srv = function($resource, apiUrl) {
+  srv = function($resource, API_URL) {
     var actions, params, url;
-    url = apiUrl + 'messages';
+    url = API_URL + '/messages';
     params = {
       filter: 'sourceObjectId%3D@workId'
     };
@@ -195,8 +194,52 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"n in [42,
     return $resource(url, params, actions);
   };
 
-  srv.$inject = ['$resource', 'apiUrl'];
+  srv.$inject = ['$resource', 'API_URL'];
 
   angular.module('appirio-tech-messaging').factory('MessagesAPIService', srv);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var ThreadsController;
+
+  ThreadsController = function($scope, ThreadsService, $stateParams) {
+    var activate, onChange, vm;
+    vm = this;
+    onChange = function(threadsVm) {
+      vm.threads = threadsVm.threads;
+      vm.totalUnreadCount = threadsVm.totalUnreadCount;
+      return vm.avatars = threadsVm.avatars;
+    };
+    activate = function() {
+      ThreadsService.get($scope.subscriber, onChange);
+      return vm;
+    };
+    return activate();
+  };
+
+  ThreadsController.$inject = ['$scope', 'ThreadsService', '$stateParams'];
+
+  angular.module('appirio-tech-messaging').controller('ThreadsController', ThreadsController);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var srv;
+
+  srv = function($resource, API_URL_V2) {
+    var params, url;
+    url = API_URL_V2 + '/users/:handle';
+    params = {
+      handle: '@handle'
+    };
+    return $resource(url, params);
+  };
+
+  srv.$inject = ['$resource', 'API_URL_V2'];
+
+  angular.module('appirio-tech-messaging').factory('UserAPIService', srv);
 
 }).call(this);

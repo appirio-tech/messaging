@@ -1,14 +1,12 @@
 'use strict'
 
 directive = (MessagingService) ->
-  link = (scope, element, attrs) ->
-    messages = element.find 'ul'
-
-  restrict   : 'E'
-  templateUrl: 'views/threads.directive.html'
-  link       : link
-  # scope      :
-  #   show: 'thread-id'
+  restrict    : 'E'
+  templateUrl : 'views/threads.directive.html'
+  controller  : 'ThreadsController'
+  controllerAs: 'vm'
+  scope       :
+    subscriber: '@subscriber'
 
 directive.$inject = ['MessagingService']
 

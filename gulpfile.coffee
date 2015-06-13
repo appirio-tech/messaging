@@ -30,7 +30,7 @@ configs.karma =
 
 configs.fixtureFiles = [
   'bower_components/appirio-tech-api-schemas/v3-messages.json'
-  'bower_components/appirio-tech-api-schemas/v3.json'
+  'bower_components/appirio-tech-api-schemas/v3-threads.json'
   'bower_components/appirio-tech-api-schemas/v2.json'
 ]
 
@@ -44,9 +44,9 @@ configs.templateCache =
   module: 'appirio-tech-messaging'
 
 configs.constants =
-  apiUrl        : 'https://api.topcoder-dev.com/v3/' # slash is grandfathered in from river
-  API_URL_V2    : 'https://api.topcoder-dev.com/v2' # Should not end in slash
-  AVATAR_URL    : 'http://www.topcoder.com' # Should not end in slash
+  API_URL       : 'https://api.topcoder-dev.com/v3'
+  API_URL_V2    : 'https://api.topcoder-dev.com/v2'
+  AVATAR_URL    : 'http://www.topcoder.com'
   SUBMISSION_URL: 'https://studio.topcoder.com'
 
 configs.coverageReporter =
@@ -62,7 +62,11 @@ configs.buildFiles =
       '.tmp/scripts/messaging.directive.js',
       '.tmp/scripts/threads.directive.js',
       '.tmp/scripts/messaging.service.js',
-      '.tmp/scripts/messages-api.service.js'
+      '.tmp/scripts/messages-api.service.js',
+      '.tmp/scripts/threads-api.services.js',
+      '.tmp/scripts/threads.controller.js',
+      '.tmp/scripts/threads.services.js',
+      '.tmp/scripts/user-api.service.js'
     ]
     'main.css': [
       '.tmp/styles/messaging.css'

@@ -25,13 +25,13 @@ threads {
         }
 
         time {
-          width: 30%;
+          @include ellipsis(30%);
           text-align: right;
         }
       }
 
       main {
-        margin-top: 5px;
+        margin-top: 6px;
         $avatar-diameter: 35px;
 
         .avatar {
@@ -44,11 +44,11 @@ threads {
 
         .message {
           overflow   : hidden;
-          margin-left: $avatar-diameter + 5px;
+          margin-left: $avatar-diameter + 6px;
           min-height : $avatar-diameter;
 
           .co-pilot {
-            margin-bottom: 5px;
+            margin-bottom: 6px;
           }
 
           p {
