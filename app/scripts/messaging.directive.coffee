@@ -2,7 +2,22 @@
 
 directive = (MessagingService) ->
   link = (scope, element, attrs) ->
-    # Nothing to do yet
+    showLast = (newValue, oldValue) ->
+      if newValue
+        scope.showLast = false # to allow trigger change
+        uls            = element.find 'ul'
+        messageList    = uls[0]
+        $messageList   = angular.element messageList
+        bottom         = messageList.scrollHeight
+
+        if newValue == 'scroll'
+          $messageList.scrollTopAnimated bottom
+        else
+          $messageList.scrollTop bottom
+
+    showLast true
+
+    scope.$watch 'showLast', showLast
 
   restrict    : 'E'
   templateUrl : 'views/messaging.directive.html'

@@ -1,11 +1,11 @@
 (function() {
   'use strict';
-  angular.module('appirio-tech-messaging', ['ui.router', 'ngResource', 'app.constants']);
+  angular.module('appirio-tech-messaging', ['ui.router', 'ngResource', 'app.constants', 'duScroll']);
 
 }).call(this);
 
-angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<messaging thread-id=\"123\" created-by=\"abc\"></messaging>");
-$templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"message in vm.messaging.messages track by $index\"><img ng-src=\"{{ vm.messaging.avatars[message.createdBy] }}\" class=\"avatar\"/><div class=\"message\"><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><time>created at: {{ message.createdAt }}</time></div></li></ul><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");
+angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<messaging thread-id=\"123\" created-by=\"Batman\"></messaging>");
+$templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"message in vm.messaging.messages track by $index\"><img ng-src=\"{{ vm.messaging.avatars[message.createdBy] }}\" class=\"avatar\"/><div class=\"message\"><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><time>created at: {{ message.createdAt }}</time></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");
 $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><header><h4>{{ thread.subject }}</h4><time>{{ thread.messages[0].createdAt }}</time></header><main><img ng-src=\"{{ vm.avatars[thread.messages[0].createdBy] }}\" class=\"avatar\"/><div class=\"message\"><div class=\"co-pilot\">{{ thread.messages[0].createdBy }}:</div><p>{{ thread.messages[0].body }}</p></div></main></li></ul>");}]);
 (function() {
   'use strict';
@@ -21,6 +21,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       var params;
       vm.messaging = {};
       vm.newMessage = '';
+      vm.threadId = $scope.threadId;
       params = {
         workId: $stateParams.id
       };
@@ -44,7 +45,8 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         };
         vm.messaging.messages.push(message);
         MessagingService.postMessage(message, onChange);
-        return vm.newMessage = '';
+        vm.newMessage = '';
+        return $scope.showLast = 'scroll';
       }
     };
     return activate();
@@ -62,7 +64,26 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   directive = function(MessagingService) {
     var link;
-    link = function(scope, element, attrs) {};
+    link = function(scope, element, attrs) {
+      var showLast;
+      showLast = function(newValue, oldValue) {
+        var $messageList, bottom, messageList, uls;
+        if (newValue) {
+          scope.showLast = false;
+          uls = element.find('ul');
+          messageList = uls[0];
+          $messageList = angular.element(messageList);
+          bottom = messageList.scrollHeight;
+          if (newValue === 'scroll') {
+            return $messageList.scrollTopAnimated(bottom);
+          } else {
+            return $messageList.scrollTop(bottom);
+          }
+        }
+      };
+      showLast(true);
+      return scope.$watch('showLast', showLast);
+    };
     return {
       restrict: 'E',
       templateUrl: 'views/messaging.directive.html',

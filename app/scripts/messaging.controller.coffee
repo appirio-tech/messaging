@@ -9,6 +9,7 @@ MessagingController = ($scope, MessagingService, $stateParams) ->
   activate = ->
     vm.messaging  = {}
     vm.newMessage = ''
+    vm.threadId   = $scope.threadId
 
     params =
       workId: $stateParams.id
@@ -35,7 +36,10 @@ MessagingController = ($scope, MessagingService, $stateParams) ->
       vm.messaging.messages.push message
 
       MessagingService.postMessage message, onChange
+
       vm.newMessage = ''
+
+      $scope.showLast = 'scroll'
 
   activate()
 
