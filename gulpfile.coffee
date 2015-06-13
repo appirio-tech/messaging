@@ -19,6 +19,7 @@ configs.karma =
     'bower_components/angular-resource/angular-resource.js'
     'bower_components/angular-ui-router/release/angular-ui-router.js'
     'bower_components/auto-config-fake-server/dist/auto-config-fake-server.js'
+    'bower_components/angular-scroll/angular-scroll.js'
     'tests/specs/helper.coffee'
     '.tmp/scripts/constants.js'
     '.tmp/scripts/json-fixtures.js'
@@ -63,9 +64,9 @@ configs.buildFiles =
       '.tmp/scripts/threads.directive.js',
       '.tmp/scripts/messaging.service.js',
       '.tmp/scripts/messages-api.service.js',
-      '.tmp/scripts/threads-api.services.js',
+      '.tmp/scripts/threads-api.service.js',
       '.tmp/scripts/threads.controller.js',
-      '.tmp/scripts/threads.services.js',
+      '.tmp/scripts/threads.service.js',
       '.tmp/scripts/user-api.service.js'
     ]
     'main.css': [

@@ -223,6 +223,39 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
 (function() {
   'use strict';
+  var srv, transformResponse;
+
+  transformResponse = function(response) {
+    var parsed, ref;
+    parsed = JSON.parse(response);
+    return (parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0) || [];
+  };
+
+  srv = function($resource, API_URL) {
+    var actions, params, url;
+    url = API_URL + '/threads/:threadId';
+    params = {
+      subscriber: '@subscriber',
+      threadId: '@threadId'
+    };
+    actions = {
+      query: {
+        method: 'GET',
+        isArray: false,
+        transformResponse: transformResponse
+      }
+    };
+    return $resource(url, params, actions);
+  };
+
+  srv.$inject = ['$resource', 'API_URL'];
+
+  angular.module('appirio-tech-messaging').factory('ThreadsAPIService', srv);
+
+}).call(this);
+
+(function() {
+  'use strict';
   var ThreadsController;
 
   ThreadsController = function($scope, ThreadsService, $stateParams) {
@@ -243,6 +276,62 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   ThreadsController.$inject = ['$scope', 'ThreadsService', '$stateParams'];
 
   angular.module('appirio-tech-messaging').controller('ThreadsController', ThreadsController);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var srv;
+
+  srv = function(ThreadsAPIService, AVATAR_URL, UserAPIService) {
+    var buildAvatar, get;
+    get = function(subscriber, onChange) {
+      var queryParams, resource, threadsVm;
+      queryParams = {
+        subscriber: subscriber
+      };
+      threadsVm = {
+        threads: [],
+        totalUnreadCount: {},
+        avatars: {}
+      };
+      resource = ThreadsAPIService.query(queryParams);
+      resource.$promise.then(function(response) {
+        var i, len, ref, thread;
+        threadsVm.threads = response.threads;
+        ref = threadsVm.threads;
+        for (i = 0, len = ref.length; i < len; i++) {
+          thread = ref[i];
+          buildAvatar(thread.messages[0].createdBy, threadsVm, onChange);
+        }
+        return typeof onChange === "function" ? onChange(threadsVm) : void 0;
+      });
+      resource.$promise["catch"](function() {});
+      return resource.$promise["finally"](function() {});
+    };
+    buildAvatar = function(handle, threadsVm, onChange) {
+      var user, userParams;
+      if (!threadsVm.avatars[handle]) {
+        userParams = {
+          handle: handle
+        };
+        user = UserAPIService.get(userParams);
+        user.$promise.then(function(response) {
+          threadsVm.avatars[handle] = AVATAR_URL + (response != null ? response.photoLink : void 0);
+          return typeof onChange === "function" ? onChange(threadsVm) : void 0;
+        });
+        user.$promise["catch"](function() {});
+        return user.$promise["finally"](function() {});
+      }
+    };
+    return {
+      get: get
+    };
+  };
+
+  srv.$inject = ['ThreadsAPIService', 'AVATAR_URL', 'UserAPIService'];
+
+  angular.module('appirio-tech-messaging').factory('ThreadsService', srv);
 
 }).call(this);
 
