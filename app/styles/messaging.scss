@@ -1,15 +1,15 @@
 @import "work-includes";
 
 messaging.widget {
-  max-width: 300px;
-
   .messages {
     max-height: 120px;
   }
 
   form {
+    margin-top: 10px;
+
     textarea {
-      height : 30px;
+      height          : 30px;
       background-color: #E6E1E1;
     }
 
@@ -21,7 +21,8 @@ messaging.widget {
       float           : left;
       width           : 100px;
       background-color: blue;
-      color           : white
+      color           : white;
+      margin-top      : 10px;
     }
   }
 }
@@ -33,17 +34,18 @@ messaging {
 
   .messages {
     max-height      : 500px;
-    margin-top      : 20px;
     overflow        : scroll;
     $avatar-diameter: 35px;
 
-    li {
-      position: relative;
-      margin-top: 20px;
+    > li {
+      position  : relative;
+      padding   : 10px 0;
+      border-top: 1px solid #aaa;
+
       @include clearfix;
 
       &:first-child {
-        margin-top: 0;
+        border-top: 0;
       }
 
       .avatar {
