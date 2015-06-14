@@ -45,9 +45,23 @@ threads {
         .avatar {
           width           : $avatar-diameter;
           height          : $avatar-diameter;
-          background-color: green;
+          background-color: #eee;
           border-radius   : $avatar-diameter;
           position        : absolute;
+        }
+
+        .notification {
+          position: absolute;
+          margin-left: $avatar-diameter - 10px;
+          margin-top: -4px;
+          padding: 2px 4px;
+          text-align: center;
+          display: inline-block;
+          line-height: 14px;
+          background-color: red;
+          border-radius: 10px;
+          font-size: 12px;
+          color: white;
         }
 
         .message {

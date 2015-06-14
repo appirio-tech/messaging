@@ -9,6 +9,8 @@ ul
       main
         img.avatar(ng-src="{{ vm.avatars[thread.messages[0].createdBy] }}")
 
+        .notification {{ thread.unreadCount }}
+
         .message
           .co-pilot {{ thread.messages[0].createdBy }}:
 
