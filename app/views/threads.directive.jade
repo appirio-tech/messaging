@@ -1,14 +1,15 @@
 ul
   li(ng-repeat="thread in vm.threads track by $index")
-    header
-      h4 {{ thread.subject }}
+    a(ui-sref="messaging({id: 123})")
+      header
+        h4 {{ thread.subject }}
 
-      time {{ thread.messages[0].createdAt }}
+        time {{ thread.messages[0].createdAt }}
 
-    main
-      img.avatar(ng-src="{{ vm.avatars[thread.messages[0].createdBy] }}")
+      main
+        img.avatar(ng-src="{{ vm.avatars[thread.messages[0].createdBy] }}")
 
-      .message
-        .co-pilot {{ thread.messages[0].createdBy }}:
+        .message
+          .co-pilot {{ thread.messages[0].createdBy }}:
 
-        p {{ thread.messages[0].body }}
+          p {{ thread.messages[0].body }}

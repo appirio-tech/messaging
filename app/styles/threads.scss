@@ -6,9 +6,17 @@ threads {
 
   ul {
     li {
+      > a {
+        display: block;
+        padding: 10px 6px;
+
+        &:hover {
+          background-color: #eee;
+        }
+      }
+
       @include clearfix;
 
-      padding: 10px 6px;
       border-top: 1px solid #ccc;
 
       &:first-child {
