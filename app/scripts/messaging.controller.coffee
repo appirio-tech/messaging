@@ -25,7 +25,7 @@ MessagingController = ($scope, MessagingService, $stateParams) ->
       message =
         workId     : $stateParams.id
         threadId   : $scope.threadId
-        createdBy  : $scope.createdBy
+        publisherId: $scope.publisherId
         createdAt  : 'a minute ago'
         body       : vm.newMessage
         context    : 'work'

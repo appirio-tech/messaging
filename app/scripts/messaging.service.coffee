@@ -16,7 +16,7 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService) ->
       messaging.messages = response
 
       for message in messaging.messages
-        buildAvatar message.createdBy, messaging, onChange
+        buildAvatar message.publisherId, messaging, onChange
 
       onChange? messaging
 
