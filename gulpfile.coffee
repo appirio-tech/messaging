@@ -67,7 +67,8 @@ configs.buildFiles =
       '.tmp/scripts/threads-api.service.js',
       '.tmp/scripts/threads.controller.js',
       '.tmp/scripts/threads.service.js',
-      '.tmp/scripts/user-api.service.js'
+      '.tmp/scripts/user-api.service.js',
+      '.tmp/scripts/time-lapse.filter.js'
     ]
     'main.css': [
       '.tmp/styles/messaging.css'
