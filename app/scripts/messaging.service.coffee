@@ -9,7 +9,7 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
     resource = ThreadsAPIService.get userParams
 
     resource.$promise.then (response) ->
-      messaging.messages = response.result.content.messages
+      messaging.messages = response?.messages
 
       for message in messaging.messages
         buildAvatar message.publisherId, messaging, onChange
