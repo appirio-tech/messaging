@@ -7,14 +7,8 @@ transformResponse = (response) ->
 
 srv = ($resource, API_URL) ->
   url     = API_URL + '/messages'
-  params  = filter: 'sourceObjectId%3D@workId'
-  actions =
-    query:
-      method           :'GET'
-      isArray          : true
-      transformResponse: transformResponse
 
-  $resource url, params, actions
+  $resource url
 
 srv.$inject = ['$resource', 'API_URL']
 

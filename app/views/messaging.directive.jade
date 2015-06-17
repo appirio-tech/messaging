@@ -9,7 +9,7 @@ ul.messages
         li(ng-repeat="attachment in message.attachments track by $index")
           a(href="#") {{ message.attachments.originalUrl }}
 
-      time created at: {{ message.createdAt }}
+      time {{ message.createdAt | timeLapse }}
 
   a(id="messaging-bottom-{{ vm.threadId }}")
 

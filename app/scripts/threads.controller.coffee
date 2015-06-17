@@ -1,6 +1,6 @@
 'use strict'
 
-ThreadsController = ($scope, ThreadsService, $stateParams) ->
+ThreadsController = ($scope, ThreadsService) ->
   vm = this
 
   onChange = (threadsVm) ->
@@ -9,12 +9,16 @@ ThreadsController = ($scope, ThreadsService, $stateParams) ->
     vm.avatars          = threadsVm.avatars
 
   activate = ->
-    ThreadsService.get $scope.subscriber, onChange
+    threadParams =
+      subscriber: $scope.subscriber
+      threadId: $scope.threadId
+
+    ThreadsService.get threadParams, onChange
 
     vm
 
   activate()
 
-ThreadsController.$inject = ['$scope', 'ThreadsService', '$stateParams']
+ThreadsController.$inject = ['$scope', 'ThreadsService']
 
 angular.module('appirio-tech-messaging').controller 'ThreadsController', ThreadsController
