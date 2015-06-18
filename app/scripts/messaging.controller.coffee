@@ -7,7 +7,9 @@ MessagingController = ($scope, MessagingService) ->
     vm.messaging = messages
 
   activate = ->
-    vm.messaging  = {}
+    vm.messaging  =
+      messages: []
+
     vm.newMessage = ''
 
     params =

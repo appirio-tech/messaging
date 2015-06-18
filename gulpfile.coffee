@@ -20,6 +20,7 @@ configs.karma =
     'bower_components/angular-ui-router/release/angular-ui-router.js'
     'bower_components/auto-config-fake-server/dist/auto-config-fake-server.js'
     'bower_components/angular-scroll/angular-scroll.js'
+    'bower_components/moment/moment.js'
     'tests/specs/helper.coffee'
     '.tmp/scripts/constants.js'
     '.tmp/scripts/json-fixtures.js'
