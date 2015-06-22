@@ -11,20 +11,20 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
       messages: []
 
     vm.newMessage = ''
-    vm.user       = ''
 
-    UserV3Service.getCurrentUser (response) ->
-      vm.user = response?.handle
-
-    params =
-      threadId    : $scope.threadId
-      subscriberId: vm.user
-
-    MessagingService.getMessages params, onChange
-
-    vm.sendMessage = sendMessage
+    getUserMessages()
 
     vm
+
+  getUserMessages = ->
+    UserV3Service.getCurrentUser (response) ->
+      params =
+        threadId    : $scope.threadId
+        subscriberId: response?.handle
+
+      MessagingService.getMessages params, onChange
+
+      vm.sendMessage = sendMessage
 
   sendMessage = ->
     if vm.newMessage.length

@@ -16,28 +16,29 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   var MessagingController;
 
   MessagingController = function($scope, MessagingService, UserV3Service) {
-    var activate, onChange, sendMessage, vm;
+    var activate, getUserMessages, onChange, sendMessage, vm;
     vm = this;
     onChange = function(messages) {
       return vm.messaging = messages;
     };
     activate = function() {
-      var params;
       vm.messaging = {
         messages: []
       };
       vm.newMessage = '';
-      vm.user = '';
-      UserV3Service.getCurrentUser(function(response) {
-        return vm.user = response != null ? response.handle : void 0;
-      });
-      params = {
-        threadId: $scope.threadId,
-        subscriberId: vm.user
-      };
-      MessagingService.getMessages(params, onChange);
-      vm.sendMessage = sendMessage;
+      getUserMessages();
       return vm;
+    };
+    getUserMessages = function() {
+      return UserV3Service.getCurrentUser(function(response) {
+        var params;
+        params = {
+          threadId: $scope.threadId,
+          subscriberId: response != null ? response.handle : void 0
+        };
+        MessagingService.getMessages(params, onChange);
+        return vm.sendMessage = sendMessage;
+      });
     };
     sendMessage = function() {
       var message;
