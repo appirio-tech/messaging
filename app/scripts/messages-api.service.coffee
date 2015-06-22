@@ -6,9 +6,16 @@ transformResponse = (response) ->
   parsed?.result?.content || []
 
 srv = ($resource, API_URL) ->
-  url     = API_URL + '/messages'
+  url = API_URL + '/messages/:id'
 
-  $resource url
+  params =
+    id: '@id'
+
+  methods =
+    put:
+      method: 'PUT'
+
+  $resource url, {}, methods
 
 srv.$inject = ['$resource', 'API_URL']
 
