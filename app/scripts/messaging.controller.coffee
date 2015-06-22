@@ -1,6 +1,6 @@
 'use strict'
 
-MessagingController = ($scope, MessagingService) ->
+MessagingController = ($scope, MessagingService, UserV3Service) ->
   vm = this
 
   onChange = (messages) ->
@@ -11,10 +11,14 @@ MessagingController = ($scope, MessagingService) ->
       messages: []
 
     vm.newMessage = ''
+    vm.user       = ''
+
+    UserV3Service.getCurrentUser (response) ->
+      vm.user = response?.handle
 
     params =
       threadId    : $scope.threadId
-      subscriberId: $scope.user
+      subscriberId: vm.user
 
     MessagingService.getMessages params, onChange
 
@@ -27,7 +31,7 @@ MessagingController = ($scope, MessagingService) ->
       message =
         threadId   : $scope.threadId
         body       : vm.newMessage
-        publisherId: $scope.user
+        publisherId: vm.user
         createdAt  : moment()
         attachments: []
 
@@ -41,6 +45,6 @@ MessagingController = ($scope, MessagingService) ->
 
   activate()
 
-MessagingController.$inject = ['$scope', 'MessagingService']
+MessagingController.$inject = ['$scope', 'MessagingService', 'UserV3Service']
 
 angular.module('appirio-tech-messaging').controller 'MessagingController', MessagingController

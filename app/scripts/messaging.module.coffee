@@ -1,3 +1,13 @@
 'use strict'
 
-angular.module 'appirio-tech-messaging', ['ui.router', 'ngResource', 'app.constants', 'duScroll']
+dependencies = [
+  'ui.router'
+  'ngResource'
+  'app.constants'
+  'appirio-tech-ng-auth'
+  'angular-storage'
+  'angular-jwt'
+  'duScroll'
+]
+
+angular.module 'appirio-tech-messaging', dependencies

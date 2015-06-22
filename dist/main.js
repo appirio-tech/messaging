@@ -1,17 +1,21 @@
 (function() {
   'use strict';
-  angular.module('appirio-tech-messaging', ['ui.router', 'ngResource', 'app.constants', 'duScroll']);
+  var dependencies;
+
+  dependencies = ['ui.router', 'ngResource', 'app.constants', 'appirio-tech-ng-auth', 'angular-storage', 'angular-jwt', 'duScroll'];
+
+  angular.module('appirio-tech-messaging', dependencies);
 
 }).call(this);
 
-angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<messaging thread-id=\"123\" user=\"Batman\"></messaging>");
+angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.html","<messaging thread-id=\"123\"></messaging>");
 $templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"message in vm.messaging.messages track by $index\"><img ng-src=\"{{ vm.messaging.avatars[message.publisherId] }}\" class=\"avatar\"/><div class=\"message\"><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><time>{{ message.createdAt | timeLapse }}</time></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");
 $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><a ui-sref=\"messaging({id: 123})\"><header><h4>{{ thread.subject }}</h4><time>{{ thread.messages[0].createdAt }}</time></header><main><img ng-src=\"{{ vm.avatars[thread.messages[0].publisherId] }}\" class=\"avatar\"/><div class=\"notification\">{{ thread.unreadCount }}</div><div class=\"message\"><div class=\"co-pilot\">{{ thread.messages[0].publisherId }}:</div><p>{{ thread.messages[0].body }}</p></div></main></a></li></ul>");}]);
 (function() {
   'use strict';
   var MessagingController;
 
-  MessagingController = function($scope, MessagingService) {
+  MessagingController = function($scope, MessagingService, UserV3Service) {
     var activate, onChange, sendMessage, vm;
     vm = this;
     onChange = function(messages) {
@@ -19,11 +23,17 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     };
     activate = function() {
       var params;
-      vm.messaging = {};
+      vm.messaging = {
+        messages: []
+      };
       vm.newMessage = '';
+      vm.user = '';
+      UserV3Service.getCurrentUser(function(response) {
+        return vm.user = response != null ? response.handle : void 0;
+      });
       params = {
         threadId: $scope.threadId,
-        subscriberId: $scope.user
+        subscriberId: vm.user
       };
       MessagingService.getMessages(params, onChange);
       vm.sendMessage = sendMessage;
@@ -35,7 +45,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         message = {
           threadId: $scope.threadId,
           body: vm.newMessage,
-          publisherId: $scope.user,
+          publisherId: vm.user,
           createdAt: moment(),
           attachments: []
         };
@@ -48,7 +58,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     return activate();
   };
 
-  MessagingController.$inject = ['$scope', 'MessagingService'];
+  MessagingController.$inject = ['$scope', 'MessagingService', 'UserV3Service'];
 
   angular.module('appirio-tech-messaging').controller('MessagingController', MessagingController);
 
@@ -87,8 +97,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       controller: 'MessagingController',
       controllerAs: 'vm',
       scope: {
-        threadId: '@threadId',
-        user: '@user'
+        threadId: '@threadId'
       }
     };
   };
@@ -101,32 +110,10 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
 (function() {
   'use strict';
-  var directive;
-
-  directive = function(MessagingService) {
-    return {
-      restrict: 'E',
-      templateUrl: 'views/threads.directive.html',
-      controller: 'ThreadsController',
-      controllerAs: 'vm',
-      scope: {
-        subscriber: '@subscriber'
-      }
-    };
-  };
-
-  directive.$inject = ['MessagingService'];
-
-  angular.module('appirio-tech-messaging').directive('threads', directive);
-
-}).call(this);
-
-(function() {
-  'use strict';
   var srv;
 
   srv = function(MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) {
-    var buildAvatar, getMessages, postMessage;
+    var buildAvatar, getMessages, markMessageRead, postMessage;
     getMessages = function(userParams, onChange) {
       var messaging, resource;
       messaging = {
@@ -141,11 +128,22 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         for (i = 0, len = ref.length; i < len; i++) {
           message = ref[i];
           buildAvatar(message.publisherId, messaging, onChange);
+          markMessageRead(message);
         }
         return typeof onChange === "function" ? onChange(messaging) : void 0;
       });
       resource.$promise["catch"](function() {});
       return resource.$promise["finally"](function() {});
+    };
+    markMessageRead = function(message) {
+      var putParams, queryParams;
+      queryParams = {
+        id: message.id
+      };
+      putParams = {
+        read: true
+      };
+      return MessagesAPIService.put(queryParams, putParams);
     };
     buildAvatar = function(handle, messaging, onChange) {
       var user, userParams;
@@ -192,14 +190,44 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   };
 
   srv = function($resource, API_URL) {
-    var url;
-    url = API_URL + '/messages';
-    return $resource(url);
+    var methods, params, url;
+    url = API_URL + '/messages/:id';
+    params = {
+      id: '@id'
+    };
+    methods = {
+      put: {
+        method: 'PUT'
+      }
+    };
+    return $resource(url, {}, methods);
   };
 
   srv.$inject = ['$resource', 'API_URL'];
 
   angular.module('appirio-tech-messaging').factory('MessagesAPIService', srv);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var directive;
+
+  directive = function(MessagingService) {
+    return {
+      restrict: 'E',
+      templateUrl: 'views/threads.directive.html',
+      controller: 'ThreadsController',
+      controllerAs: 'vm',
+      scope: {
+        subscriber: '@subscriber'
+      }
+    };
+  };
+
+  directive.$inject = ['MessagingService'];
+
+  angular.module('appirio-tech-messaging').directive('threads', directive);
 
 }).call(this);
 
