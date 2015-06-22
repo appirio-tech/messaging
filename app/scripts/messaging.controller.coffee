@@ -13,6 +13,8 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
     vm.newMessage = ''
 
     getUserMessages()
+    
+    vm.sendMessage = sendMessage
 
     vm
 
@@ -24,7 +26,6 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
 
       MessagingService.getMessages params, onChange
 
-      vm.sendMessage = sendMessage
 
   sendMessage = ->
     if vm.newMessage.length

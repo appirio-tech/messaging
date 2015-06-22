@@ -27,6 +27,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       };
       vm.newMessage = '';
       getUserMessages();
+      vm.sendMessage = sendMessage;
       return vm;
     };
     getUserMessages = function() {
@@ -36,8 +37,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
           threadId: $scope.threadId,
           subscriberId: response != null ? response.handle : void 0
         };
-        MessagingService.getMessages(params, onChange);
-        return vm.sendMessage = sendMessage;
+        return MessagingService.getMessages(params, onChange);
       });
     };
     sendMessage = function() {

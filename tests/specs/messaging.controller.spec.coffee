@@ -13,7 +13,7 @@ spy = null
 #       expect(vm).to.be.ok
 
     
-
+#  finish this
 #   describe 'getUserMessages', ->
 #     beforeEach inject ($rootScope, $controller, MessagingService) ->
 #       scope = $rootScope.$new()
