@@ -36,7 +36,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       return UserV3Service.getCurrentUser(function(response) {
         var params;
         params = {
-          threadId: $scope.threadId,
+          id: $scope.threadId,
           subscriberId: response != null ? response.handle : void 0
         };
         return MessagingService.getMessages(params, onChange);

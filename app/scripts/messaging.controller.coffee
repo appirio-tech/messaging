@@ -22,7 +22,7 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
   getUserMessages = ->
     UserV3Service.getCurrentUser (response) ->
       params =
-        threadId    : $scope.threadId
+        id    : $scope.threadId
         subscriberId: response?.handle
 
       MessagingService.getMessages params, onChange
