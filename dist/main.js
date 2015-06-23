@@ -18,6 +18,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   MessagingController = function($scope, MessagingService, UserV3Service) {
     var activate, getUserMessages, onChange, sendMessage, vm;
     vm = this;
+    vm.currentUser = null;
     onChange = function(messages) {
       return vm.messaging = messages;
     };
@@ -37,9 +38,10 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     getUserMessages = function(threadId) {
       return UserV3Service.getCurrentUser(function(response) {
         var params;
+        vm.currentUser = response != null ? response.handle : void 0;
         params = {
           id: threadId,
-          subscriberId: response != null ? response.handle : void 0
+          subscriberId: vm.currentUser
         };
         return MessagingService.getMessages(params, onChange);
       });
@@ -50,7 +52,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         message = {
           threadId: $scope.threadId,
           body: vm.newMessage,
-          publisherId: vm.user,
+          publisherId: vm.currentUser,
           createdAt: moment(),
           attachments: []
         };

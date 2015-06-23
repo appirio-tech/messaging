@@ -1,7 +1,8 @@
 'use strict'
 
 MessagingController = ($scope, MessagingService, UserV3Service) ->
-  vm = this
+  vm             = this
+  vm.currentUser = null
 
   onChange = (messages) ->
     vm.messaging = messages
@@ -21,9 +22,11 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
 
   getUserMessages = (threadId) ->
     UserV3Service.getCurrentUser (response) ->
+      vm.currentUser = response?.handle
+
       params =
         id          : threadId
-        subscriberId: response?.handle
+        subscriberId: vm.currentUser
 
       MessagingService.getMessages params, onChange
 
@@ -33,7 +36,7 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
       message =
         threadId   : $scope.threadId
         body       : vm.newMessage
-        publisherId: vm.user
+        publisherId: vm.currentUser
         createdAt  : moment()
         attachments: []
 
