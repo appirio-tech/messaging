@@ -288,16 +288,18 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       vm.totalUnreadCount = threadsVm.totalUnreadCount;
       return vm.avatars = threadsVm.avatars;
     };
-    getThread = function() {
-      var threadParams;
-      threadParams = {
-        subscriber: $scope.subscriber
+    getThread = function(subscriber) {
+      var param;
+      param = {
+        subscriberId: subscriber
       };
-      return ThreadsService.get(threadParams, onChange);
+      return ThreadsService.get(param, onChange);
     };
     activate = function() {
       $scope.$watch('subscriber', function() {
-        return getThread();
+        if ($scope.subscriber.length) {
+          return getThread($scope.subscriber);
+        }
       });
       return vm;
     };
