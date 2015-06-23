@@ -1,24 +1,27 @@
 'use strict'
 
 srv      = null
-messages = null
+messages = {}
 
 describe 'MessagesAPIService', ->
   beforeEach inject (MessagesAPIService) ->
     srv = MessagesAPIService
 
-  it 'should have a query method', ->
-    expect(srv.query).to.be.isFunction
+  it 'should have a save method', ->
+    expect(srv.save).to.be.ok
 
-  describe 'MessagesAPIService.query', ->
+  describe 'MessagesAPIService.save', ->
     beforeEach inject ($httpBackend) ->
       params =
-        workId: '123'
+        threadId   : 'abc'
+        publisherId: 'Batman'
+        body       : 'abc'
+        attachments: []
 
-      srv.query(params).$promise.then (response) ->
+      srv.save params, (response) ->
         messages = response
 
       $httpBackend.flush()
 
     it 'should have at some results', ->
-      expect(messages.length).to.be.ok
+      expect(messages).to.be.ok

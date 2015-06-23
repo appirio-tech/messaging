@@ -1,7 +1,7 @@
 'use strict'
 
-srv    = null
-threads = null
+srv      = null
+threads  = null
 
 describe 'ThreadsAPIService', ->
   beforeEach inject (ThreadsAPIService) ->
@@ -13,12 +13,13 @@ describe 'ThreadsAPIService', ->
   describe 'ThreadsAPIService.query', ->
     beforeEach inject ($httpBackend) ->
       params =
-        workId: '123'
+        subscriber: 'subscriber'
+        threadId  : 'threadId'
 
       srv.query(params).$promise.then (response) ->
-        threads = response.threads
+        threads = response
 
       $httpBackend.flush()
 
-    it 'should have at some results', ->
-      expect(threads.length).to.be.ok
+    it 'threads should be ok', ->
+      expect(threads).to.be.ok

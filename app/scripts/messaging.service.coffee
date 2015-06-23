@@ -1,28 +1,35 @@
 'use strict'
 
-srv = (MessagesAPIService, AVATAR_URL, UserAPIService) ->
-  getMessages = (params, onChange) ->
-    queryParams =
-      filter : 'workId=' + params.workId
-      orderBy: 'createdAt'
-
+srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
+  getMessages = (userParams, onChange) ->
     messaging =
       messages: []
       avatars : {}
 
-    resource = MessagesAPIService.query queryParams
+    resource = ThreadsAPIService.get userParams
 
     resource.$promise.then (response) ->
-      messaging.messages = response
+      messaging.messages = response?.messages
 
       for message in messaging.messages
-        buildAvatar message.createdBy, messaging, onChange
+        buildAvatar message.publisherId, messaging, onChange
+
+        markMessageRead message
 
       onChange? messaging
 
     resource.$promise.catch ->
 
     resource.$promise.finally ->
+
+  markMessageRead = (message) ->
+    queryParams =
+      id: message.id
+
+    putParams =
+      read: true
+
+    MessagesAPIService.put queryParams, putParams
 
   buildAvatar = (handle, messaging, onChange) ->
     unless messaging.avatars[handle]
@@ -36,7 +43,7 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService) ->
 
         onChange? messaging
 
-      user.$promise.catch ->
+      user.$promise.catch (response) ->
         # need handle error
 
       user.$promise.finally ->
@@ -47,14 +54,18 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService) ->
 
     resource.$promise.then (response) ->
 
-    resource.$promise.catch ->
+    resource.$promise.catch (response) ->
 
     resource.$promise.finally ->
 
   getMessages: getMessages
   postMessage: postMessage
 
-srv.$inject = ['MessagesAPIService', 'AVATAR_URL', 'UserAPIService']
+srv.$inject = [
+  'MessagesAPIService'
+  'AVATAR_URL'
+  'UserAPIService'
+  'ThreadsAPIService'
+]
 
 angular.module('appirio-tech-messaging').factory 'MessagingService', srv
-

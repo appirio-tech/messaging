@@ -40,7 +40,7 @@ messaging {
     > li {
       position  : relative;
       padding   : 10px 0;
-      border-top: 1px solid #aaa;
+      border-top: 1px solid #ccc;
 
       @include clearfix;
 
@@ -51,7 +51,7 @@ messaging {
       .avatar {
         width           : $avatar-diameter;
         height          : $avatar-diameter;
-        background-color: green;
+        background-color: #eee;
         border-radius   : $avatar-diameter;
         position        : absolute;
       }

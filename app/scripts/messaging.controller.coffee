@@ -1,36 +1,39 @@
 'use strict'
 
-MessagingController = ($scope, MessagingService, $stateParams) ->
+MessagingController = ($scope, MessagingService, UserV3Service) ->
   vm = this
 
   onChange = (messages) ->
     vm.messaging = messages
 
   activate = ->
-    vm.messaging  = {}
+    vm.messaging  =
+      messages: []
+
     vm.newMessage = ''
-    vm.threadId   = $scope.threadId
 
-    params =
-      workId: $stateParams.id
-
-    MessagingService.getMessages params, onChange
-
+    getUserMessages()
+    
     vm.sendMessage = sendMessage
 
     vm
 
+  getUserMessages = ->
+    UserV3Service.getCurrentUser (response) ->
+      params =
+        threadId    : $scope.threadId
+        subscriberId: response?.handle
+
+      MessagingService.getMessages params, onChange
+
+
   sendMessage = ->
     if vm.newMessage.length
       message =
-        workId     : $stateParams.id
         threadId   : $scope.threadId
-        createdBy  : $scope.createdBy
-        createdAt  : 'a minute ago'
         body       : vm.newMessage
-        context    : 'work'
-        updatedBy  : ''
-        reads      : []
+        publisherId: vm.user
+        createdAt  : moment()
         attachments: []
 
       vm.messaging.messages.push message
@@ -43,6 +46,6 @@ MessagingController = ($scope, MessagingService, $stateParams) ->
 
   activate()
 
-MessagingController.$inject = ['$scope', 'MessagingService', '$stateParams']
+MessagingController.$inject = ['$scope', 'MessagingService', 'UserV3Service']
 
 angular.module('appirio-tech-messaging').controller 'MessagingController', MessagingController

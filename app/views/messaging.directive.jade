@@ -1,6 +1,6 @@
 ul.messages
   li(ng-repeat="message in vm.messaging.messages track by $index")
-    img.avatar(ng-src="{{ vm.messaging.avatars[message.createdBy] }}")
+    img.avatar(ng-src="{{ vm.messaging.avatars[message.publisherId] }}")
 
     .message
       p {{ message.body }}
@@ -9,7 +9,7 @@ ul.messages
         li(ng-repeat="attachment in message.attachments track by $index")
           a(href="#") {{ message.attachments.originalUrl }}
 
-      time created at: {{ message.createdAt }}
+      time {{ message.createdAt | timeLapse }}
 
   a(id="messaging-bottom-{{ vm.threadId }}")
 

@@ -20,6 +20,12 @@ configs.karma =
     'bower_components/angular-ui-router/release/angular-ui-router.js'
     'bower_components/auto-config-fake-server/dist/auto-config-fake-server.js'
     'bower_components/angular-scroll/angular-scroll.js'
+    'bower_components/moment/moment.js'
+    'bower_components/appirio-tech-ng-auth/dist/main.js'
+    'bower_components/a0-angular-storage/dist/angular-storage.js'
+    'bower_components/angular-jwt/dist/angular-jwt.js'
+    'bower_components/auth0.js/build/auth0.js'
+    'bower_components/auth0-angular/build/auth0-angular.js'
     'tests/specs/helper.coffee'
     '.tmp/scripts/constants.js'
     '.tmp/scripts/json-fixtures.js'
@@ -32,6 +38,7 @@ configs.karma =
 configs.fixtureFiles = [
   'bower_components/appirio-tech-api-schemas/v3-messages.json'
   'bower_components/appirio-tech-api-schemas/v3-threads.json'
+  'bower_components/appirio-tech-api-schemas/v3-users.json'
   'bower_components/appirio-tech-api-schemas/v2.json'
 ]
 
@@ -48,7 +55,10 @@ configs.constants =
   API_URL       : 'https://api.topcoder-dev.com/v3'
   API_URL_V2    : 'https://api.topcoder-dev.com/v2'
   AVATAR_URL    : 'http://www.topcoder.com'
-  SUBMISSION_URL: 'https://studio.topcoder.com'
+  SUBMISSION_URL: 'https://studio.topcoder.com  '
+  AUTH0_CLIENT_ID : 'abc123'
+  AUTH0_DOMAIN    : 'topcoder-dev.auth0.com'
+  AUTH0_TOKEN_NAME: 'userJWTToken'
 
 configs.coverageReporter =
   type: 'lcov'
@@ -61,13 +71,14 @@ configs.buildFiles =
       '.tmp/scripts/templates.js',
       '.tmp/scripts/messaging.controller.js',
       '.tmp/scripts/messaging.directive.js',
-      '.tmp/scripts/threads.directive.js',
       '.tmp/scripts/messaging.service.js',
       '.tmp/scripts/messages-api.service.js',
+      '.tmp/scripts/threads.directive.js',
       '.tmp/scripts/threads-api.service.js',
       '.tmp/scripts/threads.controller.js',
       '.tmp/scripts/threads.service.js',
-      '.tmp/scripts/user-api.service.js'
+      '.tmp/scripts/user-api.service.js',
+      '.tmp/scripts/time-lapse.filter.js'
     ]
     'main.css': [
       '.tmp/styles/messaging.css'
