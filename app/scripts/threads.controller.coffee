@@ -8,15 +8,9 @@ ThreadsController = (ThreadsService, UserV3Service) ->
     vm.totalUnreadCount = threadsVm.totalUnreadCount
     vm.avatars          = threadsVm.avatars
 
-  getThreads = (subscriber) ->
-    param =
-      subscriberId: subscriber
-
-    ThreadsService.get param, onChange
-
   activate = ->
     UserV3Service.getCurrentUser (response) ->
-      getThreads response.handle if response?.handle
+      ThreadsService.get response.handle, onChange if response?.handle
 
     vm
 

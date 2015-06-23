@@ -278,24 +278,17 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   var ThreadsController;
 
   ThreadsController = function(ThreadsService, UserV3Service) {
-    var activate, getThreads, onChange, vm;
+    var activate, onChange, vm;
     vm = this;
     onChange = function(threadsVm) {
       vm.threads = threadsVm.threads;
       vm.totalUnreadCount = threadsVm.totalUnreadCount;
       return vm.avatars = threadsVm.avatars;
     };
-    getThreads = function(subscriber) {
-      var param;
-      param = {
-        subscriberId: subscriber
-      };
-      return ThreadsService.get(param, onChange);
-    };
     activate = function() {
       UserV3Service.getCurrentUser(function(response) {
         if (response != null ? response.handle : void 0) {
-          return getThreads(response.handle);
+          return ThreadsService.get(response.handle, onChange);
         }
       });
       return vm;
