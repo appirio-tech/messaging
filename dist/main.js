@@ -194,7 +194,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function($resource, API_URL) {
     var methods, params, url;
-    url = API_URL + '/messages/:id';
+    url = 'http://192.168.1.189:8080/v3/messages/:id';
     params = {
       id: '@id'
     };
@@ -246,7 +246,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function($resource, API_URL) {
     var actions, params, url;
-    url = API_URL + '/threads/:id';
+    url = 'http://192.168.1.189:8080/v3/threads/:id';
     params = {
       id: '@id',
       subscriber: '@subscriber'

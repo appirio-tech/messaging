@@ -6,7 +6,8 @@ transformResponse = (response) ->
   parsed?.result?.content || {}
 
 srv = ($resource, API_URL) ->
-  url     = API_URL + '/threads/:id'
+  # url     = API_URL + '/threads/:id'
+  url = 'http://192.168.1.189:8080/v3/threads/:id'
 
   params  =
     id        : '@id'
