@@ -117,13 +117,13 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function(MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) {
     var buildAvatar, getMessages, markMessageRead, postMessage;
-    getMessages = function(userParams, onChange) {
+    getMessages = function(param, onChange) {
       var messaging, resource;
       messaging = {
         messages: [],
         avatars: {}
       };
-      resource = ThreadsAPIService.get(userParams);
+      resource = ThreadsAPIService.get(param);
       resource.$promise.then(function(response) {
         var i, len, message, ref;
         messaging.messages = response != null ? response.messages : void 0;
@@ -149,12 +149,12 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       return MessagesAPIService.put(queryParams, putParams);
     };
     buildAvatar = function(handle, messaging, onChange) {
-      var user, userParams;
+      var params, user;
       if (!messaging.avatars[handle]) {
-        userParams = {
+        params = {
           handle: handle
         };
-        user = UserAPIService.get(userParams);
+        user = UserAPIService.get(params);
         user.$promise.then(function(response) {
           messaging.avatars[handle] = AVATAR_URL + (response != null ? response.photoLink : void 0);
           return typeof onChange === "function" ? onChange(messaging) : void 0;
@@ -246,10 +246,10 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function($resource, API_URL) {
     var actions, params, url;
-    url = API_URL + '/threads/:threadId';
+    url = API_URL + '/threads/:id';
     params = {
-      subscriber: '@subscriber',
-      threadId: '@threadId'
+      id: '@id',
+      subscriber: '@subscriber'
     };
     actions = {
       query: {
