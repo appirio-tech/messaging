@@ -6,11 +6,11 @@ transformResponse = (response) ->
   parsed?.result?.content || {}
 
 srv = ($resource, API_URL) ->
-  url     = API_URL + '/threads/:threadId'
+  url     = API_URL + '/threads/:id'
 
   params  =
+    id        : '@id'
     subscriber: '@subscriber'
-    threadId  : '@threadId'
 
   actions =
     query:

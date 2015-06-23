@@ -1,12 +1,12 @@
 'use strict'
 
 srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
-  getMessages = (userParams, onChange) ->
+  getMessages = (param, onChange) ->
     messaging =
       messages: []
       avatars : {}
 
-    resource = ThreadsAPIService.get userParams
+    resource = ThreadsAPIService.get param
 
     resource.$promise.then (response) ->
       messaging.messages = response?.messages
@@ -33,10 +33,10 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
 
   buildAvatar = (handle, messaging, onChange) ->
     unless messaging.avatars[handle]
-      userParams =
+      params =
         handle: handle
 
-      user = UserAPIService.get userParams
+      user = UserAPIService.get params
 
       user.$promise.then (response) ->
         messaging.avatars[handle] = AVATAR_URL + response?.photoLink
