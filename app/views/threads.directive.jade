@@ -4,7 +4,7 @@ ul
       header
         h4 {{ thread.subject }}
 
-        time {{ thread.messages[0].createdAt }}
+        time {{ thread.messages[0].createdAt | timeLapse }}
 
       main
         img.avatar(ng-src="{{ vm.avatars[thread.messages[0].publisherId] }}")

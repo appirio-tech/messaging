@@ -34,7 +34,7 @@ threads {
 
         time {
           @include ellipsis(30%);
-          text-align: right;
+          float: right;
         }
       }
 
