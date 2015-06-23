@@ -16,7 +16,7 @@ ThreadsController = ($scope, ThreadsService) ->
 
   activate = ->
     $scope.$watch 'subscriber', ->
-      getThread $scope.subscriber if $scope.subscriber.length
+      getThread $scope.subscriber if $scope.subscriber?.length
 
     vm
 

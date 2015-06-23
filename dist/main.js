@@ -297,7 +297,8 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     };
     activate = function() {
       $scope.$watch('subscriber', function() {
-        if ($scope.subscriber.length) {
+        var ref;
+        if ((ref = $scope.subscriber) != null ? ref.length : void 0) {
           return getThread($scope.subscriber);
         }
       });
