@@ -5,8 +5,6 @@ directive = (MessagingService) ->
   templateUrl : 'views/threads.directive.html'
   controller  : 'ThreadsController'
   controllerAs: 'vm'
-  scope       :
-    subscriber: '@subscriber'
 
 directive.$inject = ['MessagingService']
 

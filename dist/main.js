@@ -225,10 +225,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       restrict: 'E',
       templateUrl: 'views/threads.directive.html',
       controller: 'ThreadsController',
-      controllerAs: 'vm',
-      scope: {
-        subscriber: '@subscriber'
-      }
+      controllerAs: 'vm'
     };
   };
 
@@ -280,15 +277,15 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   'use strict';
   var ThreadsController;
 
-  ThreadsController = function($scope, ThreadsService) {
-    var activate, getThread, onChange, vm;
+  ThreadsController = function(ThreadsService, UserV3Service) {
+    var activate, getThreads, onChange, vm;
     vm = this;
     onChange = function(threadsVm) {
       vm.threads = threadsVm.threads;
       vm.totalUnreadCount = threadsVm.totalUnreadCount;
       return vm.avatars = threadsVm.avatars;
     };
-    getThread = function(subscriber) {
+    getThreads = function(subscriber) {
       var param;
       param = {
         subscriberId: subscriber
@@ -296,10 +293,9 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       return ThreadsService.get(param, onChange);
     };
     activate = function() {
-      $scope.$watch('subscriber', function() {
-        var ref;
-        if ((ref = $scope.subscriber) != null ? ref.length : void 0) {
-          return getThread($scope.subscriber);
+      UserV3Service.getCurrentUser(function(response) {
+        if (response != null ? response.handle : void 0) {
+          return getThreads(response.handle);
         }
       });
       return vm;
@@ -307,7 +303,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     return activate();
   };
 
-  ThreadsController.$inject = ['$scope', 'ThreadsService'];
+  ThreadsController.$inject = ['ThreadsService', 'UserV3Service'];
 
   angular.module('appirio-tech-messaging').controller('ThreadsController', ThreadsController);
 
