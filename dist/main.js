@@ -278,12 +278,23 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   var ThreadsController;
 
   ThreadsController = function(ThreadsService, UserV3Service) {
-    var activate, onChange, vm;
+    var activate, onChange, removeBlanks, vm;
     vm = this;
     onChange = function(threadsVm) {
-      vm.threads = threadsVm.threads;
+      vm.threads = removeBlanks(threadsVm.threads);
       vm.totalUnreadCount = threadsVm.totalUnreadCount;
       return vm.avatars = threadsVm.avatars;
+    };
+    removeBlanks = function(threads) {
+      var i, len, noBlanks, thread;
+      noBlanks = [];
+      for (i = 0, len = threads.length; i < len; i++) {
+        thread = threads[i];
+        if (thread.messsages.length) {
+          noBlanks.push(thread);
+        }
+      }
+      return noBlanks;
     };
     activate = function() {
       UserV3Service.getCurrentUser(function(response) {
