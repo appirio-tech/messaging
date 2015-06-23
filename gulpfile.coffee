@@ -44,7 +44,6 @@ configs.fixtureFiles = [
 
 configs.templateCache =
   files : [
-    '.tmp/views/messaging.html'
     '.tmp/views/messaging.directive.html'
     '.tmp/views/threads.directive.html'
   ]
