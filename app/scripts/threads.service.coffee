@@ -1,9 +1,9 @@
 'use strict'
 
 srv = (ThreadsAPIService, AVATAR_URL, UserAPIService) ->
-  get = (subscriber, onChange) ->
+  get = (subscriberId, onChange) ->
     queryParams =
-      subscriber: subscriber
+      subscriberId: subscriberId
 
     threadsVm =
       threads         : []

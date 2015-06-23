@@ -250,7 +250,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     url = 'http://192.168.1.189:8080/v3/threads/:id';
     params = {
       id: '@id',
-      subscriber: '@subscriber'
+      subscriberId: '@subscriberId'
     };
     actions = {
       query: {
@@ -308,10 +308,10 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function(ThreadsAPIService, AVATAR_URL, UserAPIService) {
     var buildAvatar, get;
-    get = function(subscriber, onChange) {
+    get = function(subscriberId, onChange) {
       var queryParams, resource, threadsVm;
       queryParams = {
-        subscriber: subscriber
+        subscriberId: subscriberId
       };
       threadsVm = {
         threads: [],

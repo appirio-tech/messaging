@@ -10,8 +10,8 @@ srv = ($resource, API_URL) ->
   url = 'http://192.168.1.189:8080/v3/threads/:id'
 
   params  =
-    id        : '@id'
-    subscriber: '@subscriber'
+    id          : '@id'
+    subscriberId: '@subscriberId'
 
   actions =
     query:
