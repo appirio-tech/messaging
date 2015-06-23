@@ -290,7 +290,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       noBlanks = [];
       for (i = 0, len = threads.length; i < len; i++) {
         thread = threads[i];
-        if (thread.messsages.length) {
+        if (thread.messages.length) {
           noBlanks.push(thread);
         }
       }

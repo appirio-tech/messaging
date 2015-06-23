@@ -12,7 +12,7 @@ ThreadsController = (ThreadsService, UserV3Service) ->
     noBlanks = []
 
     for thread in threads
-      noBlanks.push thread if thread.messsages.length
+      noBlanks.push thread if thread.messages.length
 
     noBlanks
 
