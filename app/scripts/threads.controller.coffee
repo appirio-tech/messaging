@@ -8,12 +8,15 @@ ThreadsController = ($scope, ThreadsService) ->
     vm.totalUnreadCount = threadsVm.totalUnreadCount
     vm.avatars          = threadsVm.avatars
 
-  activate = ->
+  getThread =  ->
     threadParams =
       subscriber: $scope.subscriber
-      threadId: $scope.threadId
 
     ThreadsService.get threadParams, onChange
+
+  activate = ->
+    $scope.$watch 'subscriber', ->
+      getThread()
 
     vm
 

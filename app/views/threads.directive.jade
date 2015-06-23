@@ -1,6 +1,6 @@
 ul
   li(ng-repeat="thread in vm.threads track by $index")
-    a(ui-sref="messaging({id: 123})")
+    a(ui-sref="messaging({ id: thread.id })")
       header
         h4 {{ thread.subject }}
 

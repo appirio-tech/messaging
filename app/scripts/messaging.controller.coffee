@@ -12,8 +12,9 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
 
     vm.newMessage = ''
 
-    getUserMessages()
-    
+    $scope.$watch 'threadId', ->
+      getUserMessages()
+
     vm.sendMessage = sendMessage
 
     vm
