@@ -7,7 +7,7 @@ transformResponse = (response) ->
 
 srv = ($resource, API_URL) ->
   # url = API_URL + '/messages/:id'
-  url = 'http://192.168.1.189:8080/v3/messages/:id'
+  url = 'http://localhost:8080/v3/messages/:id'
 
   params =
     id: '@id'
