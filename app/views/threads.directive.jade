@@ -15,3 +15,5 @@ ul
           .co-pilot {{ thread.messages[0].publisherId }}:
 
           p {{ thread.messages[0].body }}
+
+.none(ng-show="vm.threads.length == 0") None
