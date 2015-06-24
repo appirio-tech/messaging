@@ -18,7 +18,7 @@ ThreadsController = (ThreadsService, UserV3Service) ->
 
   activate = ->
     UserV3Service.getCurrentUser (response) ->
-      ThreadsService.get response.handle, onChange if response?.handle
+      ThreadsService.get response.id, onChange if response?.id
 
     vm
 

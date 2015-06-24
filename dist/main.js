@@ -37,7 +37,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     getUserMessages = function(threadId) {
       return UserV3Service.getCurrentUser(function(response) {
         var params;
-        vm.currentUser = response != null ? response.handle : void 0;
+        vm.currentUser = response != null ? response.id : void 0;
         params = {
           id: threadId,
           subscriberId: vm.currentUser
@@ -197,7 +197,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function($resource, API_URL) {
     var methods, params, url;
-    url = 'http://localhost:8080/v3/messages/:id';
+    url = API_URL + '/messages/:id';
     params = {
       id: '@id'
     };
@@ -224,7 +224,8 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       restrict: 'E',
       templateUrl: 'views/threads.directive.html',
       controller: 'ThreadsController',
-      controllerAs: 'vm'
+      controllerAs: 'vm',
+      scope: true
     };
   };
 
@@ -246,7 +247,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function($resource, API_URL) {
     var actions, params, url;
-    url = 'http://localhost:8080/v3/threads/:id';
+    url = API_URL + '/threads/:id';
     params = {
       id: '@id',
       subscriberId: '@subscriberId'
@@ -297,8 +298,8 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     };
     activate = function() {
       UserV3Service.getCurrentUser(function(response) {
-        if (response != null ? response.handle : void 0) {
-          return ThreadsService.get(response.handle, onChange);
+        if (response != null ? response.id : void 0) {
+          return ThreadsService.get(response.id, onChange);
         }
       });
       return vm;
