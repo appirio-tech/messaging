@@ -16,7 +16,8 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
     $scope.$watch 'threadId', ->
       getUserMessages $scope.threadId if $scope.threadId.length
 
-    vm.sendMessage = sendMessage
+    vm.sendMessage     = sendMessage
+    vm.getUserMessages = getUserMessages
 
     vm
 
