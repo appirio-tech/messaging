@@ -225,9 +225,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       templateUrl: 'views/threads.directive.html',
       controller: 'ThreadsController',
       controllerAs: 'vm',
-      scope: {
-        subscriber: '@subscriber'
-      }
+      scope: true
     };
   };
 
