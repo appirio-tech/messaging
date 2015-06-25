@@ -4,7 +4,7 @@ vm  = null
 spy = null
 
 
-describe.only 'ThreadsController', ->
+describe 'ThreadsController', ->
   describe 'activate', ->
     beforeEach inject ($rootScope, $controller, ThreadsService) ->
       scope = $rootScope.$new()
