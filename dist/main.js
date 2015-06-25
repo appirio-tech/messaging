@@ -120,13 +120,13 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function(MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) {
     var buildAvatar, getMessages, markMessageRead, postMessage;
-    getMessages = function(param, onChange) {
+    getMessages = function(params, onChange) {
       var messaging, resource;
       messaging = {
         messages: [],
         avatars: {}
       };
-      resource = ThreadsAPIService.get(param);
+      resource = ThreadsAPIService.get(params);
       resource.$promise.then(function(response) {
         var i, len, message, ref;
         messaging.messages = response != null ? response.messages : void 0;
@@ -134,20 +134,22 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         for (i = 0, len = ref.length; i < len; i++) {
           message = ref[i];
           buildAvatar(message.publisherId, messaging, onChange);
-          markMessageRead(message);
+          markMessageRead(message, params);
         }
         return typeof onChange === "function" ? onChange(messaging) : void 0;
       });
       resource.$promise["catch"](function() {});
       return resource.$promise["finally"](function() {});
     };
-    markMessageRead = function(message) {
+    markMessageRead = function(message, params) {
       var putParams, queryParams;
       queryParams = {
         id: message.id
       };
       putParams = {
-        read: true
+        read: true,
+        subscriberId: params.subscriberId,
+        threadId: params.id
       };
       return MessagesAPIService.put(queryParams, putParams);
     };
