@@ -1,12 +1,12 @@
 'use strict'
 
 srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
-  getMessages = (param, onChange) ->
+  getMessages = (params, onChange) ->
     messaging =
       messages: []
       avatars : {}
 
-    resource = ThreadsAPIService.get param
+    resource = ThreadsAPIService.get params
 
     resource.$promise.then (response) ->
       messaging.messages = response?.messages
@@ -14,7 +14,7 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
       for message in messaging.messages
         buildAvatar message.publisherId, messaging, onChange
 
-        markMessageRead message
+        markMessageRead message, params
 
       onChange? messaging
 
@@ -22,12 +22,14 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
 
     resource.$promise.finally ->
 
-  markMessageRead = (message) ->
+  markMessageRead = (message, params) ->
     queryParams =
       id: message.id
 
     putParams =
-      read: true
+      read        : true
+      subscriberId: params.subscriberId
+      threadId    : params.id
 
     MessagesAPIService.put queryParams, putParams
 

@@ -9,7 +9,7 @@ ul
       main
         img.avatar(ng-src="{{ vm.avatars[thread.messages[0].publisherId] }}")
 
-        .notification {{ thread.unreadCount }}
+        .notification(ng-show="thread.unreadCount > 0") {{ thread.unreadCount }}
 
         .message
           .co-pilot {{ thread.messages[0].publisherId }}:

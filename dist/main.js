@@ -9,7 +9,7 @@
 }).call(this);
 
 angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"message in vm.messaging.messages track by $index\"><img ng-src=\"{{ vm.messaging.avatars[message.publisherId] }}\" class=\"avatar\"/><div class=\"message\"><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><time>{{ message.createdAt | timeLapse }}</time></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");
-$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><a ui-sref=\"messaging({ id: thread.id })\"><header><h4>{{ thread.subject }}</h4><time>{{ thread.messages[0].createdAt | timeLapse }}</time></header><main><img ng-src=\"{{ vm.avatars[thread.messages[0].publisherId] }}\" class=\"avatar\"/><div class=\"notification\">{{ thread.unreadCount }}</div><div class=\"message\"><div class=\"co-pilot\">{{ thread.messages[0].publisherId }}:</div><p>{{ thread.messages[0].body }}</p></div></main></a></li></ul><div ng-show=\"vm.threads.length == 0\" class=\"none\">None</div>");}]);
+$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><a ui-sref=\"messaging({ id: thread.id })\"><header><h4>{{ thread.subject }}</h4><time>{{ thread.messages[0].createdAt | timeLapse }}</time></header><main><img ng-src=\"{{ vm.avatars[thread.messages[0].publisherId] }}\" class=\"avatar\"/><div ng-show=\"thread.unreadCount &gt; 0\" class=\"notification\">{{ thread.unreadCount }}</div><div class=\"message\"><div class=\"co-pilot\">{{ thread.messages[0].publisherId }}:</div><p>{{ thread.messages[0].body }}</p></div></main></a></li></ul><div ng-show=\"vm.threads.length == 0\" class=\"none\">None</div>");}]);
 (function() {
   'use strict';
   var MessagingController;
@@ -121,13 +121,13 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
 
   srv = function(MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) {
     var buildAvatar, getMessages, markMessageRead, postMessage;
-    getMessages = function(param, onChange) {
+    getMessages = function(params, onChange) {
       var messaging, resource;
       messaging = {
         messages: [],
         avatars: {}
       };
-      resource = ThreadsAPIService.get(param);
+      resource = ThreadsAPIService.get(params);
       resource.$promise.then(function(response) {
         var i, len, message, ref;
         messaging.messages = response != null ? response.messages : void 0;
@@ -135,20 +135,22 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         for (i = 0, len = ref.length; i < len; i++) {
           message = ref[i];
           buildAvatar(message.publisherId, messaging, onChange);
-          markMessageRead(message);
+          markMessageRead(message, params);
         }
         return typeof onChange === "function" ? onChange(messaging) : void 0;
       });
       resource.$promise["catch"](function() {});
       return resource.$promise["finally"](function() {});
     };
-    markMessageRead = function(message) {
+    markMessageRead = function(message, params) {
       var putParams, queryParams;
       queryParams = {
         id: message.id
       };
       putParams = {
-        read: true
+        read: true,
+        subscriberId: params.subscriberId,
+        threadId: params.id
       };
       return MessagesAPIService.put(queryParams, putParams);
     };
