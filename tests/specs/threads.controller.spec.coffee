@@ -16,6 +16,3 @@ describe 'ThreadsController', ->
 
     it 'should have a view model', ->
       expect(vm).to.be.ok
-
-    # it 'should have called ThreadsService.get', ->
-    #   expect(spy.calledOnce).to.be.ok

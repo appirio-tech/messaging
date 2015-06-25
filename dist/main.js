@@ -334,16 +334,21 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       };
       resource = ThreadsAPIService.query(queryParams);
       resource.$promise.then(function(response) {
-        var i, j, len, len1, publisher, ref, ref1, thread;
+        var i, j, k, len, len1, len2, message, publisher, publishers, ref, ref1, thread;
         threadsVm.threads = response.threads;
+        publishers = [];
         ref = threadsVm.threads;
         for (i = 0, len = ref.length; i < len; i++) {
           thread = ref[i];
-          ref1 = thread.publishers;
+          ref1 = thread.messages;
           for (j = 0, len1 = ref1.length; j < len1; j++) {
-            publisher = ref1[j];
-            buildAvatar(publisher, threadsVm, onChange);
+            message = ref1[j];
+            publishers.push(message.publisherId);
           }
+        }
+        for (k = 0, len2 = publishers.length; k < len2; k++) {
+          publisher = publishers[k];
+          buildAvatar(publisher, threadsVm, onChange);
         }
         return typeof onChange === "function" ? onChange(threadsVm) : void 0;
       });
