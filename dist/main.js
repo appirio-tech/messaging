@@ -32,7 +32,6 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         }
       });
       vm.sendMessage = sendMessage;
-      vm.getUserMessages = getUserMessages;
       return vm;
     };
     getUserMessages = function(threadId) {
@@ -334,7 +333,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       };
       resource = ThreadsAPIService.query(queryParams);
       resource.$promise.then(function(response) {
-        var i, j, k, len, len1, len2, message, publisher, publishers, ref, ref1, thread;
+        var i, j, len, len1, message, publishers, ref, ref1, thread;
         threadsVm.threads = response.threads;
         publishers = [];
         ref = threadsVm.threads;
@@ -343,12 +342,8 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
           ref1 = thread.messages;
           for (j = 0, len1 = ref1.length; j < len1; j++) {
             message = ref1[j];
-            publishers.push(message.publisherId);
+            buildAvatar(message.publisherId, threadsVm, onChange);
           }
-        }
-        for (k = 0, len2 = publishers.length; k < len2; k++) {
-          publisher = publishers[k];
-          buildAvatar(publisher, threadsVm, onChange);
         }
         return typeof onChange === "function" ? onChange(threadsVm) : void 0;
       });
