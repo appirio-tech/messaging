@@ -15,8 +15,6 @@ srv = (ThreadsAPIService, AVATAR_URL, UserAPIService) ->
     resource.$promise.then (response) ->
       threadsVm.threads = response.threads
 
-      publishers = []
-
       for thread in threadsVm.threads
         for message in thread.messages
           buildAvatar message.publisherId, threadsVm, onChange

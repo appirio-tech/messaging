@@ -333,9 +333,8 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       };
       resource = ThreadsAPIService.query(queryParams);
       resource.$promise.then(function(response) {
-        var i, j, len, len1, message, publishers, ref, ref1, thread;
+        var i, j, len, len1, message, ref, ref1, thread;
         threadsVm.threads = response.threads;
-        publishers = [];
         ref = threadsVm.threads;
         for (i = 0, len = ref.length; i < len; i++) {
           thread = ref[i];
