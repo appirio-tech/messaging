@@ -19,10 +19,9 @@ describe 'MessagingService', ->
 
   describe 'getMessages method', ->
     beforeEach inject ($httpBackend) ->
-      params = {
+      params =
         id          : '123'
         subscriberId: 'Batman'
-      }
 
       srv.getMessages params, (response) ->
         message = response

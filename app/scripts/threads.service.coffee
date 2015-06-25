@@ -19,10 +19,7 @@ srv = (ThreadsAPIService, AVATAR_URL, UserAPIService) ->
 
       for thread in threadsVm.threads
         for message in thread.messages
-          publishers.push message.publisherId
-
-      for publisher in publishers
-        buildAvatar publisher, threadsVm, onChange
+          buildAvatar message.publisherId, threadsVm, onChange
 
       onChange? threadsVm
 

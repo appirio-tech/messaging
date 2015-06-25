@@ -9,10 +9,6 @@ describe 'MessagingController', ->
       scope          = $rootScope.$new()
       scope.threadId = '123'
       vm             = $controller 'MessagingController', $scope: scope
-      spy            = sinon.spy vm, 'getUserMessages'
-
-    afterEach ->
-      spy.restore()
 
     it 'should have a view model', ->
       expect(vm).to.be.ok
@@ -22,7 +18,7 @@ describe 'MessagingController', ->
       scope         = $rootScope.$new()
       vm            = $controller 'MessagingController', $scope: scope
       vm.newMessage = 'hello world'
-      spy = sinon.spy MessagingService, 'postMessage'
+      spy           = sinon.spy MessagingService, 'postMessage'
       vm.sendMessage()
 
     afterEach ->
