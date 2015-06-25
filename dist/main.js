@@ -32,6 +32,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         }
       });
       vm.sendMessage = sendMessage;
+      vm.getUserMessages = getUserMessages;
       return vm;
     };
     getUserMessages = function(threadId) {
