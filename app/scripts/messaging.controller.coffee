@@ -30,7 +30,6 @@ MessagingController = ($scope, MessagingService, UserV3Service) ->
 
       MessagingService.getMessages params, onChange
 
-
   sendMessage = ->
     if vm.newMessage.length
       message =
