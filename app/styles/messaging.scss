@@ -1,5 +1,11 @@
 @import "work-includes";
 
+.messaging-page-header {
+  padding-bottom: 0.3em;
+  margin-bottom: 0.3em;
+  border-bottom: 1px solid #ccc;
+}
+
 messaging.widget {
   .messages {
     max-height: 120px;
