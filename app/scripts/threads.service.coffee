@@ -16,8 +16,8 @@ srv = (ThreadsAPIService, AVATAR_URL, UserAPIService) ->
       threadsVm.threads = response.threads
 
       for thread in threadsVm.threads
-        for publisher in thread.publishers
-          buildAvatar publisher, threadsVm, onChange
+        for message in thread.messages
+          buildAvatar message.publisherId, threadsVm, onChange
 
       onChange? threadsVm
 
