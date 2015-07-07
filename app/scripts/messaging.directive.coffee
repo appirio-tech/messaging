@@ -25,7 +25,8 @@ directive = (MessagingService) ->
   controller  : 'MessagingController'
   controllerAs: 'vm'
   scope:
-    threadId: '@threadId'
+    threadId : '@threadId'
+    createdBy: '@createdBy'
 
 directive.$inject = ['MessagingService']
 
