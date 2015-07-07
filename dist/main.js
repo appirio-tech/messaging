@@ -36,9 +36,9 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     };
     getUserMessages = function(threadId) {
       var params;
-      $scope.$watch('createdBy', function() {
-        if ($scope.createdBy.length) {
-          return vm.currentUser = $scope.createdBy;
+      $scope.$watch('subscriberId', function() {
+        if ($scope.subscriberId.length) {
+          return vm.currentUser = $scope.subscriberId;
         }
       });
       params = {
@@ -106,7 +106,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       controllerAs: 'vm',
       scope: {
         threadId: '@threadId',
-        createdBy: '@createdBy'
+        subscriberId: '@subscriberId'
       }
     };
   };
