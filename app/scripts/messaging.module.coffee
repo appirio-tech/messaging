@@ -4,7 +4,7 @@ dependencies = [
   'ui.router'
   'ngResource'
   'app.constants'
-  'appirio-tech-ng-auth'
+  # 'appirio-tech-ng-auth'
   'angular-storage'
   'angular-jwt'
   'duScroll'

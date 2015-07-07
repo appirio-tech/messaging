@@ -21,7 +21,7 @@ configs.karma =
     'bower_components/auto-config-fake-server/dist/auto-config-fake-server.js'
     'bower_components/angular-scroll/angular-scroll.js'
     'bower_components/moment/moment.js'
-    'bower_components/appirio-tech-ng-auth/dist/main.js'
+    # 'bower_components/appirio-tech-ng-auth/dist/main.js'
     'bower_components/a0-angular-storage/dist/angular-storage.js'
     'bower_components/angular-jwt/dist/angular-jwt.js'
     'bower_components/auth0.js/build/auth0.js'
