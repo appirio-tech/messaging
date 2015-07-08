@@ -22,7 +22,7 @@ MessagingController = ($scope, MessagingService) ->
 
   getUserMessages = (threadId) ->
     $scope.$watch 'subscriberId', ->
-      vm.currentUser = $scope.subscriberId if $scope.subscriberId.length
+      vm.currentUser = $scope.subscriberId if $scope.subscriberId
 
       params =
         id          : threadId

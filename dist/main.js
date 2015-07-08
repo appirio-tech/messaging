@@ -37,7 +37,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     getUserMessages = function(threadId) {
       return $scope.$watch('subscriberId', function() {
         var params;
-        if ($scope.subscriberId.length) {
+        if ($scope.subscriberId) {
           vm.currentUser = $scope.subscriberId;
         }
         params = {
