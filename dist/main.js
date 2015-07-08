@@ -2,7 +2,7 @@
   'use strict';
   var dependencies;
 
-  dependencies = ['ui.router', 'ngResource', 'app.constants', 'angular-storage', 'angular-jwt', 'duScroll'];
+  dependencies = ['ui.router', 'ngResource', 'app.constants', 'duScroll'];
 
   angular.module('appirio-tech-messaging', dependencies);
 
