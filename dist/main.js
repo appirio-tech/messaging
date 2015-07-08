@@ -35,17 +35,17 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       return vm;
     };
     getUserMessages = function(threadId) {
-      var params;
-      $scope.$watch('subscriberId', function() {
+      return $scope.$watch('subscriberId', function() {
+        var params;
         if ($scope.subscriberId.length) {
-          return vm.currentUser = $scope.subscriberId;
+          vm.currentUser = $scope.subscriberId;
         }
+        params = {
+          id: threadId,
+          subscriberId: vm.currentUser
+        };
+        return MessagingService.getMessages(params, onChange);
       });
-      params = {
-        id: threadId,
-        subscriberId: vm.currentUser
-      };
-      return MessagingService.getMessages(params, onChange);
     };
     sendMessage = function() {
       var message;
