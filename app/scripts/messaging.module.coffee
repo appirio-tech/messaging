@@ -4,8 +4,6 @@ dependencies = [
   'ui.router'
   'ngResource'
   'app.constants'
-  'angular-storage'
-  'angular-jwt'
   'duScroll'
 ]
 
