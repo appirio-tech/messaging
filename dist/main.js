@@ -2,7 +2,7 @@
   'use strict';
   var dependencies;
 
-  dependencies = ['ui.router', 'ngResource', 'app.constants', 'appirio-tech-ng-auth', 'angular-storage', 'angular-jwt', 'duScroll'];
+  dependencies = ['ui.router', 'ngResource', 'app.constants', 'angular-storage', 'angular-jwt', 'duScroll'];
 
   angular.module('appirio-tech-messaging', dependencies);
 
@@ -14,7 +14,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   'use strict';
   var MessagingController;
 
-  MessagingController = function($scope, MessagingService, UserV3Service) {
+  MessagingController = function($scope, MessagingService) {
     var activate, getUserMessages, onChange, sendMessage, vm;
     vm = this;
     vm.currentUser = null;
@@ -35,9 +35,11 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       return vm;
     };
     getUserMessages = function(threadId) {
-      return UserV3Service.getCurrentUser(function(response) {
+      return $scope.$watch('subscriberId', function() {
         var params;
-        vm.currentUser = response != null ? response.id : void 0;
+        if ($scope.subscriberId.length) {
+          vm.currentUser = $scope.subscriberId;
+        }
         params = {
           id: threadId,
           subscriberId: vm.currentUser
@@ -64,7 +66,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     return activate();
   };
 
-  MessagingController.$inject = ['$scope', 'MessagingService', 'UserV3Service'];
+  MessagingController.$inject = ['$scope', 'MessagingService'];
 
   angular.module('appirio-tech-messaging').controller('MessagingController', MessagingController);
 
@@ -103,7 +105,8 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       controller: 'MessagingController',
       controllerAs: 'vm',
       scope: {
-        threadId: '@threadId'
+        threadId: '@threadId',
+        subscriberId: '@subscriberId'
       }
     };
   };
@@ -281,7 +284,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
   'use strict';
   var ThreadsController;
 
-  ThreadsController = function($scope, ThreadsService, UserV3Service) {
+  ThreadsController = function($scope, ThreadsService) {
     var activate, onChange, removeBlanks, vm;
     vm = this;
     onChange = function(threadsVm) {
@@ -311,7 +314,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
     return activate();
   };
 
-  ThreadsController.$inject = ['$scope', 'ThreadsService', 'UserV3Service'];
+  ThreadsController.$inject = ['$scope', 'ThreadsService'];
 
   angular.module('appirio-tech-messaging').controller('ThreadsController', ThreadsController);
 

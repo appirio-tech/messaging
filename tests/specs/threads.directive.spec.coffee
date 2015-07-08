@@ -1,7 +1,7 @@
 'use strict'
 
 element = null
-html    = '<threads></threads>'
+html    = '<threads subscriber-id="123"></threads>'
 
 describe 'ThreadDirective', ->
   beforeEach inject ($compile, $rootScope) ->
