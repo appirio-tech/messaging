@@ -12,6 +12,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
@@ -53,7 +54,7 @@ public class ThreadTest {
 	private final String USER_TYPE_PUBLISHER = "publishers";
 	private final String USER_TYPE_SUBSCRIBER = "subscribers";
 	
-
+	private static final Logger logger = Logger.getLogger(ThreadTest.class);
 	/**
 	 * Initializes the test environment. Reads thread.json
 	 * @throws Exception
@@ -71,7 +72,7 @@ public class ThreadTest {
 		threadsNode = rootNode.get("threads");
 		
 		authInfo = authService.authenticate();
-		System.out.println("ThreadsTest:setUp:authentication jwt token" + authInfo.getJwtToken());
+		logger.debug("ThreadsTest:setUp:authentication jwt token" + authInfo.getJwtToken());
 
 	}
 	
@@ -91,7 +92,7 @@ public class ThreadTest {
 		Iterator<JsonNode> elements = parentNode.elements();
 		while(elements.hasNext()){
 		    JsonNode childNode = elements.next();
-		    System.out.println("Node = "+ childNode.toString());
+		    logger.debug("Node = "+ childNode.toString());
 		}
 		return null;
 	}
@@ -104,7 +105,7 @@ public class ThreadTest {
 			JsonNode userNode = pubElements.next();
 			UserInfo userInfo = userService.createUser(userNode, EnvironmentConfiguration.getBaseUrl() +
 					UserConfiguration.getUserCreateEndPoint().toString());
-			System.out.println("User obtained = "+ userInfo.getUserId());
+			logger.debug("User obtained = "+ userInfo.getUserId());
 			userInfoList.add(userInfo);
 		}
 		return userInfoList;
@@ -145,14 +146,14 @@ public class ThreadTest {
 			//subscribers for the given thread - call createUsers with type to create all users of that type . 
 			subscribersList = createUsers(thread,USER_TYPE_SUBSCRIBER);
 			
-			System.out.println("ThreadsTest:testCreateThread: " + publishersList.size() + " Publishers created!");
-			System.out.println("ThreadsTest:testCreateThread: " + subscribersList.size() + " Subscribers created! " );
+			logger.debug("ThreadsTest:testCreateThread: " + publishersList.size() + " Publishers created!");
+			logger.debug("ThreadsTest:testCreateThread: " + subscribersList.size() + " Subscribers created! " );
 		
 			if(publishersList.size() == 0 ) throw new InvalidRequestException("Publishers must be available to create a thread");
 			if(subscribersList.size() == 0 ) throw new InvalidRequestException("Subscribers must be available to create a thread");
 
 			String payload = constructPayload(thread,subscribersList,publishersList);
-			System.out.println("ThreadTest:createThreadTest:payload "  +payload);
+			logger.debug("ThreadTest:createThreadTest:payload "  +payload);
 
 			HttpResponse response  = null;
 			String threadCreateEndPointUrl = EnvironmentConfiguration.getBaseUrl() 
@@ -160,13 +161,13 @@ public class ThreadTest {
 	
 			
 	
-			System.out.println("ThreadTest:createThreadTest:Sending post request to url " +
+			logger.debug("ThreadTest:createThreadTest:Sending post request to url " +
 						threadCreateEndPointUrl  + " payload" + payload  + " jwt token " + 
 						authInfo.getJwtToken());
 	
 			response = DefaultRequestProcessor.postRequest(threadCreateEndPointUrl,null,getHeader(),payload);
 
-			System.out.println("ThreadsTest:createUser: Response code obtained " + response.getStatusLine().getStatusCode());
+			logger.debug("ThreadsTest:createUser: Response code obtained " + response.getStatusLine().getStatusCode());
 
 			if(response.getStatusLine().getStatusCode() == 200)
 				threadInfo = new ThreadInfo(response);
@@ -175,7 +176,7 @@ public class ThreadTest {
 			else if(response.getStatusLine().getStatusCode() == 401) 
 				throw new AutomationException(String.valueOf(response.getStatusLine().getStatusCode()), "Invalid parameter : 401 Unauthorized. User creation failed !");
 
-			System.out.println("ThreadsTest:createThreadTest:Thread with Id " + threadInfo.getThreadId() + " created !!");
+			logger.debug("ThreadsTest:createThreadTest:Thread with Id " + threadInfo.getThreadId() + " created !!");
 			allThreadsPublishers.put(threadInfo.getThreadId(), publishersList);
 			allThreadsSubscribers.put(threadInfo.getThreadId(), subscribersList);
 			publishersList = new ArrayList<UserInfo>();
@@ -192,7 +193,7 @@ public class ThreadTest {
 	public void testGetThread() throws Exception{
 		//Generate jwt token
 		//AuthenticationInfo authInfo = authService.authenticate();
-		System.out.println("ThreadsTest:testGetThread: jwt token" + authInfo.getJwtToken() +  " Thread Id " + 
+		logger.debug("ThreadsTest:testGetThread: jwt token" + authInfo.getJwtToken() +  " Thread Id " + 
 				threadInfo.getThreadId());
 		//List<NameValuePair> headers = new ArrayList<NameValuePair>();
 		//headers.add(new BasicNameValuePair("Authorization","Bearer "+ authInfo.getJwtToken()));
@@ -203,17 +204,17 @@ public class ThreadTest {
 			break;
 		}
 		
-		System.out.println("ThreadsTest:testGetThread: subscriberId " + subscriberId);
+		logger.debug("ThreadsTest:testGetThread: subscriberId " + subscriberId);
 		String getThreadUrl = EnvironmentConfiguration.getBaseUrl() +MessagingConfiguration.getThreadGetEndPoint()
 				+ threadInfo.getThreadId() + "?subscriberId=" +subscriberId;
-		System.out.println("ThreadsTest:testGetThread: Sending Get request to url " + getThreadUrl  );
+		logger.debug("ThreadsTest:testGetThread: Sending Get request to url " + getThreadUrl  );
 		
 		HttpResponse response = DefaultRequestProcessor.getRequest(getThreadUrl , null, getHeader());
-		System.out.println("ThreadsTest:testGetThread:  Response code obtained " + response.getStatusLine().getStatusCode());
+		logger.debug("ThreadsTest:testGetThread:  Response code obtained " + response.getStatusLine().getStatusCode());
 		JSONObject jsonObject = ApiUtil.getJsonObject(response);
 
 		String threadId2 = jsonObject.getJSONObject("result").getJSONObject("content").getString("id");
-		System.out.println("ThreadsTest:testGetThread: threadId obtained " +threadId2);
+		logger.debug("ThreadsTest:testGetThread: threadId obtained " +threadId2);
 		Assert.assertEquals(threadId2, threadInfo.getThreadId());
 		
 	} 
@@ -236,25 +237,25 @@ public class ThreadTest {
 			break;
 		}
 		
-		System.out.println("ThreadsTest:testGetSubscriberThreads jwt token" + authInfo.getJwtToken() +  " Subscriber Id " + 
+		logger.debug("ThreadsTest:testGetSubscriberThreads jwt token" + authInfo.getJwtToken() +  " Subscriber Id " + 
 				subscriberId);
 		
 		
-		System.out.println("ThreadsTest:testGetSubscriberThreads: subscriberId " + subscriberId);
+		logger.debug("ThreadsTest:testGetSubscriberThreads: subscriberId " + subscriberId);
 		String getSubscriberThreadsUrl = EnvironmentConfiguration.getBaseUrl()+MessagingConfiguration.getThreadGetEndPoint()
 				+ "?subscriberId=" +subscriberId;
-		System.out.println("ThreadsTest:testGetSubscriberThreads: Sending Get request to url " +
+		logger.debug("ThreadsTest:testGetSubscriberThreads: Sending Get request to url " +
 				getSubscriberThreadsUrl  );
 
 		HttpResponse response = null;
 		
 		response = DefaultRequestProcessor.getRequest(getSubscriberThreadsUrl , null, getHeader());
-		System.out.println("ThreadsTest:testGetSubscriberThreads:  Response code obtained " +
+		logger.debug("ThreadsTest:testGetSubscriberThreads:  Response code obtained " +
 				response.getStatusLine().getStatusCode()  );
 		JSONObject jsonObject = ApiUtil.getJsonObject(response);
 
 		String threadId2 = jsonObject.getJSONObject("result").getJSONObject("content").getJSONArray("threads").getJSONObject(0).getString("id");
-		System.out.println("ThreadsTest:testGetSubscriberThreads:jsonObject. content " + 
+		logger.debug("ThreadsTest:testGetSubscriberThreads:jsonObject. content " + 
 				jsonObject.getJSONObject("result") + "    threadId " +threadId2);
 		Assert.assertEquals(threadId2, threadInfo.getThreadId());
 		

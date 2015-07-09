@@ -2,15 +2,15 @@ package com.appirio.automation.api.config;
 
 
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.log4j.Logger;
 
 /**
- * Holds user related properties
+ * Holds messaging related properties
  * @author anjalijain
  *
  */
 
 public class MessagingConfiguration extends Configuration  {
-
 
 	private static final String THREAD_EP_GET   			= "threadGetURL";
 	private static final String THREAD_EP_CREATE 			= "threadCreateURL";
@@ -20,6 +20,8 @@ public class MessagingConfiguration extends Configuration  {
 	private static PropertiesConfiguration messagePropertyConfig = null;
 
 	private static MessagingConfiguration messageConfiguration = null;
+
+	private static final Logger logger = Logger.getLogger(MessagingConfiguration.class);
 
 	private MessagingConfiguration() {	   
 	}
