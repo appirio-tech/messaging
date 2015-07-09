@@ -27,25 +27,23 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
       };
       vm.newMessage = '';
       $scope.$watch('threadId', function() {
-        if ($scope.threadId.length) {
-          return getUserMessages($scope.threadId);
-        }
+        return getUserMessages();
+      });
+      $scope.$watch('subscriberId', function() {
+        return getUserMessages();
       });
       vm.sendMessage = sendMessage;
       return vm;
     };
-    getUserMessages = function(threadId) {
-      return $scope.$watch('subscriberId', function() {
-        var params;
-        if ($scope.subscriberId.length) {
-          vm.currentUser = $scope.subscriberId;
-        }
+    getUserMessages = function() {
+      var params;
+      if ($scope.threadId && $scope.subscriberId) {
         params = {
-          id: threadId,
-          subscriberId: vm.currentUser
+          id: $scope.threadId,
+          subscriberId: $scope.subscriberId
         };
         return MessagingService.getMessages(params, onChange);
-      });
+      }
     };
     sendMessage = function() {
       var message;
@@ -53,7 +51,7 @@ $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in
         message = {
           threadId: $scope.threadId,
           body: vm.newMessage,
-          publisherId: vm.currentUser,
+          publisherId: $scope.subscriberId,
           createdAt: moment(),
           attachments: []
         };
