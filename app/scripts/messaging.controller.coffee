@@ -14,19 +14,20 @@ MessagingController = ($scope, MessagingService) ->
     vm.newMessage = ''
 
     $scope.$watch 'threadId', ->
-      getUserMessages $scope.threadId if $scope.threadId.length
+      getUserMessages()
+
+    $scope.$watch 'subscriberId', ->
+      getUserMessages()
 
     vm.sendMessage = sendMessage
 
     vm
 
-  getUserMessages = (threadId) ->
-    $scope.$watch 'subscriberId', ->
-      vm.currentUser = $scope.subscriberId if $scope.subscriberId
-
+  getUserMessages =  ->
+    if $scope.threadId && $scope.subscriberId
       params =
-        id          : threadId
-        subscriberId: vm.currentUser
+        id          : $scope.threadId
+        subscriberId: $scope.subscriberId
 
       MessagingService.getMessages params, onChange
 
@@ -35,7 +36,7 @@ MessagingController = ($scope, MessagingService) ->
       message =
         threadId   : $scope.threadId
         body       : vm.newMessage
-        publisherId: vm.currentUser
+        publisherId: $scope.subscriberId
         createdAt  : moment()
         attachments: []
 
