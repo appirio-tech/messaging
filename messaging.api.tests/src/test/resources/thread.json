@@ -1,0 +1,58 @@
+{
+	"threads" :[
+            {"param": {
+                    "clientIdentifier": "subscriberId",
+                    "context": "work",
+                    "subject": "Project Title",
+                    "publishers": [
+                        {"param" : {
+                               "email" : "moonmoon.mathur@gmail.com",
+                               "firstName" : "Test",
+                               "lastName" : "User",
+                               "handle" : "H",
+                               "credential" : {
+                                   "password" : "appirio123$"
+                                }
+                               }
+                        },
+                        {"param" : {
+                               "email" : "munmun.mathur@appirio.com",
+                               "firstName" : "Test1",
+                               "lastName" : "User1",
+                               "handle" : "H",
+                               "credential" : {
+                                   "password" : "appirio123$"
+                                   }
+                               }
+                        }
+                    ],
+                    "subscribers": [
+                         {"param" : {
+                               "email" : "moonmoon.mathur@gmail.com",
+                               "firstName" : "Test",
+                               "lastName" : "User",
+                               "handle" : "H",
+                               "credential" : {
+                               		"password" : "appirio123$"
+                                }
+                               }
+                         },
+                         {"param" : {
+                               "email" : "munmun.mathur@appirio.com",
+                               "firstName" : "Test1",
+                               "lastName" : "User1",
+                               "handle" : "H",
+                               "credential" : {
+                               "password" : "appirio123$"
+                               }
+                               }
+                         }
+                    ]
+
+                }
+                
+                }
+                
+                ]
+                
+}

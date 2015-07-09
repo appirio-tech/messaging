@@ -27,9 +27,7 @@ public class MessagingConfiguration extends Configuration  {
 	public static MessagingConfiguration initialize() {
 		if(messageConfiguration == null) {  
 			messageConfiguration = new MessagingConfiguration();
-			System.out.println("MessagingConfiguration:initialize: Loading properties file " + PROPS_MESSAGE);
 			messagePropertyConfig = messageConfiguration.loadConfiguration(PROPS_MESSAGE);
-			System.out.println("AuthenticationConfiguration:initialize: Properties file " + PROPS_MESSAGE + " loaded !!");
 		}
 		return messageConfiguration;
 	}
@@ -44,6 +42,8 @@ public class MessagingConfiguration extends Configuration  {
 	}
 
 
+	
+	
 
 
 }
