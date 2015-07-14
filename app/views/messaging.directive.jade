@@ -26,6 +26,7 @@ form(ng-submit="vm.sendMessage()")
   div.upload
 
     ap-uploader(multiple="true",
+                // TODO: change from echo server to service
                 url-presigner="http://localhost:4321",
                 query-url="http://localhost:4321",
                 file-endpoint="http://localhost:4321",
