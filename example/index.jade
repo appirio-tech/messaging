@@ -1,8 +1,6 @@
 - var scripts = []
 - scripts.push('constants')
 - scripts.push('messaging.module')
-- scripts.push('routes')
-- scripts.push('example.controller')
 - scripts.push('messaging.controller')
 - scripts.push('messaging.service')
 - scripts.push('messaging.directive')
@@ -22,12 +20,6 @@
 - bowers.push('angular-ui-router/release/angular-ui-router')
 - bowers.push('angular-scroll/angular-scroll')
 - bowers.push('moment/moment')
-- bowers.push('auth0.js/build/auth0')
-- bowers.push('auth0-angular/build/auth0-angular')
-
-- var cssPaths   = ['main', 'messaging', 'threads']
-- var landscapes = []
-- var desktops   = []
 
 doctype html
 html(ng-app='appirio-tech-messaging')
@@ -63,14 +55,7 @@ html(ng-app='appirio-tech-messaging')
 
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no')
 
-    each path in cssPaths
-      link(href="styles/#{path}.css", rel="stylesheet")
-
-    each path in landscapes
-      link(href="styles/#{path}.landscape.css", rel="stylesheet", media="(min-width: 568px)")
-
-    each path in desktops
-      link(href="styles/#{path}.desktop.css", rel="stylesheet", media="(min-width: 767px)")
+    include css-files
 
   body
     main.layout-main.messaging("role"="main", class="{{ pageClass }}", ui-view="")
@@ -78,15 +63,12 @@ html(ng-app='appirio-tech-messaging')
     each path in bowers
       script(src="bower_components/#{path}.js", type="text/javascript")
 
-    each path in scripts
-      script(src="scripts/#{path}.js", type="text/javascript")
-
     = "\n"
     // build:js main.js
     = "\n"
     each path in scripts
       = "\n"
-      script(src=path + ".js", type="text/javascript")
+      script(src="scripts/#{path}.js", type="text/javascript")
       = "\n"
     = "\n"
     // endbuild

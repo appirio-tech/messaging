@@ -1,7 +1,4 @@
 configs =
-  tempFolder: '.tmp'
-  appFolder : 'app'
-  distFolder: 'dist'
   __dirname : __dirname
 
 configs.templateCache =
