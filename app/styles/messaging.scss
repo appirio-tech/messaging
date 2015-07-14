@@ -89,8 +89,32 @@ messaging {
       border : 0;
     }
 
-    .enter, .attach {
+    .enter, .upload {
       margin-top: 20px;
+    }
+
+    div.upload {
+      float: right;
+      width: 320px;
+      ap-uploader {
+        float: left;
+        margin-top: 10px;
+        ap-file {
+          div.failed {
+            span {
+              @include ellipsis(40px);
+              width: 50px;
+            }
+            button {
+              margin-left: 15px;
+              margin-top: 15px;
+            }
+          }
+        }
+      }
+      button.toggle {
+        float: right;
+      }
     }
 
     button.enter {
