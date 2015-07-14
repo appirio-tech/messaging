@@ -4,8 +4,8 @@
     "node": ">=0.10.0"
   },
   "devDependencies": {
-    "appirio-work-styles": "git@github.com:appirio-tech/work-styles#^0.0.104",
-    "appirio-gulp-tasks": "git@github.com:appirio-tech/gulp-tasks#^2.0.0",
+    "appirio-work-styles": "git@github.com:appirio-tech/work-styles#0.x.x",
+    "appirio-gulp-tasks": "git@github.com:appirio-tech/gulp-tasks#2.x.x",
     "gulp": "^3.8.11"
   }
 }
