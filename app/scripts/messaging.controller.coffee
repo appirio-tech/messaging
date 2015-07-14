@@ -1,10 +1,18 @@
 'use strict'
 
 MessagingController = ($scope, MessagingService, UserV3Service) ->
-  vm              = this
-  vm.currentUser  = null
-  vm.uploadStatus = 'pristine'
-  vm.showUpload   = false
+  vm                = this
+  vm.currentUser    = null
+  vm.uploaderStatus = 'pristine'
+  vm.showUpload     = false
+  vm.uploaderConfig =
+    allowMultiple: true
+    fileEndpoint : 'http://localhost:4321'
+    queryUrl     : 'http://localhost:4321'
+    urlPresigner : 'http://localhost:4321'
+    saveParams   :
+      workRequestId: "1436372805000-66d14ff5-ec15-410f-8c51-98e18e75f0fe"
+      assetType    : "specs"
 
   onChange = (messages) ->
     vm.messaging = messages

@@ -18,7 +18,7 @@
     "angular-resource": "^1.3.x",
     "angular-scroll": "^0.6.x",
     "moment": "^2.10.x",
-    "appirio-tech-ng-file-upload": "git@github.com:appirio-tech/ng-file-upload#0.x.x"
+    "appirio-tech-ng-file-upload": "git@github.com:appirio-tech/ng-file-upload#set-main"
   },
   "ignore": [
     "**/*",
