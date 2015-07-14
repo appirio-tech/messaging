@@ -8,3 +8,11 @@ http://docs.messaging14.apiary.io/#
 
 ### Designs
 https://drive.google.com/a/appirio.com/folderview?id=0B6NlMQSXkImbfkNhcWFTYWViMEpZRkJ2d0xVbEI5ZTdHQzlIaFBSc0VsN2lCMnNwN1VGVW8&usp=sharing_eid
+
+## Development
+```
+alias gserve='nvm use; gulp clean; gulp serve'
+alias gtest='nvm use; gulp test'
+alias gtestserve='nvm use; gulp test-serve'
+alias gbuild='nvm use; gulp clean; gulp preprocessors; gulp useref; gulp copy-files;'
+```
