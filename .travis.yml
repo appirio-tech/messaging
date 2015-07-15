@@ -14,9 +14,6 @@ script:
 - gulp preprocessors
 - gulp useref
 - gulp copy-files
-- gulp optimize-build
-- gulp finger-print
-- gulp finger-print-replace
 sudo: false
 after_success:
 - gulp coveralls
