@@ -23,7 +23,11 @@ form(ng-submit="vm.sendMessage()")
 
   button.enter(type="submit") Enter
 
-  button.attach(type="button")
-    .icon
+  div.upload
+    ap-uploader(config="vm.uploaderConfig" status="vm.uploaderStatus" ng-show="vm.showUpload")
 
-    span Add Attachment
+    button.toggle(ng-click="vm.showUpload = !vm.showUpload")
+
+      span(ng-show="!vm.showUpload") Add Attachment
+
+      span(ng-show="vm.showUpload") Cancel

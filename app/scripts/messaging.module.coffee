@@ -4,6 +4,7 @@ dependencies = [
   'ui.router'
   'ngResource'
   'app.constants'
+  'ap-file-upload'
   'duScroll'
 ]
 
