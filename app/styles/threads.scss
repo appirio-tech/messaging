@@ -42,14 +42,6 @@ threads {
         margin-top: 6px;
         $avatar-diameter: 35px;
 
-        .avatar {
-          width           : $avatar-diameter;
-          height          : $avatar-diameter;
-          background-color: #eee;
-          border-radius   : $avatar-diameter;
-          position        : absolute;
-        }
-
         .notification {
           position: absolute;
           margin-left: $avatar-diameter - 10px;
