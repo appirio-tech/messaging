@@ -20,6 +20,9 @@
 - bowers.push('angular-ui-router/release/angular-ui-router')
 - bowers.push('angular-scroll/angular-scroll')
 - bowers.push('moment/moment')
+- bowers.push('appirio-tech-ng-ui-components/dist/main')
+
+- bowerCssFiles = ['appirio-tech-ng-ui-components/dist/main']
 
 doctype html
 html(ng-app='appirio-tech-messaging')
@@ -62,6 +65,9 @@ html(ng-app='appirio-tech-messaging')
 
     each path in bowers
       script(src="bower_components/#{path}.js", type="text/javascript")
+
+    each path in bowerCssFiles
+      link(href="bower_components/#{path}.css", rel="stylesheet")
 
     = "\n"
     // build:js main.js

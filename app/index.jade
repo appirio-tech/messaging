@@ -22,6 +22,9 @@
 - bowers.push('moment/moment')
 - bowers.push('auth0.js/build/auth0')
 - bowers.push('auth0-angular/build/auth0-angular')
+- bowers.push('appirio-tech-ng-ui-components/dist/main')
+
+- bowerCssFiles = ['appirio-tech-ng-ui-components/dist/main']
 
 - var cssPaths   = ['main', 'messaging', 'threads']
 - var landscapes = []
@@ -60,6 +63,9 @@ html(ng-app='appirio-tech-messaging')
     meta(http-equiv='X-UA-Compatible', content='IE=edge, chrome=1')
 
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no')
+
+    each path in bowerCssFiles
+      link(href="bower_components/#{path}.css", rel="stylesheet")
 
     each path in cssPaths
       link(href="styles/#{path}.css", rel="stylesheet")
