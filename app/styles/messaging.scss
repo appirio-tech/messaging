@@ -33,25 +33,27 @@ messaging {
   @include clearfix;
 
   .messages {
-    max-height      : 500px;
-    overflow        : scroll;
-    $avatar-diameter: 35px;
+    max-height: 500px;
+    overflow  : scroll;
 
     > li {
+      @include flex-center();
+      @include flex-wrap(nowrap);
+
+      avatar {
+        min-width: 35px;
+      }
+
       position  : relative;
       padding   : 10px 0;
       border-top: 1px solid #ccc;
-
-      @include clearfix;
 
       &:first-child {
         border-top: 0;
       }
 
       .message {
-        float      : left;
-        margin-left: $avatar-diameter + 20px;
-        min-height : $avatar-diameter;
+        margin-left: $spacing-small;
 
         .attachments {
           li {
