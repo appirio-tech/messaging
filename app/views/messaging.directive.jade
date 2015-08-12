@@ -18,15 +18,7 @@ form(ng-submit="vm.sendMessage()")
 
   button.enter(type="submit") Enter
 
-  div.upload
+  button.attach(type="button")
+    .icon
 
-    ap-uploader(multiple="true",
-                // TODO: change from echo server to service
-                url-presigner="http://localhost:4321",
-                query-url="http://localhost:4321",
-                file-endpoint="http://localhost:4321",
-                status="vm.uploadStatus",
-                ng-show="vm.showUpload")
-    button.toggle(ng-click="vm.showUpload = !vm.showUpload")
-      span(ng-show="!vm.showUpload") Add Attachment
-      span(ng-show="vm.showUpload") Cancel
+    span Add Attachment

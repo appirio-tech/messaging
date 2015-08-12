@@ -1,10 +1,8 @@
 'use strict'
 
 MessagingController = ($scope, MessagingService) ->
-  vm              = this
-  vm.currentUser  = null
-  vm.uploadStatus = 'pristine'
-  vm.showUpload   = false
+  vm             = this
+  vm.currentUser = null
 
   onChange = (messages) ->
     vm.messaging = messages
