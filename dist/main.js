@@ -220,7 +220,7 @@
 
   srv = function($resource, API_URL) {
     var methods, params, url;
-    url = API_URL + '/messages/:id';
+    url = API_URL + '/v3/messages/:id';
     params = {
       id: '@id'
     };
@@ -242,16 +242,16 @@
   'use strict';
   var srv;
 
-  srv = function($resource, API_URL_V2) {
+  srv = function($resource, API_URL) {
     var params, url;
-    url = API_URL_V2 + '/users/:handle';
+    url = API_URL + '/v2/users/:handle';
     params = {
       handle: '@handle'
     };
     return $resource(url, params);
   };
 
-  srv.$inject = ['$resource', 'API_URL_V2'];
+  srv.$inject = ['$resource', 'API_URL'];
 
   angular.module('appirio-tech-messaging').factory('UserAPIService', srv);
 
@@ -329,7 +329,7 @@
 
   srv = function($resource, API_URL) {
     var actions, params, url;
-    url = API_URL + '/threads/:id';
+    url = API_URL + '/v3/threads/:id';
     params = {
       id: '@id',
       subscriberId: '@subscriberId'
