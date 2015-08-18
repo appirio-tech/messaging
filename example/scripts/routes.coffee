@@ -20,6 +20,11 @@ config = ($stateProvider) ->
     title       : 'Threads'
     templateUrl : 'views/threads.html'
 
+  states['notifications'] =
+    url         : '/notifications'
+    title       : 'Notifications'
+    templateUrl : 'views/notifications.html'
+
   for key, state of states
     $stateProvider.state key, state
 
