@@ -204,7 +204,7 @@
 
   srv = function($resource, API_URL) {
     var methods, params, url;
-    url = API_URL + '/messages/:id';
+    url = API_URL + '/v3/messages/:id';
     params = {
       id: '@id'
     };
@@ -269,7 +269,7 @@
 
   srv = function($resource, API_URL) {
     var actions, params, url;
-    url = API_URL + '/threads/:id';
+    url = API_URL + '/v3/threads/:id';
     params = {
       id: '@id',
       subscriberId: '@subscriberId'

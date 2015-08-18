@@ -6,7 +6,7 @@ transformResponse = (response) ->
   parsed?.result?.content || []
 
 srv = ($resource, API_URL) ->
-  url = API_URL + '/messages/:id'
+  url = API_URL + '/v3/messages/:id'
 
   params =
     id: '@id'
