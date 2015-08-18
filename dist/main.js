@@ -72,8 +72,8 @@
   'use strict';
   var srv;
 
-  srv = function(MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) {
-    var buildAvatar, getMessages, markMessageRead, postMessage;
+  srv = function(MessagesAPIService, ThreadsAPIService) {
+    var getMessages, markMessageRead, postMessage;
     getMessages = function(params, onChange) {
       var messaging, resource;
       messaging = {
@@ -87,7 +87,6 @@
         ref = messaging.messages;
         for (i = 0, len = ref.length; i < len; i++) {
           message = ref[i];
-          buildAvatar(message.publisherId, messaging, onChange);
           markMessageRead(message, params);
         }
         return typeof onChange === "function" ? onChange(messaging) : void 0;
@@ -107,21 +106,6 @@
       };
       return MessagesAPIService.put(queryParams, putParams);
     };
-    buildAvatar = function(handle, messaging, onChange) {
-      var params, user;
-      if (!messaging.avatars[handle]) {
-        params = {
-          handle: handle
-        };
-        user = UserAPIService.get(params);
-        user.$promise.then(function(response) {
-          messaging.avatars[handle] = AVATAR_URL + (response != null ? response.photoLink : void 0);
-          return typeof onChange === "function" ? onChange(messaging) : void 0;
-        });
-        user.$promise["catch"](function(response) {});
-        return user.$promise["finally"](function() {});
-      }
-    };
     postMessage = function(message, onChange) {
       var resource;
       resource = MessagesAPIService.save(message);
@@ -135,7 +119,7 @@
     };
   };
 
-  srv.$inject = ['MessagesAPIService', 'AVATAR_URL', 'UserAPIService', 'ThreadsAPIService'];
+  srv.$inject = ['MessagesAPIService', 'ThreadsAPIService'];
 
   angular.module('appirio-tech-messaging').factory('MessagingService', srv);
 
@@ -242,27 +226,8 @@
   'use strict';
   var srv;
 
-  srv = function($resource, API_URL_V2) {
-    var params, url;
-    url = API_URL_V2 + '/users/:handle';
-    params = {
-      handle: '@handle'
-    };
-    return $resource(url, params);
-  };
-
-  srv.$inject = ['$resource', 'API_URL_V2'];
-
-  angular.module('appirio-tech-messaging').factory('UserAPIService', srv);
-
-}).call(this);
-
-(function() {
-  'use strict';
-  var srv;
-
-  srv = function(ThreadsAPIService, AVATAR_URL, UserAPIService) {
-    var buildAvatar, get;
+  srv = function(ThreadsAPIService) {
+    var get;
     get = function(subscriberId, onChange) {
       var queryParams, resource, threadsVm;
       queryParams = {
@@ -275,43 +240,18 @@
       };
       resource = ThreadsAPIService.query(queryParams);
       resource.$promise.then(function(response) {
-        var i, j, len, len1, message, ref, ref1, thread;
         threadsVm.threads = response.threads;
-        ref = threadsVm.threads;
-        for (i = 0, len = ref.length; i < len; i++) {
-          thread = ref[i];
-          ref1 = thread.messages;
-          for (j = 0, len1 = ref1.length; j < len1; j++) {
-            message = ref1[j];
-            buildAvatar(message.publisherId, threadsVm, onChange);
-          }
-        }
         return typeof onChange === "function" ? onChange(threadsVm) : void 0;
       });
       resource.$promise["catch"](function() {});
       return resource.$promise["finally"](function() {});
-    };
-    buildAvatar = function(handle, threadsVm, onChange) {
-      var user, userParams;
-      if (!threadsVm.avatars[handle]) {
-        userParams = {
-          handle: handle
-        };
-        user = UserAPIService.get(userParams);
-        user.$promise.then(function(response) {
-          threadsVm.avatars[handle] = AVATAR_URL + (response != null ? response.photoLink : void 0);
-          return typeof onChange === "function" ? onChange(threadsVm) : void 0;
-        });
-        user.$promise["catch"](function() {});
-        return user.$promise["finally"](function() {});
-      }
     };
     return {
       get: get
     };
   };
 
-  srv.$inject = ['ThreadsAPIService', 'AVATAR_URL', 'UserAPIService'];
+  srv.$inject = ['ThreadsAPIService'];
 
   angular.module('appirio-tech-messaging').factory('ThreadsService', srv);
 

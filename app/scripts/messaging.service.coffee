@@ -1,6 +1,6 @@
 'use strict'
 
-srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
+srv = (MessagesAPIService, ThreadsAPIService) ->
   getMessages = (params, onChange) ->
     messaging =
       messages: []
@@ -12,8 +12,6 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
       messaging.messages = response?.messages
 
       for message in messaging.messages
-        buildAvatar message.publisherId, messaging, onChange
-
         markMessageRead message, params
 
       onChange? messaging
@@ -33,24 +31,6 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
 
     MessagesAPIService.put queryParams, putParams
 
-  buildAvatar = (handle, messaging, onChange) ->
-    unless messaging.avatars[handle]
-      params =
-        handle: handle
-
-      user = UserAPIService.get params
-
-      user.$promise.then (response) ->
-        messaging.avatars[handle] = AVATAR_URL + response?.photoLink
-
-        onChange? messaging
-
-      user.$promise.catch (response) ->
-        # need handle error
-
-      user.$promise.finally ->
-        # need handle finally
-
   postMessage = (message, onChange) ->
     resource = MessagesAPIService.save message
 
@@ -65,8 +45,6 @@ srv = (MessagesAPIService, AVATAR_URL, UserAPIService, ThreadsAPIService) ->
 
 srv.$inject = [
   'MessagesAPIService'
-  'AVATAR_URL'
-  'UserAPIService'
   'ThreadsAPIService'
 ]
 

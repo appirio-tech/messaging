@@ -1,6 +1,6 @@
 'use strict'
 
-srv = (ThreadsAPIService, AVATAR_URL, UserAPIService) ->
+srv = (ThreadsAPIService) ->
   get = (subscriberId, onChange) ->
     queryParams =
       subscriberId: subscriberId
@@ -15,36 +15,14 @@ srv = (ThreadsAPIService, AVATAR_URL, UserAPIService) ->
     resource.$promise.then (response) ->
       threadsVm.threads = response.threads
 
-      for thread in threadsVm.threads
-        for message in thread.messages
-          buildAvatar message.publisherId, threadsVm, onChange
-
       onChange? threadsVm
 
     resource.$promise.catch ->
 
     resource.$promise.finally ->
 
-  buildAvatar = (handle, threadsVm, onChange) ->
-    unless threadsVm.avatars[handle]
-      userParams =
-        handle: handle
-
-      user = UserAPIService.get userParams
-
-      user.$promise.then (response) ->
-        threadsVm.avatars[handle] = AVATAR_URL + response?.photoLink
-
-        onChange? threadsVm
-
-      user.$promise.catch ->
-        # need handle error
-
-      user.$promise.finally ->
-        # need handle finally
-
   get: get
 
-srv.$inject = ['ThreadsAPIService', 'AVATAR_URL', 'UserAPIService']
+srv.$inject = ['ThreadsAPIService']
 
 angular.module('appirio-tech-messaging').factory 'ThreadsService', srv

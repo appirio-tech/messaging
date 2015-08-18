@@ -1,11 +1,9 @@
 'use strict'
 
-
 srv     = null
 spy     = null
 message = null
 avatar  = null
-spy = null
 
 describe 'MessagingService', ->
   beforeEach inject (MessagingService) ->
