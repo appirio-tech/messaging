@@ -1,54 +1,6 @@
-- var scripts = []
-- scripts.push('messaging.module')
-- scripts.push('messaging.controller')
-- scripts.push('messaging.service')
-- scripts.push('messaging.directive')
-- scripts.push('threads.directive')
-- scripts.push('messages-api.service')
-- scripts.push('user-api.service')
-- scripts.push('threads.service')
-- scripts.push('threads-api.service')
-- scripts.push('threads.controller')
-- scripts.push('time-lapse.filter')
-- scripts.push('templates')
-
-- scriptsNoBuild = ['constants', 'routes', 'example.controller']
-
-- var bowers = []
-- bowers.push('angular/angular')
-- bowers.push('angular-resource/angular-resource')
-- bowers.push('angular-ui-router/release/angular-ui-router')
-- bowers.push('angular-scroll/angular-scroll')
-- bowers.push('moment/moment')
-- bowers.push('appirio-tech-ng-ui-components/dist/main')
-
-- bowerCssFiles = ['appirio-tech-ng-ui-components/dist/main']
-
 doctype html
 html(ng-app='appirio-tech-messaging')
   head
-    script(type="text/javascript", src="/scripts/json-fixtures.js")
-
-    script(type="text/javascript", src="/bower_components/sinon/index.js")
-
-    script(type="text/javascript", src="/bower_components/auto-config-fake-server/dist/auto-config-fake-server.js")
-
-    script(type="text/javascript").
-      AutoConfigFakeServer.init();
-
-      AutoConfigFakeServer.fakeServer.autoRespond = true;
-
-      schemas = [
-        FIXTURES['bower_components/appirio-tech-api-schemas/swagger/v3-messages.json'],
-        FIXTURES['bower_components/appirio-tech-api-schemas/swagger/v3-threads.json'],
-        FIXTURES['bower_components/appirio-tech-api-schemas/swagger/v3-users.json'],
-        FIXTURES['bower_components/appirio-tech-api-schemas/swagger/v2.json']
-      ];
-
-      AutoConfigFakeServer.consume(schemas);
-
-      localStorage.setItem('userJWTToken', '"yyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FwaS50b3Bjb2Rlci1kZXYuY29tIiwiZXhwIjoxNDMzMjcxNzYwLCJ1c2VySWQiOiI0MDEzNTUxNiIsImlhdCI6MTQzMzI3MTE2MCwianRpIjoiMDZhNzVjM2EtMTQ0MC00MWE3LTk5N2YtZmFmMGVjZjFmOGM1In0.okSjl5KOmGQ6hJEoQxk4SVkFra65_Id6KUQGdAVmJNe"');
-
     title Messaging
 
     meta(charset='utf-8')
@@ -60,24 +12,8 @@ html(ng-app='appirio-tech-messaging')
     include css-files
 
   body
+    include nav
+
     main.layout-main.messaging("role"="main", class="{{ pageClass }}", ui-view="")
 
-    each path in bowers
-      script(src="bower_components/#{path}.js", type="text/javascript")
-
-    each path in bowerCssFiles
-      link(href="bower_components/#{path}.css", rel="stylesheet")
-
-    = "\n"
-    // build:js main.js
-    = "\n"
-    each path in scripts
-      = "\n"
-      script(src="scripts/#{path}.js", type="text/javascript")
-      = "\n"
-    = "\n"
-    // endbuild
-    = "\n"
-
-    each path in scriptsNoBuild
-      script(src="scripts/#{path}.js", type="text/javascript")
+    include js-files
