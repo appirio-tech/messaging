@@ -1,3 +1,5 @@
+use strict
+
 AutoConfigFakeServer.init()
 
 AutoConfigFakeServer.fakeServer.autoRespond = true
