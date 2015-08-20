@@ -2,7 +2,7 @@
   'use strict';
   var dependencies;
 
-  dependencies = ['ui.router', 'ngResource', 'app.constants', 'duScroll', 'appirio-tech-ng-ui-components'];
+  dependencies = ['ui.router', 'ngResource', 'app.constants', 'duScroll', 'appirio-tech-ng-ui-components', 'appirio-tech-ng-api-services'];
 
   angular.module('appirio-tech-messaging', dependencies);
 
@@ -194,36 +194,6 @@
 
 (function() {
   'use strict';
-  var srv, transformResponse;
-
-  transformResponse = function(response) {
-    var parsed, ref;
-    parsed = JSON.parse(response);
-    return (parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0) || [];
-  };
-
-  srv = function($resource, API_URL) {
-    var methods, params, url;
-    url = API_URL + '/v3/messages/:id';
-    params = {
-      id: '@id'
-    };
-    methods = {
-      put: {
-        method: 'PUT'
-      }
-    };
-    return $resource(url, {}, methods);
-  };
-
-  srv.$inject = ['$resource', 'API_URL'];
-
-  angular.module('appirio-tech-messaging').factory('MessagesAPIService', srv);
-
-}).call(this);
-
-(function() {
-  'use strict';
   var srv;
 
   srv = function(ThreadsAPIService) {
@@ -254,44 +224,6 @@
   srv.$inject = ['ThreadsAPIService'];
 
   angular.module('appirio-tech-messaging').factory('ThreadsService', srv);
-
-}).call(this);
-
-(function() {
-  'use strict';
-  var srv, transformResponse;
-
-  transformResponse = function(response) {
-    var parsed, ref;
-    parsed = JSON.parse(response);
-    return (parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0) || {};
-  };
-
-  srv = function($resource, API_URL) {
-    var actions, params, url;
-    url = API_URL + '/v3/threads/:id';
-    params = {
-      id: '@id',
-      subscriberId: '@subscriberId'
-    };
-    actions = {
-      query: {
-        method: 'GET',
-        isArray: false,
-        transformResponse: transformResponse
-      },
-      get: {
-        method: 'GET',
-        isArray: false,
-        transformResponse: transformResponse
-      }
-    };
-    return $resource(url, params, actions);
-  };
-
-  srv.$inject = ['$resource', 'API_URL'];
-
-  angular.module('appirio-tech-messaging').factory('ThreadsAPIService', srv);
 
 }).call(this);
 
