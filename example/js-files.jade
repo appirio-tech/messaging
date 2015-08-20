@@ -1,0 +1,55 @@
+- var scripts  = []
+- var examples = []
+
+- examples.push('json-fixtures')
+- examples.push('../bower_components/sinon/index')
+- examples.push('../bower_components/auto-config-fake-server/dist/auto-config-fake-server')
+- examples.push('mock')
+- examples.push('constants')
+- examples.push('routes')
+- examples.push('example.controller')
+
+- var bowers   = []
+
+- scripts.push('messaging.module')
+- scripts.push('messaging.controller')
+- scripts.push('messaging.service')
+- scripts.push('messaging.directive')
+- scripts.push('threads.directive')
+- scripts.push('threads.service')
+- scripts.push('threads.controller')
+- scripts.push('time-lapse.filter')
+- scripts.push('templates')
+
+- bowers.push('angular/angular')
+- bowers.push('angular-resource/angular-resource')
+- bowers.push('angular-ui-router/release/angular-ui-router')
+- bowers.push('angular-scroll/angular-scroll')
+- bowers.push('moment/moment')
+- bowers.push('appirio-tech-ng-ui-components/dist/main')
+- bowers.push('appirio-tech-ng-api-services/dist/main')
+
+= "\n"
+// build:js lib.js
+= "\n"
+each path in bowers
+  script(src="bower_components/#{path}.js", type="text/javascript")
+  = "\n"
+// endbuild
+= "\n"
+
+// build:js main.js
+= "\n"
+each path in scripts
+  script(src="scripts/#{path}.js", type="text/javascript")
+  = "\n"
+// endbuild
+= "\n"
+
+// build:js example.js
+= "\n"
+each path in examples
+  script(src="scripts/#{path}.js", type="text/javascript")
+  = "\n"
+// endbuild
+= "\n"

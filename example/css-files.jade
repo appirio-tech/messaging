@@ -10,10 +10,16 @@ link(href="styles/main.css", rel="stylesheet")
 // endbuild
 = "\n"
 
+// build:css lib.css
+= "\n"
+link(href="bower_components/appirio-tech-ng-ui-components/dist/main.css", rel="stylesheet")
+= "\n"
+// endbuild
+= "\n"
+
 // build:css main.css
 = "\n"
 each path in portraitCSS
-  = "\n"
   link(href="styles/#{path}.css", rel="stylesheet")
   = "\n"
 = "\n"
