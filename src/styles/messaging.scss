@@ -42,10 +42,10 @@ messaging {
     background-color: $neutral-color-light;
 
     h6 {
-      margin: $margin-small;
+      margin: $margin $margin-small;
 
       &:first-child {
-        margin-top: $margin-small;
+        margin-top: $margin;
       }
     }
 
@@ -56,7 +56,7 @@ messaging {
         a {
           @include vertical-align-middle;
 
-          padding         : $padding-small;
+          padding         : $padding $padding-small;
           display         : block;
           background-color: $neutral-color-lightest;
 
@@ -109,7 +109,7 @@ messaging {
       background-color: $white;
       margin-top      : $margin-smallest;
       margin-left     : $avatar-width + $margin-small;
-      padding         : $padding-small;
+      padding         : $padding;
       position        : relative;
 
       &::before {
@@ -125,6 +125,14 @@ messaging {
         margin-top   : $margin-smallest;
       }
 
+      .name {
+        font-weight: bold;
+      }
+
+      .title {
+        font-size: $font-size-smallest;
+      }
+
       time {
         margin-left: $margin-small;
       }
@@ -133,8 +141,11 @@ messaging {
         margin-top: $margin-smallest/2;
       }
 
-      .download {
+      > .download {
         @include vertical-align-middle();
+
+        margin-top: $margin-smallest;
+        display: block;
 
         p {
           margin: 0 0 0 $margin-smallest;

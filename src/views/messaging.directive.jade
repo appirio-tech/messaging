@@ -45,7 +45,7 @@ main
       avatar(avatar-url="{{ vm.messaging.avatars[message.publisherId] }}")
 
       .message.elevated-bottom
-        a(href="#") Bill Clinton
+        a.name(href="#") Bill Clinton
 
         time {{ message.createdAt | timeLapse }}
 
