@@ -1,0 +1,24 @@
+ul.messages
+  li(ng-repeat="message in vm.messaging.messages track by $index")
+    avatar(avatar-url="{{ vm.messaging.avatars[message.publisherId] }}")
+
+    .message
+      p {{ message.body }}
+
+      ul.attachments
+        li(ng-repeat="attachment in message.attachments track by $index")
+          a(href="#") {{ message.attachments.originalUrl }}
+
+      time {{ message.createdAt | timeLapse }}
+
+  a(id="messaging-bottom-{{ vm.threadId }}")
+
+form(ng-submit="vm.sendMessage()")
+  textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
+
+  button.enter(type="submit") Enter
+
+  button.attach(type="button")
+    .icon
+
+    span Add Attachment

@@ -1,22 +1,6 @@
 doctype html
-html(ng-app='example')
+html(ng-app='appirio-tech-messaging')
   head
-    = "\n"
-    // removeIf(production)
-    = "\n"
-
-    script(type="text/javascript", src="/scripts/json-fixtures.js")
-
-    script(type="text/javascript", src="/bower_components/sinon/index.js")
-
-    script(type="text/javascript", src="/bower_components/auto-config-fake-server/dist/auto-config-fake-server.js")
-
-    script(type="text/javascript", src="/scripts/mock.js")
-
-    = "\n"
-    // endRemoveIf(production)
-    = "\n"
-
     title Messaging
 
     meta(charset='utf-8')
@@ -26,12 +10,6 @@ html(ng-app='example')
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no')
 
     include css-files
-
-    script(src="//use.typekit.net/jjo6pal.js")
-
-    script.
-      try{Typekit.load({ async: true });}catch(e){}
-
 
   body
     include nav

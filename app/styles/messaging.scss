@@ -1,0 +1,102 @@
+@import "work-includes";
+
+messaging.widget {
+  .messages {
+    max-height: 120px;
+  }
+
+  form {
+    margin-top: 10px;
+
+    textarea {
+      height          : 30px;
+      background-color: #E6E1E1;
+    }
+
+    button.attach {
+      display: none;
+    }
+
+    button.enter {
+      float           : left;
+      width           : 100px;
+      background-color: blue;
+      color           : white;
+      margin-top      : 10px;
+    }
+  }
+}
+
+messaging {
+  display: block;
+
+  @include clearfix;
+
+  .messages {
+    max-height: 500px;
+    overflow  : scroll;
+
+    > li {
+      @include flex-center();
+      @include flex-wrap(nowrap);
+
+      avatar {
+        min-width: 35px;
+      }
+
+      position  : relative;
+      padding   : 10px 0;
+      border-top: 1px solid #ccc;
+
+      &:first-child {
+        border-top: 0;
+      }
+
+      .message {
+        margin-left: $spacing-small;
+
+        .attachments {
+          li {
+            width           : 50px;
+            height          : 40px;
+            background-color: purple;
+            display         : inline-block;
+            margin          : 5px;
+
+            &:first-child {
+              margin-left: 0;
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  form {
+    margin-top: 20px;
+
+    textarea {
+      width  : 100%;
+      padding: 5px;
+      height : 75px;
+      border : 0;
+    }
+
+    .enter, .attach {
+      margin-top: 20px;
+    }
+
+    button.enter {
+      float           : left;
+      width           : 200px;
+      background-color: grey;
+      color           : white
+    }
+
+    button.attach {
+      float           : right;
+      background-color: initial;
+    }
+  }
+}
