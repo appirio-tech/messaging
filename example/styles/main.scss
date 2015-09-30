@@ -8,6 +8,14 @@ h1 {
   background-color: white;
   margin          : 0 auto;
   padding         : 20px;
+
+  messaging {
+    height: 900px;
+  }
+}
+
+body {
+  height: 100%;
 }
 
 body > .nav {

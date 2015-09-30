@@ -26,4 +26,4 @@ ThreadsController = ($scope, ThreadsService) ->
 
 ThreadsController.$inject = ['$scope', 'ThreadsService',]
 
-angular.module('appirio-tech-messaging').controller 'ThreadsController', ThreadsController
+angular.module('appirio-tech-ng-messaging').controller 'ThreadsController', ThreadsController

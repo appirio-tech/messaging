@@ -9,4 +9,4 @@ dependencies = [
   'appirio-tech-ng-api-services'
 ]
 
-angular.module 'appirio-tech-messaging', dependencies
+angular.module 'appirio-tech-ng-messaging', dependencies
