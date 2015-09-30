@@ -30,4 +30,4 @@ directive = (MessagingService) ->
 
 directive.$inject = ['MessagingService']
 
-angular.module('appirio-tech-messaging').directive 'messaging', directive
+angular.module('appirio-tech-ng-messaging').directive 'messaging', directive

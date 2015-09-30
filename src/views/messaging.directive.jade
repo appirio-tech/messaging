@@ -1,0 +1,73 @@
+aside
+  h6 Project contributors
+
+  ul
+    li
+      a(href="#")
+        avatar
+
+        .name-title
+          .name Francisco Arias
+
+          .title Development Co-Pilot
+
+        .notification 1
+
+    li
+      a(href="#")
+        avatar
+
+        .name-title
+          .name Francisco Arias
+
+          .title Development Co-Pilot
+
+        .notification 1000
+
+    li
+      a(href="#").active
+        avatar
+
+        .name-title
+          .name Francisco Arias
+
+          .title Development Co-Pilot
+
+        .notification 10
+
+main
+  h1 Messaging
+
+  p You have 231 messages with Francisco
+
+  ul.messages
+    li(ng-repeat="message in vm.messaging.messages track by $index")
+      avatar(avatar-url="{{ vm.messaging.avatars[message.publisherId] }}")
+
+      .message.elevated-bottom
+        a(href="#") Bill Clinton
+
+        time {{ message.createdAt | timeLapse }}
+
+        p.title Co-Pilot
+
+        p {{ message.body }}
+
+        ul.attachments
+          li(ng-repeat="attachment in message.attachments track by $index")
+            a(href="#") {{ message.attachments.originalUrl }}
+
+        a.download
+          .icon.download.smallest
+
+          p Download all images
+
+    a(id="messaging-bottom-{{ vm.threadId }}")
+
+  .respond
+    .icon.warning
+
+    form(ng-submit="vm.sendMessage()")
+      textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
+
+      button.wider.action(type="submit") reply

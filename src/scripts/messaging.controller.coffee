@@ -52,4 +52,4 @@ MessagingController = ($scope, MessagingService) ->
 
 MessagingController.$inject = ['$scope', 'MessagingService']
 
-angular.module('appirio-tech-messaging').controller 'MessagingController', MessagingController
+angular.module('appirio-tech-ng-messaging').controller 'MessagingController', MessagingController

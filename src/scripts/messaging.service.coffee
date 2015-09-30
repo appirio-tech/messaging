@@ -48,4 +48,4 @@ srv.$inject = [
   'ThreadsAPIService'
 ]
 
-angular.module('appirio-tech-messaging').factory 'MessagingService', srv
+angular.module('appirio-tech-ng-messaging').factory 'MessagingService', srv

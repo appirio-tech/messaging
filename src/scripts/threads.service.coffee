@@ -25,4 +25,4 @@ srv = (ThreadsAPIService) ->
 
 srv.$inject = ['ThreadsAPIService']
 
-angular.module('appirio-tech-messaging').factory 'ThreadsService', srv
+angular.module('appirio-tech-ng-messaging').factory 'ThreadsService', srv
