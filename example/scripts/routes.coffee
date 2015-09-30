@@ -23,6 +23,6 @@ config = ($stateProvider) ->
 
 config.$inject = ['$stateProvider']
 
-angular.module('appirio-tech-messaging').config(config).run()
+angular.module('example').config(config).run()
 
 

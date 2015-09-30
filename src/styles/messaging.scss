@@ -1,0 +1,182 @@
+@import "work-includes";
+
+$avatar-width: 35px;
+
+messaging.widget {
+  .messages {
+    max-height: 120px;
+  }
+
+  form {
+    margin-top: 10px;
+
+    textarea {
+      height          : 30px;
+      background-color: #E6E1E1;
+    }
+
+    button.attach {
+      display: none;
+    }
+
+    button.enter {
+      float           : left;
+      width           : 100px;
+      background-color: blue;
+      color           : white;
+      margin-top      : 10px;
+    }
+  }
+}
+
+messaging {
+  @include flex-center;
+  @include align-items(stretch);
+  @include flex-wrap(nowrap);
+
+  background-color: $neutral-color-lightest;
+
+  aside {
+    max-width       : 280px;
+    border-right    : 1px solid $neutral-color;
+    background-color: $neutral-color-light;
+
+    h6 {
+      margin: $margin-small;
+
+      &:first-child {
+        margin-top: $margin-small;
+      }
+    }
+
+    > ul {
+      > li {
+        margin-top: 1px;
+
+        a {
+          @include vertical-align-middle;
+
+          padding         : $padding-small;
+          display         : block;
+          background-color: $neutral-color-lightest;
+
+          &.active {
+            background-color: $primary-color;
+            color: $white;
+          }
+
+          &:hover {
+            background-color: $accent-color;
+            color: $white;
+          }
+
+          .name-title {
+            margin-left: $margin-smallest;
+          }
+        }
+      }
+    }
+  }
+
+  main {
+    @include flex-center(center);
+    @include flex-direction(column);
+    @include flex-grow(1);
+    @include flex-wrap(nowrap);
+
+    text-align: center;
+    padding: $padding;
+
+    avatar {
+      float: left;
+      width: $avatar-width;
+    }
+
+    .messages, .respond {
+      max-width: 600px;
+      width    : 100%;
+    }
+
+    .messages {
+      @include flex-grow(1);
+
+      overflow  : scroll;
+      margin-top: $margin;
+    }
+
+    .message {
+      text-align      : left;
+      background-color: $white;
+      margin-top      : $margin-smallest;
+      margin-left     : $avatar-width + $margin-small;
+      padding         : $padding-small;
+      position        : relative;
+
+      &::before {
+        content      : "";
+        position     : absolute;
+        top          : 0;
+        left         : -10px;
+        width        : 0;
+        height       : 0;
+        border-top   : 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-right:10px solid $white;
+        margin-top   : $margin-smallest;
+      }
+
+      time {
+        margin-left: $margin-small;
+      }
+
+      .title {
+        margin-top: $margin-smallest/2;
+      }
+
+      .download {
+        @include vertical-align-middle();
+
+        p {
+          margin: 0 0 0 $margin-smallest;
+        }
+      }
+
+      .attachments {
+        margin-top: $margin-small;
+
+        > li {
+          width           : 50px;
+          height          : 40px;
+          background-color: purple;
+          display         : inline-block;
+          margin          : 5px;
+
+          &:first-child {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .respond {
+    margin-top: $margin-small;
+
+    .icon {
+      float: left;
+    }
+
+    form {
+      text-align: left;
+      margin-left: $avatar-width + $margin-smallest;
+
+      textarea {
+        width  : 100%;
+      }
+
+      > button {
+        margin-top: $margin-small;
+      }
+    }
+  }
+}
