@@ -4,7 +4,7 @@
 
   dependencies = ['ui.router', 'ngResource', 'app.constants', 'duScroll', 'appirio-tech-ng-ui-components', 'appirio-tech-ng-api-services'];
 
-  angular.module('appirio-tech-messaging', dependencies);
+  angular.module('appirio-tech-ng-messaging', dependencies);
 
 }).call(this);
 
@@ -64,7 +64,7 @@
 
   MessagingController.$inject = ['$scope', 'MessagingService'];
 
-  angular.module('appirio-tech-messaging').controller('MessagingController', MessagingController);
+  angular.module('appirio-tech-ng-messaging').controller('MessagingController', MessagingController);
 
 }).call(this);
 
@@ -121,7 +121,7 @@
 
   srv.$inject = ['MessagesAPIService', 'ThreadsAPIService'];
 
-  angular.module('appirio-tech-messaging').factory('MessagingService', srv);
+  angular.module('appirio-tech-ng-messaging').factory('MessagingService', srv);
 
 }).call(this);
 
@@ -166,7 +166,7 @@
 
   directive.$inject = ['MessagingService'];
 
-  angular.module('appirio-tech-messaging').directive('messaging', directive);
+  angular.module('appirio-tech-ng-messaging').directive('messaging', directive);
 
 }).call(this);
 
@@ -188,7 +188,7 @@
 
   directive.$inject = ['MessagingService'];
 
-  angular.module('appirio-tech-messaging').directive('threads', directive);
+  angular.module('appirio-tech-ng-messaging').directive('threads', directive);
 
 }).call(this);
 
@@ -223,7 +223,7 @@
 
   srv.$inject = ['ThreadsAPIService'];
 
-  angular.module('appirio-tech-messaging').factory('ThreadsService', srv);
+  angular.module('appirio-tech-ng-messaging').factory('ThreadsService', srv);
 
 }).call(this);
 
@@ -263,7 +263,7 @@
 
   ThreadsController.$inject = ['$scope', 'ThreadsService'];
 
-  angular.module('appirio-tech-messaging').controller('ThreadsController', ThreadsController);
+  angular.module('appirio-tech-ng-messaging').controller('ThreadsController', ThreadsController);
 
 }).call(this);
 
@@ -277,9 +277,9 @@
     };
   };
 
-  angular.module('appirio-tech-messaging').filter('timeLapse', filter);
+  angular.module('appirio-tech-ng-messaging').filter('timeLapse', filter);
 
 }).call(this);
 
-angular.module("appirio-tech-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<ul class=\"messages\"><li ng-repeat=\"message in vm.messaging.messages track by $index\"><avatar avatar-url=\"{{ vm.messaging.avatars[message.publisherId] }}\"></avatar><div class=\"message\"><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><time>{{ message.createdAt | timeLapse }}</time></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" class=\"enter\">Enter</button><button type=\"button\" class=\"attach\"><div class=\"icon\"></div><span>Add Attachment</span></button></form>");
+angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<aside><h6>Project contributors</h6><ul><li><a href=\"#\"><avatar></avatar><div class=\"name-title\"><div class=\"name\">Francisco Arias</div><div class=\"title\">Development Co-Pilot</div></div><div class=\"notification\">1</div></a></li><li><a href=\"#\"><avatar></avatar><div class=\"name-title\"><div class=\"name\">Francisco Arias</div><div class=\"title\">Development Co-Pilot</div></div><div class=\"notification\">1000</div></a></li><li><a href=\"#\" class=\"active\"><avatar></avatar><div class=\"name-title\"><div class=\"name\">Francisco Arias</div><div class=\"title\">Development Co-Pilot</div></div><div class=\"notification\">10</div></a></li></ul></aside><main><h1>Messaging</h1><p>You have 231 messages with Francisco</p><ul class=\"messages\"><li ng-repeat=\"message in vm.messaging.messages track by $index\"><avatar avatar-url=\"{{ vm.messaging.avatars[message.publisherId] }}\"></avatar><div class=\"message elevated-bottom\"><a href=\"#\" class=\"name\">Bill Clinton</a><time>{{ message.createdAt | timeLapse }}</time><p class=\"title\">Co-Pilot</p><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><a class=\"download\"><div class=\"icon download smallest\"></div><p>Download all images</p></a></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><div class=\"icon warning\"></div><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" class=\"wider action\">reply</button></form></div></main>");
 $templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><a ui-sref=\"messaging({ id: thread.id })\"><header><h4>{{ thread.subject }}</h4><time>{{ thread.messages[0].createdAt | timeLapse }}</time></header><main><avatar avatar-url=\"{{ vm.avatars[thread.messages[0].publisherId]  }}\"></avatar><div ng-show=\"thread.unreadCount &gt; 0\" class=\"notification\">{{ thread.unreadCount }}</div><div class=\"message\"><div class=\"co-pilot\">{{ thread.messages[0].publisherId }}:</div><p>{{ thread.messages[0].body }}</p></div></main></a></li></ul><div ng-show=\"vm.threads.length == 0\" class=\"none\">None</div>");}]);
