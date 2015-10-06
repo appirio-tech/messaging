@@ -21,7 +21,7 @@ srv = (MessagesAPIService, ThreadsAPIService) ->
       subscriberId: params.subscriberId
       threadId    : params.id
 
-    MessagesAPIService.put queryParams, putParams
+    MessagesAPIService.patch queryParams, putParams
 
   postMessage = (params, message, onChange) ->
     resource = MessagesAPIService.put params, message
