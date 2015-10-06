@@ -2,50 +2,28 @@ aside
   h6 Project contributors
 
   ul
-    li
-      a(href="#")
+    li(ng-repeat="thread in vm.threads")
+      a(href="#" ng-click="vm.activateThread(thread)" ng-class="{active: vm.activeThread.id == thread.id}")
         avatar
 
         .name-title
-          .name Francisco Arias
+          .name {{thread.publishers[0]}}
 
           .title Development Co-Pilot
 
-        .notification 1
-
-    li
-      a(href="#")
-        avatar
-
-        .name-title
-          .name Francisco Arias
-
-          .title Development Co-Pilot
-
-        .notification 1000
-
-    li
-      a(href="#").active
-        avatar
-
-        .name-title
-          .name Francisco Arias
-
-          .title Development Co-Pilot
-
-        .notification 10
+        .notification {{thread.unreadCount}}
 
 main
   h1 Messaging
 
-  p You have 231 messages with Francisco
+  p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
 
   ul.messages
-    li(ng-repeat="message in vm.messaging.messages track by $index")
-      avatar(avatar-url="{{ vm.messaging.avatars[message.publisherId] }}")
+    li(ng-repeat="message in vm.activeThread.messages track by $index")
+      avatar(avatar-url="{{ vm.activeThread.publisherId.avatar }}")
 
       .message.elevated-bottom
-        a.name(href="#") Bill Clinton
+        a.name(href="#") {{vm.activeThread.publishers[0]}}
 
         time {{ message.createdAt | timeLapse }}
 
