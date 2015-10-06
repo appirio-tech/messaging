@@ -35,12 +35,12 @@ aside
 
         .notification 10
 
-main
+main.flex-center-column.flex-grow
   h1 Messaging
 
   p You have 231 messages with Francisco
 
-  ul.messages
+  ul.messages.flex-grow
     li(ng-repeat="message in vm.messaging.messages track by $index")
       avatar(avatar-url="{{ vm.messaging.avatars[message.publisherId] }}")
 
