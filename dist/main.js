@@ -109,7 +109,7 @@
         subscriberId: params.subscriberId,
         threadId: params.id
       };
-      return MessagesAPIService.put(queryParams, putParams);
+      return MessagesAPIService.patch(queryParams, putParams);
     };
     postMessage = function(params, message, onChange) {
       var resource;

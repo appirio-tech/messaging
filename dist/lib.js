@@ -38523,7 +38523,7 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
     actions = {
       query: {
         method: 'GET',
-        isArray: true,
+        isArray: false,
         transformResponse: transformResponse
       },
       get: {
