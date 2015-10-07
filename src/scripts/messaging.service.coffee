@@ -24,7 +24,7 @@ srv = (MessagesAPIService, ThreadsAPIService) ->
     MessagesAPIService.patch queryParams, putParams
 
   postMessage = (params, message, onChange) ->
-    resource = MessagesAPIService.put params, message
+    resource = MessagesAPIService.post message
 
     resource.$promise.then (response) ->
       onChange? message

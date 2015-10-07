@@ -13,7 +13,7 @@
   var MessagingController;
 
   MessagingController = function($scope, MessagingService) {
-    var activate, getUserThreads, onMessageChange, onThreadsChange, sendMessage, vm;
+    var activate, getUserThreads, onMessageChange, onThreadsChange, vm;
     vm = this;
     vm.currentUser = null;
     vm.activeThread = null;
@@ -59,7 +59,7 @@
         return MessagingService.getThreads(params, onThreadsChange);
       }
     };
-    sendMessage = function() {
+    vm.sendMessage = function() {
       var message, params;
       if (vm.newMessage.length && vm.activeThread) {
         message = {
@@ -113,7 +113,7 @@
     };
     postMessage = function(params, message, onChange) {
       var resource;
-      resource = MessagesAPIService.put(params, message);
+      resource = MessagesAPIService.post(message);
       resource.$promise.then(function(response) {
         return typeof onChange === "function" ? onChange(message) : void 0;
       });
