@@ -13,7 +13,7 @@
   var MessagingController;
 
   MessagingController = function($scope, MessagingService) {
-    var activate, getUserThreads, onMessageChange, onThreadsChange, vm;
+    var activate, getUserThreads, onMessageChange, onThreadsChange, sendMessage, vm;
     vm = this;
     vm.currentUser = null;
     vm.activeThread = null;
@@ -59,7 +59,7 @@
         return MessagingService.getThreads(params, onThreadsChange);
       }
     };
-    vm.sendMessage = function() {
+    sendMessage = function() {
       var message, params;
       if (vm.newMessage.length && vm.activeThread) {
         message = {

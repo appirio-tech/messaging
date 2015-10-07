@@ -41,7 +41,7 @@ MessagingController = ($scope, MessagingService) ->
 
       MessagingService.getThreads params, onThreadsChange
 
-  vm.sendMessage = ->
+  sendMessage = ->
     if vm.newMessage.length && vm.activeThread
       message =
         threadId   : vm.activeThread.id
