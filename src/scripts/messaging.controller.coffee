@@ -3,50 +3,58 @@
 MessagingController = ($scope, MessagingService) ->
   vm             = this
   vm.currentUser = null
+  vm.activeThread = null
 
-  onChange = (messages) ->
-    vm.messaging = messages
+  vm.activateThread = (thread) ->
+    vm.activeThread = thread
+
+    if thread.unreadCount > 0
+      params =
+        id          : thread.id
+        subscriberId: $scope.subscriberId
+
+      for message in thread.messages
+        MessagingService.markMessageRead message, params
+
+  onThreadsChange = (threads) ->
+    vm.threads = threads.threads
+
+  onMessageChange = (message) ->
+    vm.activeThread.messages.push message
+    vm.newMessage = ''
+    $scope.showLast = 'scroll'
 
   activate = ->
-    vm.messaging  =
-      messages: []
-
     vm.newMessage = ''
 
-    $scope.$watch 'threadId', ->
-      getUserMessages()
-
     $scope.$watch 'subscriberId', ->
-      getUserMessages()
+      getUserThreads()
 
     vm.sendMessage = sendMessage
 
     vm
 
-  getUserMessages =  ->
+  getUserThreads =  ->
     if $scope.threadId && $scope.subscriberId
       params =
-        id          : $scope.threadId
         subscriberId: $scope.subscriberId
 
-      MessagingService.getMessages params, onChange
+      MessagingService.getThreads params, onThreadsChange
 
   sendMessage = ->
-    if vm.newMessage.length
+    if vm.newMessage.length && vm.activeThread
       message =
-        threadId   : $scope.threadId
+        threadId   : vm.activeThread.id
         body       : vm.newMessage
         publisherId: $scope.subscriberId
         createdAt  : moment()
         attachments: []
 
-      vm.messaging.messages.push message
+      params =
+        threadId: vm.activeThread.id
 
-      MessagingService.postMessage message, onChange
+      MessagingService.postMessage params, message, onMessageChange
 
-      vm.newMessage = ''
-
-      $scope.showLast = 'scroll'
 
   activate()
 

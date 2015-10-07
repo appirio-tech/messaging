@@ -1,24 +1,16 @@
 'use strict'
 
 srv = (MessagesAPIService, ThreadsAPIService) ->
-  getMessages = (params, onChange) ->
-    messaging =
-      messages: []
-      avatars : {}
-
+  getThreads = (params, onChange) ->
     resource = ThreadsAPIService.get params
 
     resource.$promise.then (response) ->
-      messaging.messages = response?.messages
-
-      for message in messaging.messages
-        markMessageRead message, params
-
-      onChange? messaging
+      onChange? response
 
     resource.$promise.catch ->
 
     resource.$promise.finally ->
+
 
   markMessageRead = (message, params) ->
     queryParams =
@@ -27,21 +19,23 @@ srv = (MessagesAPIService, ThreadsAPIService) ->
     putParams =
       read        : true
       subscriberId: params.subscriberId
-      threadId    : params.id
 
     MessagesAPIService.put queryParams, putParams
 
-  postMessage = (message, onChange) ->
-    resource = MessagesAPIService.save message
+  postMessage = (params, message, onChange) ->
+    resource = MessagesAPIService.post message
 
     resource.$promise.then (response) ->
+      onChange? message
 
     resource.$promise.catch (response) ->
 
     resource.$promise.finally ->
+      # onChange? message
 
-  getMessages: getMessages
+  getThreads:  getThreads
   postMessage: postMessage
+  markMessageRead: markMessageRead
 
 srv.$inject = [
   'MessagesAPIService'
