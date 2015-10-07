@@ -38336,9 +38336,9 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
 
   srv = function($resource, API_URL) {
     var methods, params, url;
-    url = API_URL + '/v3/threads/:threadId/messages';
+    url = API_URL + '/v3/messages/:id';
     params = {
-      threadId: '@threadId'
+      id: '@id'
     };
     methods = {
       put: {
