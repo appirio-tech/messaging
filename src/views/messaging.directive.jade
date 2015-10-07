@@ -19,8 +19,8 @@ main.flex-center-column.flex-grow
   p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
 
   ul.messages.flex-grow
-    li(ng-repeat="message in vm.messaging.messages track by $index")
-      avatar(avatar-url="{{ vm.messaging.avatars[message.publisherId] }}")
+    li(ng-repeat="message in vm.activeThread.messages track by $index")
+      avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
 
       .message.elevated-bottom
         a.name(href="#") {{vm.activeThread.publishers[0]}}
