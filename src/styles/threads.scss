@@ -2,73 +2,65 @@
 
 threads {
   display: block;
-  background-color: white;
 
-  ul {
-    li {
+  > ul {
+    > li {
+      border-top: 1px solid $neutral-color-light;
+
       > a {
         display: block;
-        padding: 10px 6px;
+        padding: $padding;
+
+        &.unread {
+          background-color: $primary-color;
+
+          .app-name, time {
+            color: $white;
+          }
+        }
 
         &:hover {
-          background-color: #eee;
+          background-color: $accent-color;
+
+          .app-name, time {
+            color: $white;
+          }
         }
       }
-
-      @include clearfix;
-
-      border-top: 1px solid #ccc;
 
       &:first-child {
         border-top: none;
       }
 
-      header {
-        * {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        h4 {
-          @include ellipsis(70%);
+      .app-name {
+        @include ellipsis;
+
+        line-height: 18px; /* due to hidden overfluw from ellipsis */
+      }
+
+      .sender {
+        @include vertical-align-middle;
+
+        margin-top: $margin-smallest;
+
+        .name, time {
+          margin-left: $margin-smallest;
         }
 
-        time {
-          @include ellipsis(30%);
-          float: right;
+        .name {
+          @include ellipsis(120px);
+
+          color: $black;
+          font-weight: bold;
+          line-height: 18px; /* due to hidden overfluw from ellipsis */
         }
       }
 
-      main {
-        margin-top: 6px;
-        $avatar-diameter: 35px;
+      .message {
+        color: $black;
 
-        .notification {
-          position: absolute;
-          margin-left: $avatar-diameter - 10px;
-          margin-top: -4px;
-          padding: 2px 4px;
-          text-align: center;
-          display: inline-block;
-          line-height: 14px;
-          background-color: red;
-          border-radius: 10px;
-          font-size: 12px;
-          color: white;
-        }
-
-        .message {
-          overflow   : hidden;
-          margin-left: $avatar-diameter + 6px;
-          min-height : $avatar-diameter;
-
-          .co-pilot {
-            margin-bottom: 6px;
-          }
-
-          p {
-            @include ellipsis(100%);
-          }
-        }
+        margin-left: 35px + $margin-smallest; /* avatar width + margin */
+        margin-top: 0;
       }
     }
   }

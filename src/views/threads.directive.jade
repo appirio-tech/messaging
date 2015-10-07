@@ -1,19 +1,15 @@
 ul
   li(ng-repeat="thread in vm.threads track by $index")
-    a(ui-sref="messaging({ id: thread.id })")
-      header
-        h4 {{ thread.subject }}
+    a.unread(ui-sref="messaging({ id: thread.id })")
+      .app-name App name goes here
+
+      .sender
+        avatar(avatar-url="{{ vm.avatars[thread.messages[0].publisherId]  }}")
+
+        .name this is a very very very long name
 
         time {{ thread.messages[0].createdAt | timeLapse }}
 
-      main
-        avatar(avatar-url="{{ vm.avatars[thread.messages[0].publisherId]  }}")
-
-        .notification(ng-show="thread.unreadCount > 0") {{ thread.unreadCount }}
-
-        .message
-          .co-pilot {{ thread.messages[0].publisherId }}:
-
-          p {{ thread.messages[0].body }}
+      p.message {{ thread.messages[0].body }}
 
 .none(ng-show="vm.threads.length == 0") None
