@@ -42,10 +42,12 @@ messaging {
     background-color: $neutral-color-light;
 
     h6 {
-      margin: $margin $margin-small;
+      padding: $padding $padding-small;
+      background-color: $neutral-color-lightest;
+      text-align: center;
 
       &:first-child {
-        margin-top: $margin;
+        margin-top: 0;
       }
     }
 
