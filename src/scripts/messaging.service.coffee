@@ -11,7 +11,6 @@ srv = (MessagesAPIService, ThreadsAPIService) ->
 
     resource.$promise.finally ->
 
-
   markMessageRead = (message, params) ->
     queryParams =
       id: message.id

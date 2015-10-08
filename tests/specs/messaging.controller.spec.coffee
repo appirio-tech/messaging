@@ -19,13 +19,19 @@ describe 'MessagingController', ->
       vm            = $controller 'MessagingController', $scope: scope
       vm.newMessage = 'hello world'
       spy           = sinon.spy MessagingService, 'postMessage'
+      vm.activateThread
+        messages: []
+      vm.newMessage = 'abc'
       vm.sendMessage()
 
     afterEach ->
       spy.restore()
 
-    it 'should be able to send a message', ->
-      expect(vm.messaging.messages.length).to.be.ok
+    it 'should activate a thread', ->
+      vm.activateThread
+        messages: ['abc']
+      expect(vm.activeThread).to.eql
+        messages: ['abc']
 
     it 'should have called MessagingService.postMessage once', ->
       expect(spy.calledOnce).to.be.ok

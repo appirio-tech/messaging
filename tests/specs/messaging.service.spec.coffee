@@ -9,19 +9,19 @@ describe 'MessagingService', ->
   beforeEach inject (MessagingService) ->
     srv = MessagingService
 
-  it 'should have a getMessages method', ->
-    expect(srv.getMessages).to.be.ok
+  it 'should have a getThreads method', ->
+    expect(srv.getThreads).to.be.ok
 
   it 'should have a postMessage method', ->
     expect(srv.postMessage).to.be.ok
 
-  describe 'getMessages method', ->
+  describe 'getThreads method', ->
     beforeEach inject ($httpBackend) ->
       params =
         id          : '123'
         subscriberId: 'Batman'
 
-      srv.getMessages params, (response) ->
+      srv.getThreads params, (response) ->
         message = response
 
       $httpBackend.flush()
