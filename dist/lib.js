@@ -38341,6 +38341,12 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
       id: '@id'
     };
     methods = {
+      post: {
+        method: 'POST'
+      },
+      patch: {
+        method: 'PATCH'
+      },
       put: {
         method: 'PUT'
       }
