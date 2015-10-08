@@ -5,4 +5,28 @@ node_modules
 coverage
 .sass-cache
 
+# Eclipse Core
+.project
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+.metadata
+
+.prefs
+
+.component
+
+.settings/
+
+.DS_Store
+
+.git
+
+target/
+
+test-output/
+
+bin/
+
 
