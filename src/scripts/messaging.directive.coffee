@@ -1,6 +1,6 @@
 'use strict'
 
-directive = (MessagingService) ->
+directive = ->
   link = (scope, element, attrs) ->
     showLast = (newValue, oldValue) ->
       if newValue
@@ -28,6 +28,6 @@ directive = (MessagingService) ->
     threadId    : '@threadId'
     subscriberId: '@subscriberId'
 
-directive.$inject = ['MessagingService']
+directive.$inject = []
 
 angular.module('appirio-tech-ng-messaging').directive 'messaging', directive

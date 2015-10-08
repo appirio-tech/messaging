@@ -1,6 +1,6 @@
 'use strict'
 
-directive = (MessagingService) ->
+directive = ->
   restrict    : 'E'
   templateUrl : 'views/threads.directive.html'
   controller  : 'ThreadsController'
@@ -8,6 +8,6 @@ directive = (MessagingService) ->
   scope       :
     subscriberId: '@subscriberId'
 
-directive.$inject = ['MessagingService']
+directive.$inject = []
 
 angular.module('appirio-tech-ng-messaging').directive 'threads', directive

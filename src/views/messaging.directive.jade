@@ -1,4 +1,6 @@
 aside
+  loader(ng-show="vm.loadingThreads")
+
   h6 Project contributors
 
   ul
@@ -48,4 +50,6 @@ main.flex-center-column.flex-grow
     form(ng-submit="vm.sendMessage()")
       textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
 
-      button.wider.action(type="submit") reply
+      button.wider.action(type="submit" ng-hide="vm.sending") reply
+
+      button.wider.action(disabled=true ng-show="vm.sending") sending...

@@ -40,6 +40,7 @@ messaging {
     max-width       : 280px;
     border-right    : 1px solid $neutral-color;
     background-color: $neutral-color-light;
+    position        : relative; /* for loader */
 
     h6 {
       padding: $padding $padding-small;
@@ -82,7 +83,7 @@ messaging {
 
   > main {
     text-align: center;
-    padding: $padding;
+    padding   : $padding;
 
     avatar {
       float: left;

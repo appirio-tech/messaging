@@ -1,9 +1,12 @@
 'use strict'
 
-MessagingController = ($scope, MessagingService) ->
-  vm             = this
-  vm.currentUser = null
-  vm.activeThread = null
+MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
+  vm                 = this
+  vm.currentUser     = null
+  vm.activeThread    = null
+  vm.sending         = false
+  vm.loadingThreads  = false
+  vm.loadingMessages = false
 
   vm.activateThread = (thread) ->
     vm.activeThread = thread
@@ -14,15 +17,22 @@ MessagingController = ($scope, MessagingService) ->
         subscriberId: $scope.subscriberId
 
       for message in thread.messages
-        MessagingService.markMessageRead message, params
-
-  onThreadsChange = (threads) ->
-    vm.threads = threads.threads
+        markMessageRead message, params
 
   onMessageChange = (message) ->
     vm.activeThread.messages.push message
     vm.newMessage = ''
     $scope.showLast = 'scroll'
+
+  markMessageRead = (message, params) ->
+    queryParams =
+      id: message.id
+
+    putParams =
+      read        : true
+      subscriberId: params.subscriberId
+
+    MessagesAPIService.put queryParams, putParams
 
   activate = ->
     vm.newMessage = ''
@@ -39,7 +49,17 @@ MessagingController = ($scope, MessagingService) ->
       params =
         subscriberId: $scope.subscriberId
 
-      MessagingService.getThreads params, onThreadsChange
+      vm.loadingThreads = true
+
+      resource = ThreadsAPIService.get params
+
+      resource.$promise.then (response) ->
+        vm.threads = response.threads
+
+      resource.$promise.catch ->
+
+      resource.$promise.finally ->
+        vm.loadingThreads = false
 
   sendMessage = ->
     if vm.newMessage.length && vm.activeThread
@@ -53,11 +73,20 @@ MessagingController = ($scope, MessagingService) ->
       params =
         threadId: vm.activeThread.id
 
-      MessagingService.postMessage params, message, onMessageChange
+      vm.sending = true
 
+      resource = MessagesAPIService.post message
+
+      resource.$promise.then (response) ->
+        onMessageChange message
+
+      resource.$promise.catch (response) ->
+
+      resource.$promise.finally ->
+        vm.sending = false
 
   activate()
 
-MessagingController.$inject = ['$scope', 'MessagingService']
+MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'MessagingController', MessagingController
