@@ -2,38 +2,8 @@
 
 $avatar-width: 35px;
 
-messaging.widget {
-  .messages {
-    max-height: 120px;
-  }
-
-  form {
-    margin-top: 10px;
-
-    textarea {
-      height          : 30px;
-      background-color: #E6E1E1;
-    }
-
-    button.attach {
-      display: none;
-    }
-
-    button.enter {
-      float           : left;
-      width           : 100px;
-      background-color: blue;
-      color           : white;
-      margin-top      : 10px;
-    }
-  }
-}
-
 messaging {
-  @include flex-center;
-  @include align-items(stretch);
-  @include flex-wrap(nowrap);
-
+  display: block;
   background-color: $neutral-color-lightest;
 
   aside {
@@ -43,16 +13,15 @@ messaging {
     position        : relative; /* for loader */
 
     h6 {
-      padding: $padding $padding-small;
+      padding         : $padding $padding-small;
       background-color: $neutral-color-lightest;
-      text-align: center;
-
-      &:first-child {
-        margin-top: 0;
-      }
+      text-align      : center;
+      margin-top: 0;
     }
 
     > ul {
+      overflow: auto;
+
       > li {
         margin-top: 1px;
 
@@ -81,7 +50,7 @@ messaging {
     }
   }
 
-  > main {
+  main {
     text-align: center;
     padding   : $padding;
 
@@ -96,7 +65,7 @@ messaging {
     }
 
     .messages {
-      overflow  : scroll;
+      overflow  : auto;
       margin-top: $margin;
     }
 

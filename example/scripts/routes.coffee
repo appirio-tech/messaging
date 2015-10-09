@@ -8,11 +8,6 @@ config = ($stateProvider) ->
     title       : 'Messaging'
     templateUrl : 'views/messaging.html'
 
-  states['messaging-widget'] =
-    url         : '/messaging-widget'
-    title       : 'Messaging Widget'
-    templateUrl : 'views/messaging-widget.html'
-
   states['threads'] =
     url         : '/threads'
     title       : 'Threads'

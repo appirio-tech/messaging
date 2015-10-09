@@ -1,55 +1,56 @@
-aside
-  loader(ng-show="vm.loadingThreads")
+.flex.center.stretch(flush-height=true)
+  aside
+    loader(ng-show="vm.loadingThreads")
 
-  h6 Project contributors
+    h6 Project contributors
 
-  ul
-    li(ng-repeat="thread in vm.threads")
-      a(href="#" ng-click="vm.activateThread(thread)" ng-class="{active: vm.activeThread.id == thread.id}")
-        avatar
+    ul
+      li(ng-repeat="thread in vm.threads")
+        a(href="#" ng-click="vm.activateThread(thread)" ng-class="{active: vm.activeThread.id == thread.id}")
+          avatar
 
-        .name-title
-          .name {{thread.publishers[0]}}
+          .name-title
+            .name {{thread.publishers[0]}}
 
-          .title Development Co-Pilot
+            .title Development Co-Pilot
 
-        .notification {{thread.unreadCount}}
+          .notification {{thread.unreadCount}}
 
-main.flex-center-column.flex-grow
-  h1 Messaging
+  main.flex.column.middle.flex-grow
+    h1 Messaging
 
-  p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
+    p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
 
-  ul.messages.flex-grow
-    li(ng-repeat="message in vm.activeThread.messages track by $index")
-      avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
+    ul.messages.flex-grow
+      li(ng-repeat="message in vm.activeThread.messages track by $index")
+        avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
 
-      .message.elevated-bottom
-        a.name(href="#") {{vm.activeThread.publishers[0]}}
+        .message.elevated-bottom
+          a.name(href="#") {{vm.activeThread.publishers[0]}}
 
-        time {{ message.createdAt | timeLapse }}
+          time {{ message.createdAt | timeLapse }}
 
-        p.title Co-Pilot
+          p.title Co-Pilot
 
-        p {{ message.body }}
+          p {{ message.body }}
 
-        ul.attachments
-          li(ng-repeat="attachment in message.attachments track by $index")
-            a(href="#") {{ message.attachments.originalUrl }}
+          ul.attachments
+            li(ng-repeat="attachment in message.attachments track by $index")
+              a(href="#") {{ message.attachments.originalUrl }}
 
-        a.download
-          .icon.download.smallest
+          a.download
+            .icon.download.smallest
 
-          p Download all images
+            p Download all images
 
-    a(id="messaging-bottom-{{ vm.threadId }}")
+      a(id="messaging-bottom-{{ vm.threadId }}")
 
-  .respond
-    .icon.warning
+    .respond
+      .icon.warning
 
-    form(ng-submit="vm.sendMessage()")
-      textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
+      form(ng-submit="vm.sendMessage()")
+        textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
 
-      button.wider.action(type="submit" ng-hide="vm.sending") reply
+        button.wider.action(type="submit" ng-hide="vm.sending") reply
 
-      button.wider.action(disabled=true ng-show="vm.sending") sending...
+        button.wider.action(disabled=true ng-show="vm.sending") sending...
