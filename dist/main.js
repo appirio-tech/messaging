@@ -63,7 +63,7 @@
     };
     getUserThreads = function() {
       var params, resource;
-      if ($scope.threadId && $scope.subscriberId) {
+      if ($scope.subscriberId) {
         params = {
           subscriberId: $scope.subscriberId
         };
@@ -217,14 +217,10 @@
   'use strict';
   var ThreadsController;
 
-  ThreadsController = function($scope, ThreadsService) {
-    var activate, onChange, removeBlanks, vm;
+  ThreadsController = function($scope, ThreadsAPIService) {
+    var activate, getUserThreads, removeBlanks, vm;
     vm = this;
-    onChange = function(threadsVm) {
-      vm.threads = removeBlanks(threadsVm.threads);
-      vm.totalUnreadCount = threadsVm.totalUnreadCount;
-      return vm.avatars = threadsVm.avatars;
-    };
+    vm.loadingThreads = false;
     removeBlanks = function(threads) {
       var i, len, noBlanks, thread;
       noBlanks = [];
@@ -236,22 +232,36 @@
       }
       return noBlanks;
     };
+    getUserThreads = function() {
+      var params, resource;
+      params = {
+        subscriberId: $scope.subscriberId
+      };
+      vm.loadingThreads = true;
+      resource = ThreadsAPIService.get(params);
+      resource.$promise.then(function(response) {
+        vm.threads = removeBlanks(response.threads);
+        return vm.totalUnreadCount = response.totalUnreadCount;
+      });
+      resource.$promise["catch"](function() {});
+      return resource.$promise["finally"](function() {
+        return vm.loadingThreads = false;
+      });
+    };
     activate = function() {
       $scope.$watch('subscriberId', function() {
-        if ($scope.subscriberId.length) {
-          return ThreadsService.get($scope.subscriberId, onChange);
-        }
+        return getUserThreads();
       });
       return vm;
     };
     return activate();
   };
 
-  ThreadsController.$inject = ['$scope', 'ThreadsService'];
+  ThreadsController.$inject = ['$scope', 'ThreadsAPIService'];
 
   angular.module('appirio-tech-ng-messaging').controller('ThreadsController', ThreadsController);
 
 }).call(this);
 
-angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<aside><loader ng-show=\"vm.loadingThreads\"></loader><h6>Project contributors</h6><ul><li ng-repeat=\"thread in vm.threads\"><a href=\"#\" ng-click=\"vm.activateThread(thread)\" ng-class=\"{active: vm.activeThread.id == thread.id}\"><avatar></avatar><div class=\"name-title\"><div class=\"name\">{{thread.publishers[0]}}</div><div class=\"title\">Development Co-Pilot</div></div><div class=\"notification\">{{thread.unreadCount}}</div></a></li></ul></aside><main class=\"flex-center-column flex-grow\"><h1>Messaging</h1><p>You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}</p><ul class=\"messages flex-grow\"><li ng-repeat=\"message in vm.activeThread.messages track by $index\"><avatar avatar-url=\"{{ vm.activeThread[publisherId] }}\"></avatar><div class=\"message elevated-bottom\"><a href=\"#\" class=\"name\">{{vm.activeThread.publishers[0]}}</a><time>{{ message.createdAt | timeLapse }}</time><p class=\"title\">Co-Pilot</p><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><a class=\"download\"><div class=\"icon download smallest\"></div><p>Download all images</p></a></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><div class=\"icon warning\"></div><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.sending\" class=\"wider action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.sending\" class=\"wider action\">sending...</button></form></div></main>");
-$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><a ui-sref=\"messaging({ id: thread.id })\" class=\"unread\"><div class=\"app-name\">App name goes here</div><div class=\"sender\"><avatar avatar-url=\"{{ vm.avatars[thread.messages[0].publisherId]  }}\"></avatar><div class=\"name\">this is a very very very long name</div><time>{{ thread.messages[0].createdAt | timeLapse }}</time></div><p class=\"message\">{{ thread.messages[0].body }}</p></a></li></ul><div ng-show=\"vm.threads.length == 0\" class=\"none\">None</div>");}]);
+angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<div flush-height=\"flush-height\" class=\"flex center stretch\"><aside><loader ng-show=\"vm.loadingThreads\"></loader><h6>Project contributors</h6><ul><li ng-repeat=\"thread in vm.threads\"><a href=\"#\" ng-click=\"vm.activateThread(thread)\" ng-class=\"{active: vm.activeThread.id == thread.id}\"><avatar></avatar><div class=\"name-title\"><div class=\"name\">{{thread.publishers[0]}}</div><div class=\"title\">Development Co-Pilot</div></div><div class=\"notification\">{{thread.unreadCount}}</div></a></li></ul></aside><main class=\"flex column middle flex-grow\"><h1>Messaging</h1><p>You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}</p><ul class=\"messages flex-grow\"><li ng-repeat=\"message in vm.activeThread.messages track by $index\"><avatar avatar-url=\"{{ vm.activeThread[publisherId] }}\"></avatar><div class=\"message elevated-bottom\"><a href=\"#\" class=\"name\">{{vm.activeThread.publishers[0]}}</a><time>{{ message.createdAt | timeLapse }}</time><p class=\"title\">Co-Pilot</p><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><a class=\"download\"><div class=\"icon download smallest\"></div><p>Download all images</p></a></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><div class=\"icon warning\"></div><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.sending\" class=\"wider action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.sending\" class=\"wider action\">sending...</button></form></div></main></div>");
+$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><a ui-sref=\"messaging({ id: thread.id })\" ng-class=\"{unread: thread.unreadCount &gt; 0}\" class=\"unread\"><div class=\"app-name\">{{thread.subject}}</div><div class=\"sender\"><avatar avatar-url=\"{{ thread.publishers[0].avatar }}\"></avatar><div class=\"name\">{{thread.publishers[0]}}</div><time>{{ thread.messages[thread.messages.length -1].createdAt | timeLapse }}</time></div><p class=\"message\">{{ thread.messages[thread.messages.length -1].body }}</p></a></li></ul><div ng-show=\"vm.threads.length == 0\" class=\"none\">None</div>");}]);
