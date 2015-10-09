@@ -1,12 +1,8 @@
 'use strict'
 
-ThreadsController = ($scope, ThreadsService) ->
+ThreadsController = ($scope, ThreadsAPIService) ->
   vm = this
-
-  onChange = (threadsVm) ->
-    vm.threads          = removeBlanks threadsVm.threads
-    vm.totalUnreadCount = threadsVm.totalUnreadCount
-    vm.avatars          = threadsVm.avatars
+  vm.loadingThreads = false
 
   removeBlanks = (threads) ->
     noBlanks = []
@@ -16,14 +12,31 @@ ThreadsController = ($scope, ThreadsService) ->
 
     noBlanks
 
+  getUserThreads =  ->
+    params =
+      subscriberId: $scope.subscriberId
+
+    vm.loadingThreads = true
+
+    resource = ThreadsAPIService.get params
+
+    resource.$promise.then (response) ->
+      vm.threads          = removeBlanks response.threads
+      vm.totalUnreadCount = response.totalUnreadCount
+
+    resource.$promise.catch ->
+
+    resource.$promise.finally ->
+      vm.loadingThreads = false
+
   activate = ->
     $scope.$watch 'subscriberId', ->
-      ThreadsService.get $scope.subscriberId, onChange if $scope.subscriberId.length
+      getUserThreads()
 
     vm
 
   activate()
 
-ThreadsController.$inject = ['$scope', 'ThreadsService',]
+ThreadsController.$inject = ['$scope', 'ThreadsAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'ThreadsController', ThreadsController

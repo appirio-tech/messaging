@@ -45,7 +45,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
     vm
 
   getUserThreads =  ->
-    if $scope.threadId && $scope.subscriberId
+    if $scope.subscriberId
       params =
         subscriberId: $scope.subscriberId
 
