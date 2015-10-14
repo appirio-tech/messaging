@@ -41,7 +41,7 @@
     orderMessagesByCreationDate = function(messages) {
       var orderedMessages;
       orderedMessages = messages.sort(function(previous, next) {
-        return new Date(previous.createdAt - new Date(next.createdAt));
+        return new Date(previous.createdAt) - new Date(next.createdAt);
       });
       return orderedMessages;
     };

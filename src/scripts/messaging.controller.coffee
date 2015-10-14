@@ -22,7 +22,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
 
   orderMessagesByCreationDate = (messages) ->
     orderedMessages = messages.sort (previous, next) ->
-      new Date previous.createdAt - new Date next.createdAt
+      new Date(previous.createdAt) - new Date(next.createdAt)
 
     orderedMessages
 
