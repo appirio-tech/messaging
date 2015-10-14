@@ -22,11 +22,11 @@
     p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
 
     ul.messages.flex-grow
-      li(ng-repeat="message in vm.activeThread.messages track by $index")
+      li(ng-repeat="message in vm.activeThread.messages track by $index | orderBy:'-createdAt'")
         avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
 
         .message.elevated-bottom
-          a.name(href="#") {{vm.activeThread.publishers[0]}}
+          a.name(href="#") {{message.publisherId}}
 
           time {{ message.createdAt | timeLapse }}
 

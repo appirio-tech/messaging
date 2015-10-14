@@ -64,11 +64,11 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
   sendMessage = ->
     if vm.newMessage.length && vm.activeThread
       message =
-        threadId   : vm.activeThread.id
-        body       : vm.newMessage
-        publisherId: $scope.subscriberId
-        createdAt  : moment()
-        attachments: []
+        param:
+          publisherId: $scope.subscriberId
+          threadId   : vm.activeThread.id
+          body       : vm.newMessage
+          attachments: []
 
       params =
         threadId: vm.activeThread.id
@@ -78,7 +78,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
       resource = MessagesAPIService.post message
 
       resource.$promise.then (response) ->
-        onMessageChange message
+        onMessageChange message.param
 
       resource.$promise.catch (response) ->
 
