@@ -10,6 +10,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
 
   vm.activateThread = (thread) ->
     vm.activeThread = thread
+    thread.messages = orderMessagesByCreationDate(thread.messages)
 
     if thread.unreadCount > 0
       params =
@@ -18,6 +19,12 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
 
       for message in thread.messages
         markMessageRead message, params
+
+  orderMessagesByCreationDate = (messages) ->
+    orderedMessages = messages.sort (previous, next) ->
+      new Date previous.createdAt - new Date next.createdAt
+
+    orderedMessages
 
   onMessageChange = (message) ->
     vm.activeThread.messages.push message

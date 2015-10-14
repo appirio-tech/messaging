@@ -22,7 +22,7 @@
     p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
 
     ul.messages.flex-grow
-      li(ng-repeat="message in vm.activeThread.messages track by $index | orderBy:'-createdAt'")
+      li(ng-repeat="message in vm.activeThread.messages track by $index")
         avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
 
         .message.elevated-bottom
