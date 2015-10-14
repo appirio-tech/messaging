@@ -12,7 +12,7 @@
   'use strict';
   var MessagingController;
 
-  MessagingController = function($scope, MessagesAPIService, ThreadsAPIService) {
+  MessagingController = function($scope, MessagesAPIService, ThreadsAPIService, MessageUpdateAPIService) {
     var activate, getUserThreads, markMessageRead, onMessageChange, orderMessagesByCreationDate, sendMessage, vm;
     vm = this;
     vm.currentUser = null;
@@ -20,13 +20,13 @@
     vm.sending = false;
     vm.loadingThreads = false;
     vm.loadingMessages = false;
+    vm.workId = $scope.workId;
     vm.activateThread = function(thread) {
       var i, len, message, params, ref, results;
       vm.activeThread = thread;
       thread.messages = orderMessagesByCreationDate(thread.messages);
       if (thread.unreadCount > 0) {
         params = {
-          id: thread.id,
           subscriberId: $scope.subscriberId
         };
         ref = thread.messages;
@@ -53,13 +53,16 @@
     markMessageRead = function(message, params) {
       var putParams, queryParams;
       queryParams = {
-        id: message.id
+        workId: vm.workId,
+        messageId: message.id
       };
       putParams = {
-        read: true,
-        subscriberId: params.subscriberId
+        param: {
+          readFlag: true,
+          subscriberId: params.subscriberId
+        }
       };
-      return MessagesAPIService.put(queryParams, putParams);
+      return MessageUpdateAPIService.put(queryParams, putParams);
     };
     activate = function() {
       vm.newMessage = '';
@@ -114,7 +117,7 @@
     return activate();
   };
 
-  MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService'];
+  MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService', 'MessageUpdateAPIService'];
 
   angular.module('appirio-tech-ng-messaging').controller('MessagingController', MessagingController);
 
