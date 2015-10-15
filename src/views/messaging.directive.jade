@@ -26,7 +26,7 @@
         avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
 
         .message.elevated-bottom
-          a.name(href="#") {{vm.activeThread.publishers[0]}}
+          a.name(href="#") {{message.publisherId}}
 
           time {{ message.createdAt | timeLapse }}
 

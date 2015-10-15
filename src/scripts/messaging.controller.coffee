@@ -1,23 +1,31 @@
 'use strict'
 
-MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
+MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpdateAPIService) ->
   vm                 = this
   vm.currentUser     = null
   vm.activeThread    = null
   vm.sending         = false
   vm.loadingThreads  = false
   vm.loadingMessages = false
+  vm.workId          = $scope.workId
 
   vm.activateThread = (thread) ->
     vm.activeThread = thread
+    thread.messages = orderMessagesByCreationDate(thread.messages)
 
     if thread.unreadCount > 0
       params =
-        id          : thread.id
         subscriberId: $scope.subscriberId
 
-      for message in thread.messages
-        markMessageRead message, params
+      lastMessage = thread.messages[thread.messages.length - 1]
+
+      markMessageRead lastMessage, params
+
+  orderMessagesByCreationDate = (messages) ->
+    orderedMessages = messages.sort (previous, next) ->
+      new Date(previous.createdAt) - new Date(next.createdAt)
+
+    orderedMessages
 
   onMessageChange = (message) ->
     vm.activeThread.messages.push message
@@ -26,13 +34,15 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
 
   markMessageRead = (message, params) ->
     queryParams =
-      id: message.id
+      workId: vm.workId
+      messageId: message.id
 
     putParams =
-      read        : true
-      subscriberId: params.subscriberId
+      param:
+        readFlag:     true
+        subscriberId: params.subscriberId
 
-    MessagesAPIService.put queryParams, putParams
+    MessageUpdateAPIService.put queryParams, putParams
 
   activate = ->
     vm.newMessage = ''
@@ -64,11 +74,11 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
   sendMessage = ->
     if vm.newMessage.length && vm.activeThread
       message =
-        threadId   : vm.activeThread.id
-        body       : vm.newMessage
-        publisherId: $scope.subscriberId
-        createdAt  : moment()
-        attachments: []
+        param:
+          publisherId: $scope.subscriberId
+          threadId   : vm.activeThread.id
+          body       : vm.newMessage
+          attachments: []
 
       params =
         threadId: vm.activeThread.id
@@ -78,7 +88,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
       resource = MessagesAPIService.post message
 
       resource.$promise.then (response) ->
-        onMessageChange message
+        onMessageChange message.param
 
       resource.$promise.catch (response) ->
 
@@ -87,6 +97,6 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService) ->
 
   activate()
 
-MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService']
+MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService', 'MessageUpdateAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'MessagingController', MessagingController
