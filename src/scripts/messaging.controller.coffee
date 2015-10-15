@@ -17,9 +17,9 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
       params =
         subscriberId: $scope.subscriberId
 
-      lasMessage = thread.messages[thread.messages.length - 1]
+      lastMessage = thread.messages[thread.messages.length - 1]
 
-      markMessageRead thread.messages[lastMessage], params
+      markMessageRead lastMessage, params
 
   orderMessagesByCreationDate = (messages) ->
     orderedMessages = messages.sort (previous, next) ->

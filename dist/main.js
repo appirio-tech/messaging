@@ -22,20 +22,15 @@
     vm.loadingMessages = false;
     vm.workId = $scope.workId;
     vm.activateThread = function(thread) {
-      var i, len, message, params, ref, results;
+      var lastMessage, params;
       vm.activeThread = thread;
       thread.messages = orderMessagesByCreationDate(thread.messages);
       if (thread.unreadCount > 0) {
         params = {
           subscriberId: $scope.subscriberId
         };
-        ref = thread.messages;
-        results = [];
-        for (i = 0, len = ref.length; i < len; i++) {
-          message = ref[i];
-          results.push(markMessageRead(message, params));
-        }
-        return results;
+        lastMessage = thread.messages[thread.messages.length - 1];
+        return markMessageRead(lastMessage, params);
       }
     };
     orderMessagesByCreationDate = function(messages) {
