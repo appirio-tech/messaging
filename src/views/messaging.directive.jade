@@ -1,39 +1,38 @@
-.flex.center.stretch(flush-height=true)
-  main.flex.column.middle.flex-grow
-    h1 Messaging
+.flex.column.middle(flush-height=true)
+  h1 Messaging
 
-    p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
+  p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
 
-    ul.messages.flex-grow
-      li(ng-repeat="message in vm.activeThread.messages track by $index")
-        avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
+  ul.messages.flex-grow
+    li(ng-repeat="message in vm.activeThread.messages track by $index")
+      avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
 
-        .message.elevated-bottom
-          a.name(href="#") {{message.publisherId}}
+      .message.elevated-bottom
+        a.name(href="#") {{message.publisherId}}
 
-          time {{ message.createdAt | timeLapse }}
+        time {{ message.createdAt | timeLapse }}
 
-          p.title Co-Pilot
+        p.title Co-Pilot
 
-          p {{ message.body }}
+        p {{ message.body }}
 
-          ul.attachments
-            li(ng-repeat="attachment in message.attachments track by $index")
-              a(href="#") {{ message.attachments.originalUrl }}
+        ul.attachments
+          li(ng-repeat="attachment in message.attachments track by $index")
+            a(href="#") {{ message.attachments.originalUrl }}
 
-          a.download
-            .icon.download.smallest
+        a.download
+          .icon.download.smallest
 
-            p Download all images
+          p Download all images
 
-      a(id="messaging-bottom-{{ vm.threadId }}")
+    a(id="messaging-bottom-{{ vm.threadId }}")
 
-    .respond
-      .icon.warning
+  .respond
+    .icon.warning
 
-      form(ng-submit="vm.sendMessage()")
-        textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
+    form(ng-submit="vm.sendMessage()")
+      textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
 
-        button.wider.action(type="submit" ng-hide="vm.sending") reply
+      button.wider.action(type="submit" ng-hide="vm.sending") reply
 
-        button.wider.action(disabled=true ng-show="vm.sending") sending...
+      button.wider.action(disabled=true ng-show="vm.sending") sending...

@@ -3,89 +3,85 @@
 $avatar-width: 35px;
 
 messaging {
-  display: block;
+  display         : block;
   background-color: $neutral-color-lightest;
+  text-align      : center;
 
-  main {
-    text-align: center;
-    padding   : $padding;
+  avatar {
+    float: left;
+    width: $avatar-width;
+  }
 
-    avatar {
-      float: left;
-      width: $avatar-width;
+  .messages, .respond {
+    max-width: 600px;
+    width    : 100%;
+  }
+
+  .messages {
+    overflow  : auto;
+    margin-top: $margin;
+  }
+
+  .message {
+    text-align      : left;
+    background-color: $white;
+    margin-top      : $margin-smallest;
+    margin-left     : $avatar-width + $margin-small;
+    padding         : $padding;
+    position        : relative;
+
+    &::before {
+      content      : "";
+      position     : absolute;
+      top          : 0;
+      left         : -10px;
+      width        : 0;
+      height       : 0;
+      border-top   : 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-right:10px solid $white;
+      margin-top   : $margin-smallest;
     }
 
-    .messages, .respond {
-      max-width: 600px;
-      width    : 100%;
+    .name {
+      font-weight: bold;
     }
 
-    .messages {
-      overflow  : auto;
-      margin-top: $margin;
+    .title {
+      font-size: $font-size-smallest;
     }
 
-    .message {
-      text-align      : left;
-      background-color: $white;
-      margin-top      : $margin-smallest;
-      margin-left     : $avatar-width + $margin-small;
-      padding         : $padding;
-      position        : relative;
+    time {
+      margin-left: $margin-small;
+    }
 
-      &::before {
-        content      : "";
-        position     : absolute;
-        top          : 0;
-        left         : -10px;
-        width        : 0;
-        height       : 0;
-        border-top   : 10px solid transparent;
-        border-bottom: 10px solid transparent;
-        border-right:10px solid $white;
-        margin-top   : $margin-smallest;
+    .title {
+      margin-top: $margin-smallest/2;
+    }
+
+    > .download {
+      @include vertical-align-middle();
+
+      margin-top: $margin-smallest;
+      display: block;
+
+      p {
+        margin: 0 0 0 $margin-smallest;
       }
+    }
 
-      .name {
-        font-weight: bold;
-      }
+    .attachments {
+      margin-top: $margin-small;
 
-      .title {
-        font-size: $font-size-smallest;
-      }
+      > li {
+        width           : 50px;
+        height          : 40px;
+        background-color: purple;
+        display         : inline-block;
+        margin          : 5px;
 
-      time {
-        margin-left: $margin-small;
-      }
-
-      .title {
-        margin-top: $margin-smallest/2;
-      }
-
-      > .download {
-        @include vertical-align-middle();
-
-        margin-top: $margin-smallest;
-        display: block;
-
-        p {
-          margin: 0 0 0 $margin-smallest;
-        }
-      }
-
-      .attachments {
-        margin-top: $margin-small;
-
-        > li {
-          width           : 50px;
-          height          : 40px;
-          background-color: purple;
-          display         : inline-block;
-          margin          : 5px;
-
-          &:first-child {
-            margin-left: 0;
-          }
+        &:first-child {
+          margin-left: 0;
         }
       }
     }
