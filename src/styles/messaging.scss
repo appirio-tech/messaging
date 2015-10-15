@@ -6,50 +6,6 @@ messaging {
   display: block;
   background-color: $neutral-color-lightest;
 
-  aside {
-    max-width       : 280px;
-    border-right    : 1px solid $neutral-color;
-    background-color: $neutral-color-light;
-    position        : relative; /* for loader */
-
-    h6 {
-      padding         : $padding $padding-small;
-      background-color: $neutral-color-lightest;
-      text-align      : center;
-      margin-top: 0;
-    }
-
-    > ul {
-      overflow: auto;
-
-      > li {
-        margin-top: 1px;
-
-        a {
-          @include vertical-align-middle;
-
-          padding         : $padding $padding-small;
-          display         : block;
-          background-color: $neutral-color-lightest;
-
-          &.active {
-            background-color: $primary-color;
-            color: $white;
-          }
-
-          &:hover {
-            background-color: $accent-color;
-            color: $white;
-          }
-
-          .name-title, .notification {
-            margin-left: $margin-smallest;
-          }
-        }
-      }
-    }
-  }
-
   main {
     text-align: center;
     padding   : $padding;

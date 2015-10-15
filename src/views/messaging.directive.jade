@@ -1,21 +1,4 @@
 .flex.center.stretch(flush-height=true)
-  aside
-    loader(ng-show="vm.loadingThreads")
-
-    h6 Project contributors
-
-    ul
-      li(ng-repeat="thread in vm.threads")
-        a(href="#" ng-click="vm.activateThread(thread)" ng-class="{active: vm.activeThread.id == thread.id}")
-          avatar
-
-          .name-title
-            .name {{thread.publishers[0]}}
-
-            .title Development Co-Pilot
-
-          .notification {{thread.unreadCount}}
-
   main.flex.column.middle.flex-grow
     h1 Messaging
 
