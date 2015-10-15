@@ -8,18 +8,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
   vm.loadingThreads  = false
   vm.loadingMessages = false
   vm.workId          = $scope.workId
-
-  vm.activateThread = (thread) ->
-    vm.activeThread = thread
-    thread.messages = orderMessagesByCreationDate(thread.messages)
-
-    if thread.unreadCount > 0
-      params =
-        subscriberId: $scope.subscriberId
-
-      lastMessage = thread.messages[thread.messages.length - 1]
-
-      markMessageRead lastMessage, params
+  vm.threadId        = $scope.threadId
 
   orderMessagesByCreationDate = (messages) ->
     orderedMessages = messages.sort (previous, next) ->
@@ -32,7 +21,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
     vm.newMessage = ''
     $scope.showLast = 'scroll'
 
-  markMessageRead = (message, params) ->
+  markMessageRead = (message) ->
     queryParams =
       workId: vm.workId
       messageId: message.id
@@ -40,7 +29,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
     putParams =
       param:
         readFlag:     true
-        subscriberId: params.subscriberId
+        subscriberId: $scope.subscriberId
 
     MessageUpdateAPIService.put queryParams, putParams
 
@@ -48,23 +37,28 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
     vm.newMessage = ''
 
     $scope.$watch 'subscriberId', ->
-      getUserThreads()
+      getThread()
 
     vm.sendMessage = sendMessage
 
     vm
 
-  getUserThreads =  ->
+  getThread =  ->
     if $scope.subscriberId
       params =
         subscriberId: $scope.subscriberId
+        id:     vm.threadId
 
       vm.loadingThreads = true
 
       resource = ThreadsAPIService.get params
 
       resource.$promise.then (response) ->
-        vm.threads = response.threads
+        vm.thread = response
+        vm.thread.messages = orderMessagesByCreationDate(vm.thread.messages)
+        if vm.thread.unreadCount > 0
+          lastMessage = vm.thread.messages[vm.thread.messages.length - 1]
+          markMessageRead lastMessage
 
       resource.$promise.catch ->
 
@@ -72,16 +66,16 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
         vm.loadingThreads = false
 
   sendMessage = ->
-    if vm.newMessage.length && vm.activeThread
+    if vm.newMessage.length && vm.thread
       message =
         param:
           publisherId: $scope.subscriberId
-          threadId   : vm.activeThread.id
+          threadId   : vm.thread.id
           body       : vm.newMessage
           attachments: []
 
       params =
-        threadId: vm.activeThread.id
+        threadId: vm.thread.id
 
       vm.sending = true
 
