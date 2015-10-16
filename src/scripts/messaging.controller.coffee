@@ -17,7 +17,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
     orderedMessages
 
   onMessageChange = (message) ->
-    vm.activeThread.messages.push message
+    vm.thread.messages.push message
     vm.newMessage = ''
     $scope.showLast = 'scroll'
 
@@ -70,12 +70,9 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
       message =
         param:
           publisherId: $scope.subscriberId
-          threadId   : vm.thread.id
+          threadId   : vm.threadId
           body       : vm.newMessage
           attachments: []
-
-      params =
-        threadId: vm.thread.id
 
       vm.sending = true
 

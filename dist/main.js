@@ -30,7 +30,7 @@
       return orderedMessages;
     };
     onMessageChange = function(message) {
-      vm.activeThread.messages.push(message);
+      vm.thread.messages.push(message);
       vm.newMessage = '';
       return $scope.showLast = 'scroll';
     };
@@ -81,18 +81,15 @@
       }
     };
     sendMessage = function() {
-      var message, params, resource;
+      var message, resource;
       if (vm.newMessage.length && vm.thread) {
         message = {
           param: {
             publisherId: $scope.subscriberId,
-            threadId: vm.thread.id,
+            threadId: vm.threadId,
             body: vm.newMessage,
             attachments: []
           }
-        };
-        params = {
-          threadId: vm.thread.id
         };
         vm.sending = true;
         resource = MessagesAPIService.post(message);
