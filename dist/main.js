@@ -24,13 +24,16 @@
     vm.threadId = $scope.threadId;
     orderMessagesByCreationDate = function(messages) {
       var orderedMessages;
-      orderedMessages = messages.sort(function(previous, next) {
+      orderedMessages = messages != null ? messages.sort(function(previous, next) {
         return new Date(previous.createdAt) - new Date(next.createdAt);
-      });
+      }) : void 0;
       return orderedMessages;
     };
     onMessageChange = function(message) {
-      vm.thread.messages.push(message);
+      var ref;
+      if ((ref = vm.thread) != null) {
+        ref.messages.push(message);
+      }
       vm.newMessage = '';
       return $scope.showLast = 'scroll';
     };
