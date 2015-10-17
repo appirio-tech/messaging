@@ -223,15 +223,18 @@
     vm = this;
     vm.loadingThreads = false;
     removeBlanks = function(threads) {
-      var i, len, noBlanks, ref, thread;
+      var i, len, noBlanks, ref, ref1, thread;
       noBlanks = [];
-      for (i = 0, len = threads.length; i < len; i++) {
-        thread = threads[i];
-        if (thread != null ? (ref = thread.messages) != null ? ref.length : void 0 : void 0) {
-          noBlanks.push(thread);
+      if (threads) {
+        ref = threads != null;
+        for (i = 0, len = ref.length; i < len; i++) {
+          thread = ref[i];
+          if (thread != null ? (ref1 = thread.messages) != null ? ref1.length : void 0 : void 0) {
+            noBlanks.push(thread);
+          }
         }
+        return noBlanks;
       }
-      return noBlanks;
     };
     getUserThreads = function() {
       var params, resource;
