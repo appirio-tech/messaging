@@ -1,6 +1,6 @@
 ul
   li(ng-repeat="thread in vm.threads track by $index")
-    a.unread(ui-sref="messaging({ id: thread.id })" ng-class="{unread: thread.unreadCount > 0}")
+    a.unread(ui-sref="messaging({ id: thread.id.substr(10), threadId: thread.id })" ng-class="{unread: thread.unreadCount > 0}")
       .app-name {{thread.subject}}
 
       .sender

@@ -25,6 +25,7 @@ directive = ->
   controller  : 'MessagingController'
   controllerAs: 'vm'
   scope       :
+    threadId  : '@threadId'
     workId    : '@workId'
     subscriberId: '@subscriberId'
 

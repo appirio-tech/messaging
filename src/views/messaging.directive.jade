@@ -1,11 +1,11 @@
 .flex.column.middle(flush-height=true)
   h1 Messaging
 
-  p You have {{vm.activeThread.messages.length}} messages with {{vm.activeThread.publishers[0]}}
+  p You have {{vm.thread.messages.length}} messages with {{vm.thread.publishers[0]}}
 
   ul.messages.flex-grow
-    li(ng-repeat="message in vm.activeThread.messages track by $index")
-      avatar(avatar-url="{{ vm.activeThread[publisherId] }}")
+    li(ng-repeat="message in vm.thread.messages track by $index")
+      avatar(avatar-url="{{ vm.thread[publisherId] }}")
 
       .message.elevated-bottom
         a.name(href="#") {{message.publisherId}}
@@ -20,7 +20,7 @@
           li(ng-repeat="attachment in message.attachments track by $index")
             a(href="#") {{ message.attachments.originalUrl }}
 
-        a.download
+        a(ng-if="message.attachments.length > 0").download
           .icon.download.smallest
 
           p Download all images

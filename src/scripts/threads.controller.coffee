@@ -6,11 +6,11 @@ ThreadsController = ($scope, ThreadsAPIService) ->
 
   removeBlanks = (threads) ->
     noBlanks = []
+    if threads
+      for thread in threads?
+        noBlanks.push thread if thread?.messages?.length
 
-    for thread in threads
-      noBlanks.push thread if thread.messages.length
-
-    noBlanks
+      noBlanks
 
   getUserThreads =  ->
     params =
@@ -21,8 +21,8 @@ ThreadsController = ($scope, ThreadsAPIService) ->
     resource = ThreadsAPIService.get params
 
     resource.$promise.then (response) ->
-      vm.threads          = removeBlanks response.threads
-      vm.totalUnreadCount = response.totalUnreadCount
+      vm.threads          = removeBlanks response?.threads
+      vm.totalUnreadCount = response?.totalUnreadCount
 
     resource.$promise.catch ->
 
