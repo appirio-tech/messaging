@@ -6,11 +6,11 @@ ThreadsController = ($scope, ThreadsAPIService) ->
 
   removeBlanks = (threads) ->
     noBlanks = []
+    if threads
+      for thread in threads?
+        noBlanks.push thread if thread?.messages?.length
 
-    for thread in threads
-      noBlanks.push thread if thread?.messages?.length
-
-    noBlanks
+      noBlanks
 
   getUserThreads =  ->
     params =
