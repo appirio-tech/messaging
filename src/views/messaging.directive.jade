@@ -20,7 +20,7 @@
           li(ng-repeat="attachment in message.attachments track by $index")
             a(href="#") {{ message.attachments.originalUrl }}
 
-        a(ng-if="message.attachments.length > 0").download
+        a.download(ng-if="message.attachments.length > 0")
           .icon.download.smallest
 
           p Download all images
