@@ -11,13 +11,13 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
   vm.threadId        = $scope.threadId
 
   orderMessagesByCreationDate = (messages) ->
-    orderedMessages = messages.sort (previous, next) ->
+    orderedMessages = messages?.sort (previous, next) ->
       new Date(previous.createdAt) - new Date(next.createdAt)
 
     orderedMessages
 
   onMessageChange = (message) ->
-    vm.thread.messages.push message
+    vm.thread?.messages.push message
     vm.newMessage = ''
     $scope.showLast = 'scroll'
 
