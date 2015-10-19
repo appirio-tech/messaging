@@ -38,9 +38,9 @@
       return $scope.showLast = 'scroll';
     };
     markMessageRead = function(message) {
-      var putParams, queryParams;
+      var putParams, queryParams, resource;
       queryParams = {
-        workId: vm.workId,
+        threadId: vm.threadId,
         messageId: message.id
       };
       putParams = {
@@ -49,7 +49,9 @@
           subscriberId: $scope.subscriberId
         }
       };
-      return MessageUpdateAPIService.put(queryParams, putParams);
+      resource = MessageUpdateAPIService.put(queryParams, putParams);
+      resource.$promise.then(function(response) {});
+      return resource.$promise["finally"](function() {});
     };
     activate = function() {
       vm.newMessage = '';
@@ -226,13 +228,12 @@
     vm = this;
     vm.loadingThreads = false;
     removeBlanks = function(threads) {
-      var i, len, noBlanks, ref, ref1, thread;
+      var i, len, noBlanks, ref, thread;
       noBlanks = [];
       if (threads) {
-        ref = threads != null;
-        for (i = 0, len = ref.length; i < len; i++) {
-          thread = ref[i];
-          if (thread != null ? (ref1 = thread.messages) != null ? ref1.length : void 0 : void 0) {
+        for (i = 0, len = threads.length; i < len; i++) {
+          thread = threads[i];
+          if (thread != null ? (ref = thread.messages) != null ? ref.length : void 0 : void 0) {
             noBlanks.push(thread);
           }
         }
@@ -271,4 +272,4 @@
 }).call(this);
 
 angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<div flush-height=\"flush-height\" class=\"flex column middle\"><h1>Messaging</h1><p>You have {{vm.thread.messages.length}} messages with {{vm.thread.publishers[0]}}</p><ul class=\"messages flex-grow\"><li ng-repeat=\"message in vm.thread.messages track by $index\"><avatar avatar-url=\"{{ vm.thread[publisherId] }}\"></avatar><div class=\"message elevated-bottom\"><a href=\"#\" class=\"name\">{{message.publisherId}}</a><time>{{ message.createdAt | timeLapse }}</time><p class=\"title\">Co-Pilot</p><p>{{ message.body }}</p><ul class=\"attachments\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"#\">{{ message.attachments.originalUrl }}</a></li></ul><a ng-if=\"message.attachments.length &gt; 0\" class=\"download\"><div class=\"icon download smallest\"></div><p>Download all images</p></a></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><div class=\"icon warning\"></div><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.sending\" class=\"wider action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.sending\" class=\"wider action\">sending...</button></form></div></div>");
-$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><a ui-sref=\"messaging({ id: thread.id.substr(10), threadId: thread.id })\" ng-class=\"{unread: thread.unreadCount &gt; 0}\" class=\"unread\"><div class=\"app-name\">{{thread.subject}}</div><div class=\"sender\"><avatar avatar-url=\"{{ thread.publishers[0].avatar }}\"></avatar><div class=\"name\">{{thread.publishers[0]}}</div><time>{{ thread.messages[thread.messages.length -1].createdAt | timeLapse }}</time></div><p class=\"message\">{{ thread.messages[thread.messages.length -1].body }}</p></a></li></ul><div ng-show=\"vm.threads.length == 0\" class=\"none\">None</div>");}]);
+$templateCache.put("views/threads.directive.html","<ul><li ng-repeat=\"thread in vm.threads track by $index\"><a ui-sref=\"messaging({ id: thread.id.substr(10), threadId: thread.id })\" ng-class=\"{unread: thread.unreadCount &gt; 0}\"><div class=\"app-name\">{{thread.subject}}</div><div class=\"sender\"><avatar avatar-url=\"{{ thread.publishers[0].avatar }}\"></avatar><div class=\"name\">{{thread.publishers[0]}}</div><time>{{ thread.messages[thread.messages.length -1].createdAt | timeLapse }}</time></div><p class=\"message\">{{ thread.messages[thread.messages.length -1].body }}</p></a></li></ul><div ng-show=\"vm.threads.length == 0\" class=\"none\">None</div>");}]);
