@@ -23,7 +23,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
 
   markMessageRead = (message) ->
     queryParams =
-      workId: vm.workId
+      threadId: vm.threadId
       messageId: message.id
 
     putParams =
@@ -31,7 +31,11 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
         readFlag:     true
         subscriberId: $scope.subscriberId
 
-    MessageUpdateAPIService.put queryParams, putParams
+    resource = MessageUpdateAPIService.put queryParams, putParams
+
+    resource.$promise.then (response) ->
+
+    resource.$promise.finally ->
 
   activate = ->
     vm.newMessage = ''
