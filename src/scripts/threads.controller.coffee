@@ -4,13 +4,14 @@ ThreadsController = ($scope, ThreadsAPIService) ->
   vm = this
   vm.loadingThreads = false
 
-  removeBlanks = (threads) ->
-    noBlanks = []
+  removeExtraThreads = (threads) ->
+    filteredThreads = []
+    # only show threads with messages and between copilot & user
     if threads
       for thread in threads
-        noBlanks.push thread if thread?.messages?.length
+        filteredThreads.push thread if thread.messages?.length && (thread.id?.substr(0, 10) == 'threadfor-')
 
-      noBlanks
+      filteredThreads
 
   getUserThreads =  ->
     params =
@@ -21,8 +22,16 @@ ThreadsController = ($scope, ThreadsAPIService) ->
     resource = ThreadsAPIService.get params
 
     resource.$promise.then (response) ->
-      vm.threads          = removeBlanks response?.threads
-      vm.totalUnreadCount = response?.totalUnreadCount
+      vm.threads          = removeExtraThreads response?.threads
+
+      unreadCounts = vm.threads?.map (thread) ->
+        thread.unreadCount
+
+      vm.totalUnreadCount = unreadCounts?.reduce (previous, next) ->
+        previous + next
+      , 0
+
+      # vm.totalUnreadCount = response?.totalUnreadCount
 
     resource.$promise.catch ->
 
