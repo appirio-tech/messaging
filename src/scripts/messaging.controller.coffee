@@ -1,6 +1,6 @@
 'use strict'
 
-MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpdateAPIService) ->
+MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
   vm                 = this
   vm.currentUser     = null
   vm.activeThread    = null
@@ -9,6 +9,7 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
   vm.loadingMessages = false
   vm.workId          = $scope.workId
   vm.threadId        = $scope.threadId
+  vm.subscriberId          = $scope.subscriberId
 
   orderMessagesByCreationDate = (messages) ->
     orderedMessages = messages?.sort (previous, next) ->
@@ -50,12 +51,11 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
   getThread =  ->
     if $scope.subscriberId
       params =
-        subscriberId: $scope.subscriberId
-        id:     vm.threadId
+        threadId:     vm.threadId
 
       vm.loadingThreads = true
 
-      resource = ThreadsAPIService.get params
+      resource = InboxesAPIService.get params
 
       resource.$promise.then (response) ->
         vm.thread = response
@@ -92,6 +92,6 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, MessageUpd
 
   activate()
 
-MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService', 'MessageUpdateAPIService']
+MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'MessagingController', MessagingController
