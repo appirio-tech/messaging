@@ -1,36 +1,35 @@
-.flex.column.middle(flush-height=true)
-  p You have {{vm.thread.messages.length}} messages with {{vm.thread.messages[0].publisher.handle}}
+p You have {{vm.thread.messages.length}} messages with {{vm.thread.messages[0].publisher.handle}}
 
-  ul.messages.flex-grow
-    li(ng-repeat="message in vm.thread.messages track by $index")
-      avatar(avatar-url="{{ message.publisher.avatar }}")
+ul.messages.flex-grow
+  li(ng-repeat="message in vm.thread.messages track by $index")
+    avatar(avatar-url="{{ message.publisher.avatar }}")
 
-      .message.elevated-bottom
-        a.name(href="#") {{message.publisher.handle}}
+    .message.elevated-bottom
+      a.name(href="#") {{message.publisher.handle}}
 
-        time {{ message.createdAt | timeLapse }}
+      time {{ message.createdAt | timeLapse }}
 
-        p.title(ng-if="message.publisher.role != null") {{message.publisher.role}}
+      p.title(ng-if="message.publisher.role != null") {{message.publisher.role}}
 
-        p {{ message.body }}
+      p {{ message.body }}
 
-        ul.attachments
-          li(ng-repeat="attachment in message.attachments track by $index")
-            a(href="#") {{ message.attachments.originalUrl }}
+      ul.attachments
+        li(ng-repeat="attachment in message.attachments track by $index")
+          a(href="#") {{ message.attachments.originalUrl }}
 
-        a.download(ng-if="message.attachments.length > 0")
-          .icon.download.smallest
+      a.download(ng-if="message.attachments.length > 0")
+        .icon.download.smallest
 
-          p Download all images
+        p Download all images
 
-    a(id="messaging-bottom-{{ vm.threadId }}")
+  a(id="messaging-bottom-{{ vm.threadId }}")
 
-  .respond
-    //- .icon.warning for file upload
+.respond
+  //- .icon.warning for file upload
 
-    form(ng-submit="vm.sendMessage()")
-      textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
+  form(ng-submit="vm.sendMessage()")
+    textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
 
-      button.wider.action(type="submit" ng-hide="vm.sending") reply
+    button.wider.action(type="submit" ng-hide="vm.sending") reply
 
-      button.wider.action(disabled=true ng-show="vm.sending") sending...
+    button.wider.action(disabled=true ng-show="vm.sending") sending...
