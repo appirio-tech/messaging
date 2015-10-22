@@ -39344,8 +39344,8 @@ $templateCache.put("views/checkbox.directive.html","<div class=\"flex middle\"><
 $templateCache.put("views/countdown.directive.html","<ul class=\"countdown\"><li ng-if=\"vm.days &gt; 0\"><span class=\"value\">{{ vm.days }}</span><span class=\"unit\">day<span ng-if=\"vm.days &gt; 1\">s</span></span></li><li ng-if=\"vm.hours &gt; 0 || vm.days &gt; 0\"><span class=\"value\">{{ vm.hours }}</span><span class=\"unit\">hr<span ng-if=\"vm.hours &gt; 1\">s</span></span></li><li ng-if=\"vm.minutes &gt; 0 || vm.hours &gt; 0 || vm.days &gt; 0\"><span class=\"value\">{{ vm.minutes }}</span><span class=\"unit\">min<span ng-if=\"vm.minutes &gt; 1\">s</span></span></li><li><span class=\"value\">{{ vm.seconds }}</span><span class=\"unit\">sec<span ng-if=\"vm.seconds &gt; 1\">s</span></span></li></ul>");
 $templateCache.put("views/loader.directive.html","<div class=\"container\"><div class=\"loader\"></div></div>");
 $templateCache.put("views/modal.directive.html","");
-$templateCache.put("views/selectable.directive.html","<div ng-show=\"!label &amp;&amp; !vm.isSelected()\">Select</div><div ng-show=\"!label &amp;&amp; vm.isSelected()\">Selected</div><div ng-show=\"label\">{{ label }}</div><div class=\"icon-container\"><div class=\"icon checkmark smallest\"></div></div>");
-$templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\'checked\': vm.isSelected(), \'action\': vm.isSelected()}\" ng-click=\"vm.toggle()\" type=\"button\"><p ng-show=\"!label &amp;&amp; !vm.isSelected()\">Select</p><p ng-show=\"!label &amp;&amp; vm.isSelected()\">Selected</p><p ng-show=\"label\">{{ label }}</p><div class=\"icon-container\"><div class=\"icon checkmark smallest\"></div></div></button>");}]);
+$templateCache.put("views/selectable.directive.html","<div ng-show=\"!label &amp;&amp; !vm.isSelected()\">Select</div><div ng-show=\"!label &amp;&amp; vm.isSelected()\">Selected</div><div ng-show=\"label\">{{ label }}</div><div class=\"icon-container\"><div class=\"icon checkmark-white smallest\"></div></div>");
+$templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\'checked\': vm.isSelected(), \'action\': vm.isSelected()}\" ng-click=\"vm.toggle()\" type=\"button\"><p ng-show=\"!label &amp;&amp; !vm.isSelected()\">Select</p><p ng-show=\"!label &amp;&amp; vm.isSelected()\">Selected</p><p ng-show=\"label\">{{ label }}</p><div class=\"icon-container\"><div class=\"icon checkmark-white smallest\"></div></div></button>");}]);
 (function() {
   'use strict';
   var directive;
@@ -39437,7 +39437,10 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
           }
         });
       }
-      return scope.$watch('show', toggleShow);
+      scope.$watch('show', toggleShow);
+      return scope.$watch('destroy', function() {
+        return overlay.remove();
+      });
     };
     return {
       restrict: 'E',
@@ -40513,7 +40516,7 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
   transformResponse = function(response) {
     var parsed, ref;
     parsed = JSON.parse(response);
-    return parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0;
+    return (parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0) || [];
   };
 
   transformIdOnlyResponse = function(response) {
@@ -40543,6 +40546,7 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
         transformResponse: transformResponse
       },
       query: {
+        isArray: true,
         transformResponse: transformResponse
       }
     };
@@ -40552,5 +40556,81 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
   srv.$inject = ['$resource', 'API_URL'];
 
   angular.module('appirio-tech-ng-api-services').factory('ProjectsAPIService', srv);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var srv, transformResponse;
+
+  transformResponse = function(response) {
+    var parsed, ref;
+    parsed = JSON.parse(response);
+    return (parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0) || {};
+  };
+
+  srv = function($resource, API_URL) {
+    var methods, params, url;
+    url = API_URL + '/v3/inboxes/:threadId';
+    params = {
+      threadId: '@threadId'
+    };
+    methods = {
+      get: {
+        method: 'GET',
+        transformResponse: transformResponse
+      },
+      post: {
+        method: 'POST',
+        transformResponse: transformResponse
+      },
+      patch: {
+        method: 'PATCH',
+        transformResponse: transformResponse
+      },
+      put: {
+        method: 'PUT',
+        transformResponse: transformResponse
+      }
+    };
+    return $resource(url, {}, methods);
+  };
+
+  srv.$inject = ['$resource', 'API_URL'];
+
+  angular.module('appirio-tech-ng-api-services').factory('InboxesAPIService', srv);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var srv, transformIdOnlyResponse;
+
+  transformIdOnlyResponse = function(response) {
+    var parsed, ref;
+    parsed = JSON.parse(response);
+    return {
+      id: parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0
+    };
+  };
+
+  srv = function($resource, API_URL) {
+    var methods, params, url;
+    url = API_URL + '/v3/projects/:id/estimates';
+    params = {
+      id: '@id'
+    };
+    methods = {
+      post: {
+        method: 'POST',
+        transformResponse: transformIdOnlyResponse
+      }
+    };
+    return $resource(url, params, methods);
+  };
+
+  srv.$inject = ['$resource', 'API_URL'];
+
+  angular.module('appirio-tech-ng-api-services').factory('ProjectEstimatesAPIService', srv);
 
 }).call(this);
