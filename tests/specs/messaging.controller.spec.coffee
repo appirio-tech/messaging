@@ -5,11 +5,11 @@ vm  = null
 
 describe 'MessagingController', ->
   describe 'activate', ->
-    beforeEach inject ($rootScope, $controller, ThreadsAPIService) ->
+    beforeEach inject ($rootScope, $controller, InboxesAPIService) ->
       scope          = $rootScope.$new()
       scope.threadId = '123'
       scope.subscriberId = 'abc'
-      spy = sinon.spy ThreadsAPIService, 'get'
+      spy = sinon.spy InboxesAPIService, 'get'
       vm             = $controller 'MessagingController', $scope: scope
       vm.threadId = '123'
       $rootScope.$apply()
@@ -20,7 +20,7 @@ describe 'MessagingController', ->
     it 'should have a view model', ->
       expect(vm).to.be.ok
 
-    it 'should have called ThreadsAPIService', ->
+    it 'should have called InboxesAPIService', ->
       expect(spy.called).to.be.ok
 
 
