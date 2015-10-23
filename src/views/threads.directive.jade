@@ -1,12 +1,12 @@
 ul
   li(ng-repeat="thread in vm.threads track by $index")
-    a(ui-sref="messaging({ id: thread.id.substr(10), threadId: thread.id })" ng-class="{unread: thread.unreadCount > 0}")
+    a(ui-sref="messaging({ id: thread.projectId, threadId: thread.id })" ng-class="{unread: thread.unreadCount > 0}")
       .app-name {{thread.subject}}
 
       .sender
         avatar(avatar-url="{{ thread.publishers[0].avatar }}")
 
-        .name {{thread.publishers[0]}}
+        .name {{thread.messages[thread.messages.length -1].publisher.handle}}
 
         time {{ thread.messages[thread.messages.length -1].createdAt | timeLapse }}
 

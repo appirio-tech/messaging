@@ -9,18 +9,13 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, InboxesAPI
   vm.loadingMessages = false
   vm.workId          = $scope.workId
   vm.threadId        = $scope.threadId
-  vm.subscriberId          = $scope.subscriberId
+  vm.subscriberId    = $scope.subscriberId
 
   orderMessagesByCreationDate = (messages) ->
     orderedMessages = messages?.sort (previous, next) ->
       new Date(previous.createdAt) - new Date(next.createdAt)
 
     orderedMessages
-
-  onMessageChange = (message) ->
-    vm.thread?.messages.push message
-    vm.newMessage = ''
-    $scope.showLast = 'scroll'
 
   markMessageRead = (message) ->
     queryParams =
@@ -83,7 +78,9 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, InboxesAPI
       resource = MessagesAPIService.post message
 
       resource.$promise.then (response) ->
-        onMessageChange message.param
+        vm.newMessage = ''
+        $scope.showLast = 'scroll'
+        getThread()
 
       resource.$promise.catch (response) ->
 
