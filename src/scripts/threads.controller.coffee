@@ -1,6 +1,6 @@
 'use strict'
 
-ThreadsController = ($scope, ThreadsAPIService) ->
+ThreadsController = ($scope, InboxesProjectAPIService) ->
   vm = this
   vm.loadingThreads = false
 
@@ -13,12 +13,10 @@ ThreadsController = ($scope, ThreadsAPIService) ->
       noBlanks
 
   getUserThreads =  ->
-    params =
-      subscriberId: $scope.subscriberId
 
     vm.loadingThreads = true
 
-    resource = ThreadsAPIService.get params
+    resource = InboxesProjectAPIService.get()
 
     resource.$promise.then (response) ->
       vm.threads          = removeBlanks response?.threads
@@ -37,6 +35,6 @@ ThreadsController = ($scope, ThreadsAPIService) ->
 
   activate()
 
-ThreadsController.$inject = ['$scope', 'ThreadsAPIService']
+ThreadsController.$inject = ['$scope', 'InboxesProjectAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'ThreadsController', ThreadsController
