@@ -39340,12 +39340,12 @@ angular.module('duScroll.scrollspy', ['duScroll.spyAPI'])
 }).call(this);
 
 angular.module("appirio-tech-ng-ui-components").run(["$templateCache", function($templateCache) {$templateCache.put("views/avatar.directive.html","<img ng-src=\"{{ vm.avatarUrl }}\" ng-show=\"vm.avatarUrl\" class=\"avatar\"/><svg class=\"avatar\" ng-hide=\"vm.avatarUrl\" version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 512 512\" enable-background=\"new 0 0 512 512\" xml:space=\"preserve\"><path fill=\"#020201\" d=\"M454.426,392.582c-5.439-16.32-15.298-32.782-29.839-42.362c-27.979-18.572-60.578-28.479-92.099-39.085 c-7.604-2.664-15.33-5.568-22.279-9.7c-6.204-3.686-8.533-11.246-9.974-17.886c-0.636-3.512-1.026-7.116-1.228-10.661 c22.857-31.267,38.019-82.295,38.019-124.136c0-65.298-36.896-83.495-82.402-83.495c-45.515,0-82.403,18.17-82.403,83.468 c0,43.338,16.255,96.5,40.489,127.383c-0.221,2.438-0.511,4.876-0.95,7.303c-1.444,6.639-3.77,14.058-9.97,17.743 c-6.957,4.133-14.682,6.756-22.287,9.42c-31.521,10.605-64.119,19.957-92.091,38.529c-14.549,9.58-24.403,27.159-29.838,43.479 c-5.597,16.938-7.886,37.917-7.541,54.917h205.958h205.974C462.313,430.5,460.019,409.521,454.426,392.582z\"/></svg>");
-$templateCache.put("views/checkbox.directive.html","<button ng-class=\"{\'checked\': ngModel}\" ng-click=\"vm.toggle()\" type=\"button\" class=\"clean\"><div class=\"icon checkmark smallest\"></div></button><label ng-if=\"label\" ng-click=\"vm.toggle()\">{{ label }}</label>");
+$templateCache.put("views/checkbox.directive.html","<div class=\"flex middle\"><button ng-class=\"{\'checked\': ngModel}\" ng-click=\"vm.toggle()\" type=\"button\" class=\"clean\"><img src=\"/images/icon-plus.svg\" ng-hide=\"ngModel\" class=\"icon plus\"/><img src=\"/images/icon-check-solid.svg\" ng-show=\"ngModel\" class=\"icon check-solid\"/></button><label ng-if=\"label\" ng-click=\"vm.toggle()\">{{ label }}</label></div>");
 $templateCache.put("views/countdown.directive.html","<ul class=\"countdown\"><li ng-if=\"vm.days &gt; 0\"><span class=\"value\">{{ vm.days }}</span><span class=\"unit\">day<span ng-if=\"vm.days &gt; 1\">s</span></span></li><li ng-if=\"vm.hours &gt; 0 || vm.days &gt; 0\"><span class=\"value\">{{ vm.hours }}</span><span class=\"unit\">hr<span ng-if=\"vm.hours &gt; 1\">s</span></span></li><li ng-if=\"vm.minutes &gt; 0 || vm.hours &gt; 0 || vm.days &gt; 0\"><span class=\"value\">{{ vm.minutes }}</span><span class=\"unit\">min<span ng-if=\"vm.minutes &gt; 1\">s</span></span></li><li><span class=\"value\">{{ vm.seconds }}</span><span class=\"unit\">sec<span ng-if=\"vm.seconds &gt; 1\">s</span></span></li></ul>");
 $templateCache.put("views/loader.directive.html","<div class=\"container\"><div class=\"loader\"></div></div>");
 $templateCache.put("views/modal.directive.html","");
-$templateCache.put("views/selectable.directive.html","<div ng-show=\"!label &amp;&amp; !vm.isSelected()\">Select</div><div ng-show=\"!label &amp;&amp; vm.isSelected()\">Selected</div><div ng-show=\"label\">{{ label }}</div><div class=\"icon-container\"><div class=\"icon checkmark smallest\"></div></div>");
-$templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\'checked\': vm.isSelected(), \'action\': vm.isSelected()}\" ng-click=\"vm.toggle()\" type=\"button\"><p ng-show=\"!label &amp;&amp; !vm.isSelected()\">Select</p><p ng-show=\"!label &amp;&amp; vm.isSelected()\">Selected</p><p ng-show=\"label\">{{ label }}</p><div class=\"icon-container\"><div class=\"icon checkmark smallest\"></div></div></button>");}]);
+$templateCache.put("views/selectable.directive.html","<div ng-show=\"!label &amp;&amp; !vm.isSelected()\">Select</div><div ng-show=\"!label &amp;&amp; vm.isSelected()\">Selected</div><div ng-show=\"label\">{{ label }}</div><div class=\"icon-container\"><div class=\"icon checkmark-white smallest\"></div></div>");
+$templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\'checked\': vm.isSelected(), \'action\': vm.isSelected()}\" ng-click=\"vm.toggle()\" type=\"button\"><p ng-show=\"!label &amp;&amp; !vm.isSelected()\">Select</p><p ng-show=\"!label &amp;&amp; vm.isSelected()\">Selected</p><p ng-show=\"label\">{{ label }}</p><div class=\"icon-container\"><div class=\"icon checkmark-white smallest\"></div></div></button>");}]);
 (function() {
   'use strict';
   var directive;
@@ -39437,7 +39437,10 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
           }
         });
       }
-      return scope.$watch('show', toggleShow);
+      scope.$watch('show', toggleShow);
+      return scope.$watch('destroy', function() {
+        return overlay.remove();
+      });
     };
     return {
       restrict: 'E',
@@ -39609,11 +39612,11 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
     };
     setViewPortHeight();
     flushHeight = function($element) {
-      var heightDiff, top;
+      var currentHeight, heightDiff, top;
       top = getOffsetTop($element[0]);
       heightDiff = viewPortHeight - top;
-      $element.css('min-height', heightDiff + 'px');
-      return $element.css('height', heightDiff + 'px');
+      currentHeight = $element.height();
+      return $element.css('min-height', heightDiff + 'px');
     };
     $($window).bind('resize', function() {
       var element, i, len, results;
@@ -39685,6 +39688,75 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
   dir.$inject = ['$window'];
 
   angular.module('appirio-tech-ng-ui-components').directive('fullHeight', dir);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var dir, getBiggestLeft;
+
+  getBiggestLeft = function(elements) {
+    var biggestLeft, element, i, len;
+    biggestLeft = null;
+    for (i = 0, len = elements.length; i < len; i++) {
+      element = elements[i];
+      if (!biggestLeft) {
+        biggestLeft = $(element);
+      } else if ($(element).position().left > biggestLeft.position().left) {
+        biggestLeft = $(element);
+      }
+    }
+    return biggestLeft;
+  };
+
+  dir = function($window) {
+    var fittedWidth, link, watchElements;
+    watchElements = [];
+    fittedWidth = function($element) {
+      var biggestLeft, newWidth;
+      $element.css('width', '100%');
+      biggestLeft = getBiggestLeft($element.children());
+      if (biggestLeft) {
+        newWidth = biggestLeft.position().left;
+        newWidth -= $element.position().left;
+        newWidth += parseInt(biggestLeft.css('margin-left'));
+        newWidth += biggestLeft.width();
+        newWidth += parseInt(biggestLeft.css('margin-right'));
+        newWidth += parseInt($element.css('padding-right'));
+        return $element.css('width', newWidth + 'px');
+      }
+    };
+    $($window).bind('resize', function() {
+      var element, i, len, results;
+      results = [];
+      for (i = 0, len = watchElements.length; i < len; i++) {
+        element = watchElements[i];
+        results.push(fittedWidth(element));
+      }
+      return results;
+    });
+    link = function(scope, element, attrs) {
+      return element.ready(function() {
+        var parent;
+        if (scope.$last === void 0) {
+          watchElements.push($(element[0]));
+          return fittedWidth($(element[0]));
+        } else if (scope.$last) {
+          parent = $(element[0]).parent();
+          watchElements.push(parent);
+          return fittedWidth(parent);
+        }
+      });
+    };
+    return {
+      restrict: 'A',
+      link: link
+    };
+  };
+
+  dir.$inject = ['$window'];
+
+  angular.module('appirio-tech-ng-ui-components').directive('fittedWidth', dir);
 
 }).call(this);
 
@@ -40505,16 +40577,20 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
     };
     methods = {
       get: {
-        method: 'GET'
+        method: 'GET',
+        transformResponse: transformResponse
       },
       post: {
-        method: 'POST'
+        method: 'POST',
+        transformResponse: transformResponse
       },
       patch: {
-        method: 'PATCH'
+        method: 'PATCH',
+        transformResponse: transformResponse
       },
       put: {
-        method: 'PUT'
+        method: 'PUT',
+        transformResponse: transformResponse
       }
     };
     return $resource(url, {}, methods);
@@ -40523,5 +40599,71 @@ $templateCache.put("views/selected-button.directive.html","<button ng-class=\"{\
   srv.$inject = ['$resource', 'API_URL'];
 
   angular.module('appirio-tech-ng-api-services').factory('InboxesAPIService', srv);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var srv, transformResponse;
+
+  transformResponse = function(response) {
+    var parsed, ref;
+    parsed = JSON.parse(response);
+    return (parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0) || [];
+  };
+
+  srv = function($resource, API_URL) {
+    var methods, url;
+    url = API_URL + '/v3/inboxes/project';
+    methods = {
+      get: {
+        method: 'GET',
+        transformResponse: transformResponse
+      },
+      query: {
+        method: 'GET',
+        isArray: true,
+        transformResponse: transformResponse
+      }
+    };
+    return $resource(url, {}, methods);
+  };
+
+  srv.$inject = ['$resource', 'API_URL'];
+
+  angular.module('appirio-tech-ng-api-services').factory('InboxesProjectAPIService', srv);
+
+}).call(this);
+
+(function() {
+  'use strict';
+  var srv, transformIdOnlyResponse;
+
+  transformIdOnlyResponse = function(response) {
+    var parsed, ref;
+    parsed = JSON.parse(response);
+    return {
+      id: parsed != null ? (ref = parsed.result) != null ? ref.content : void 0 : void 0
+    };
+  };
+
+  srv = function($resource, API_URL) {
+    var methods, params, url;
+    url = API_URL + '/v3/projects/:id/estimates';
+    params = {
+      id: '@id'
+    };
+    methods = {
+      post: {
+        method: 'POST',
+        transformResponse: transformIdOnlyResponse
+      }
+    };
+    return $resource(url, params, methods);
+  };
+
+  srv.$inject = ['$resource', 'API_URL'];
+
+  angular.module('appirio-tech-ng-api-services').factory('ProjectEstimatesAPIService', srv);
 
 }).call(this);
