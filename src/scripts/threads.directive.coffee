@@ -7,6 +7,7 @@ directive = ->
   controllerAs: 'vm'
   scope       :
     subscriberId: '@subscriberId'
+    userType: '@userType'
 
 directive.$inject = []
 

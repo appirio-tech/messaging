@@ -1,8 +1,14 @@
 'use strict'
 
-ThreadsController = ($scope, InboxesProjectAPIService) ->
+ThreadsController = ($scope, $state, InboxesProjectAPIService) ->
   vm = this
   vm.loadingThreads = false
+  vm.userType = $scope.userType || 'customer'
+
+  if vm.userType == 'customer'
+    vm.threadHref = 'messaging'
+  else
+    vm.threadHref = 'copilot-messaging'
 
   removeBlanks = (threads) ->
     noBlanks = []
@@ -35,6 +41,6 @@ ThreadsController = ($scope, InboxesProjectAPIService) ->
 
   activate()
 
-ThreadsController.$inject = ['$scope', 'InboxesProjectAPIService']
+ThreadsController.$inject = ['$scope', '$state', 'InboxesProjectAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'ThreadsController', ThreadsController
