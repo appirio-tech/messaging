@@ -219,7 +219,7 @@
   var ThreadsController;
 
   ThreadsController = function($scope, $state, InboxesProjectAPIService) {
-    var activate, getUserThreads, removeBlanks, vm;
+    var activate, getUserThreads, removeBlanksAndOrder, vm;
     vm = this;
     vm.loadingThreads = false;
     vm.userType = $scope.userType || 'customer';
@@ -228,8 +228,8 @@
     } else {
       vm.threadHref = 'copilot-messaging';
     }
-    removeBlanks = function(threads) {
-      var i, len, noBlanks, ref, thread;
+    removeBlanksAndOrder = function(threads) {
+      var i, len, noBlanks, orderedThreads, ref, thread;
       noBlanks = [];
       if (threads) {
         for (i = 0, len = threads.length; i < len; i++) {
@@ -238,7 +238,11 @@
             noBlanks.push(thread);
           }
         }
-        return noBlanks;
+        noBlanks;
+        orderedThreads = noBlanks != null ? noBlanks.sort(function(previous, next) {
+          return new Date(next.messages[next.messages.length - 1].createdAt) - new Date(previous.messages[previous.messages.length - 1].createdAt);
+        }) : void 0;
+        return orderedThreads;
       }
     };
     getUserThreads = function() {
@@ -246,7 +250,7 @@
       vm.loadingThreads = true;
       resource = InboxesProjectAPIService.get();
       resource.$promise.then(function(response) {
-        vm.threads = removeBlanks(response != null ? response.threads : void 0);
+        vm.threads = removeBlanksAndOrder(response != null ? response.threads : void 0);
         return vm.totalUnreadCount = response != null ? response.totalUnreadCount : void 0;
       });
       resource.$promise["catch"](function() {});
