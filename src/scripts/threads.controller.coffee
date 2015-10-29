@@ -10,13 +10,18 @@ ThreadsController = ($scope, $state, InboxesProjectAPIService) ->
   else
     vm.threadHref = 'copilot-messaging'
 
-  removeBlanks = (threads) ->
+  removeBlanksAndOrder = (threads) ->
     noBlanks = []
     if threads
       for thread in threads
         noBlanks.push thread if thread?.messages?.length
 
       noBlanks
+
+      orderedThreads = noBlanks?.sort (previous, next) ->
+        new Date(next.messages[next.messages.length - 1].createdAt) - new Date(previous.messages[previous.messages.length - 1].createdAt)
+
+      orderedThreads
 
   getUserThreads =  ->
 
@@ -25,7 +30,7 @@ ThreadsController = ($scope, $state, InboxesProjectAPIService) ->
     resource = InboxesProjectAPIService.get()
 
     resource.$promise.then (response) ->
-      vm.threads          = removeBlanks response?.threads
+      vm.threads          = removeBlanksAndOrder response?.threads
       vm.totalUnreadCount = response?.totalUnreadCount
 
     resource.$promise.catch ->
