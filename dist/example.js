@@ -37,11 +37,6 @@ angular.module("app.constants", [])
       title: 'Messaging',
       templateUrl: 'views/messaging.html'
     };
-    states['threads'] = {
-      url: '/threads',
-      title: 'Threads',
-      templateUrl: 'views/threads.html'
-    };
     results = [];
     for (key in states) {
       state = states[key];
