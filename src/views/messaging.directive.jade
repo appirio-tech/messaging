@@ -4,7 +4,7 @@ ul.messages.flex-grow
   li(ng-repeat="message in vm.thread.messages track by $index")
     avatar(avatar-url="{{ message.publisher.avatar }}")
 
-    .message.elevated-bottom
+    .message
       a.name(href="#") {{message.publisher.handle}}
 
       time {{ message.createdAt | timeLapse }}
@@ -13,14 +13,14 @@ ul.messages.flex-grow
 
       p {{ message.body }}
 
-      ul.attachments
-        li(ng-repeat="attachment in message.attachments track by $index")
-          a(href="#") {{ message.attachments.originalUrl }}
+      //- ul.attachments
+      //-   li(ng-repeat="attachment in message.attachments track by $index")
+      //-     a(href="#") {{ message.attachments.originalUrl }}
 
-      a.download(ng-if="message.attachments.length > 0")
-        .icon.download.smallest
+      //- a.download(ng-if="message.attachments.length > 0")
+      //-   .icon.download.smallest
 
-        p Download all images
+      //-   p Download all images
 
   a(id="messaging-bottom-{{ vm.threadId }}")
 

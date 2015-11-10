@@ -1,11 +1,11 @@
 @import "work-includes";
+@import "variables";
 
 $avatar-width: 35px;
 
 messaging {
-  display         : block;
-  background-color: $neutral-color-lightest;
-  text-align      : center;
+  display   : block;
+  text-align: center;
 
   avatar {
     float: left;
@@ -19,36 +19,44 @@ messaging {
 
   .messages {
     overflow  : auto;
-    margin-top: $margin;
+    margin-top: $margin-small;
   }
 
   .message {
     text-align      : left;
     background-color: $white;
     margin-top      : $margin-smallest;
-    margin-left     : $avatar-width + $margin-small;
-    padding         : $padding;
+    margin-left     : $avatar-width + $horizontal-small;
+    padding         : $vertical-small;
+    padding-top     : $vertical-smallest;
     position        : relative;
+    background-color: $neutral-color-lightest; /*#F7F7F7*/
 
     &::before {
       content      : "";
       position     : absolute;
       top          : 0;
-      left         : -10px;
+      left         : -9px;
       width        : 0;
       height       : 0;
       border-top   : 10px solid transparent;
       border-bottom: 10px solid transparent;
-      border-right:10px solid $white;
+      border-right :10px solid $neutral-color-lightest;
       margin-top   : $margin-smallest;
     }
 
     .name {
       font-weight: bold;
+      font-size  : $font-size-big;
     }
 
     .title {
       font-size: $font-size-smallest;
+    }
+
+    > p {
+      margin-top: $vertical-smallest;
+      line-height: $line-height-big;
     }
 
     time {
@@ -88,7 +96,7 @@ messaging {
   }
 
   .respond {
-    margin-top: $margin-small;
+    margin-top: $vertical-big;
 
     .icon {
       float: left;
@@ -103,7 +111,7 @@ messaging {
       }
 
       > button {
-        margin-top: $margin-small;
+        margin-top: $vertical-smallest;
       }
     }
   }
