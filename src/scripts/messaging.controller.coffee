@@ -1,6 +1,6 @@
 'use strict'
 
-MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
+MessagingController = ($scope, $document, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
   vm                 = this
   vm.currentUser     = null
   vm.activeThread    = null
@@ -55,14 +55,31 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, InboxesAPI
       resource.$promise.then (response) ->
         vm.thread = response
         vm.thread.messages = orderMessagesByCreationDate(vm.thread.messages)
+
+        vm.firstUnreadMessageIndex = findFirstUnreadMessageIndex vm.thread.messages
+
         if vm.thread.unreadCount > 0
           lastMessage = vm.thread.messages[vm.thread.messages.length - 1]
           markMessageRead lastMessage
+
+        if vm.firstUnreadMessageIndex >= 0
+          angular.element(document).ready ->
+            messageList = angular.element document.getElementById 'messaging-message-list'
+            scrollElement = angular.element document.getElementById vm.firstUnreadMessageIndex
+            messageList.scrollToElement scrollElement
 
       resource.$promise.catch ->
 
       resource.$promise.finally ->
         vm.loadingThreads = false
+
+  findFirstUnreadMessageIndex = (messages) ->
+
+    unreadMessages = messages.filter (message) ->
+      !message.read
+
+    messages.indexOf(unreadMessages[0])
+
 
   sendMessage = ->
     if vm.newMessage.length && vm.thread
@@ -89,6 +106,6 @@ MessagingController = ($scope, MessagesAPIService, ThreadsAPIService, InboxesAPI
 
   activate()
 
-MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
+MessagingController.$inject = ['$scope', '$document', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'MessagingController', MessagingController
