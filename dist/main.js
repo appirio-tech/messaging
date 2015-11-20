@@ -12,8 +12,8 @@
   'use strict';
   var MessagingController;
 
-  MessagingController = function($scope, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) {
-    var activate, getThread, markMessageRead, orderMessagesByCreationDate, sendMessage, vm;
+  MessagingController = function($scope, $document, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) {
+    var activate, findFirstUnreadMessageIndex, getThread, markMessageRead, orderMessagesByCreationDate, sendMessage, vm;
     vm = this;
     vm.currentUser = null;
     vm.activeThread = null;
@@ -66,9 +66,18 @@
           var lastMessage;
           vm.thread = response;
           vm.thread.messages = orderMessagesByCreationDate(vm.thread.messages);
+          vm.firstUnreadMessageIndex = findFirstUnreadMessageIndex(vm.thread.messages);
           if (vm.thread.unreadCount > 0) {
             lastMessage = vm.thread.messages[vm.thread.messages.length - 1];
-            return markMessageRead(lastMessage);
+            markMessageRead(lastMessage);
+          }
+          if (vm.firstUnreadMessageIndex >= 0) {
+            return angular.element(document).ready(function() {
+              var messageList, scrollElement;
+              messageList = angular.element(document.getElementById('messaging-message-list'));
+              scrollElement = angular.element(document.getElementById(vm.firstUnreadMessageIndex));
+              return messageList.scrollToElement(scrollElement);
+            });
           }
         });
         resource.$promise["catch"](function() {});
@@ -76,6 +85,13 @@
           return vm.loadingThreads = false;
         });
       }
+    };
+    findFirstUnreadMessageIndex = function(messages) {
+      var unreadMessages;
+      unreadMessages = messages.filter(function(message) {
+        return !message.read;
+      });
+      return messages.indexOf(unreadMessages[0]);
     };
     sendMessage = function() {
       var message, resource;
@@ -104,7 +120,7 @@
     return activate();
   };
 
-  MessagingController.$inject = ['$scope', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService'];
+  MessagingController.$inject = ['$scope', '$document', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService'];
 
   angular.module('appirio-tech-ng-messaging').controller('MessagingController', MessagingController);
 
@@ -156,4 +172,4 @@
 
 }).call(this);
 
-angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<p>You have {{vm.thread.messages.length}} messages with {{vm.thread.messages[0].publisher.handle}}</p><ul class=\"messages flex-grow\"><li ng-repeat=\"message in vm.thread.messages track by $index\"><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar><div class=\"message\"><a href=\"#\" class=\"name\">{{message.publisher.handle}}</a><time>{{ message.createdAt | timeLapse }}</time><p ng-if=\"message.publisher.role != null\" class=\"title\">{{message.publisher.role}}</p><p>{{ message.body }}</p></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.sending\" class=\"wider action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.sending\" class=\"wider action\">sending...</button></form></div>");}]);
+angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<p>You have {{vm.thread.messages.length}} messages with {{vm.thread.messages[0].publisher.handle}}</p><ul id=\"messaging-message-list\" class=\"messages flex-grow\"><li ng-repeat=\"message in vm.thread.messages track by $index\" id=\"{{$index}}\"><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar><div class=\"message\"><a href=\"#\" class=\"name\">{{message.publisher.handle}}</a><time>{{ message.createdAt | timeLapse }}</time><p ng-if=\"message.publisher.role != null\" class=\"title\">{{message.publisher.role}}</p><p>{{ message.body }}</p></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.sending\" class=\"wider action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.sending\" class=\"wider action\">sending...</button></form></div>");}]);
