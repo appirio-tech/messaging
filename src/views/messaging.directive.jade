@@ -13,19 +13,24 @@ ul.messages.flex-grow(id="messaging-message-list")
 
       p {{ message.body }}
 
-      //- ul.attachments
-      //-   li(ng-repeat="attachment in message.attachments track by $index")
-      //-     a(href="#") {{ message.attachments.originalUrl }}
+      ul.attachments(ng-if="message.attachments.length > 0")
+        li(ng-repeat="attachment in message.attachments track by $index")
+          a(href="#") {{ message.attachments.originalUrl }}
 
-      //- a.download(ng-if="message.attachments.length > 0")
-      //-   .icon.download.smallest
+      a.download(ng-if="message.attachments.length > 0")
+        .icon.download.smallest
 
-      //-   p Download all images
+        p Download all images
 
   a(id="messaging-bottom-{{ vm.threadId }}")
 
 .respond
-  //- .icon.warning for file upload
+  ap-uploader(
+    config="vm.uploaderConfig"
+    uploading="vm.uploaderUploading"
+    has-errors="vm.uploaderHasErrors"
+    has-files="vm.uploaderHasFiles"
+  )
 
   form(ng-submit="vm.sendMessage()")
     textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")

@@ -1,6 +1,6 @@
 'use strict'
 
-MessagingController = ($scope, $document, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
+MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
   vm                 = this
   vm.currentUser     = null
   vm.activeThread    = null
@@ -10,6 +10,9 @@ MessagingController = ($scope, $document, MessagesAPIService, ThreadsAPIService,
   vm.workId          = $scope.workId
   vm.threadId        = $scope.threadId
   vm.subscriberId    = $scope.subscriberId
+  vm.uploaderUploading = null
+  vm.uploaderHasErrors = null
+  vm.uploaderHasFiles = null
 
   orderMessagesByCreationDate = (messages) ->
     orderedMessages = messages?.sort (previous, next) ->
@@ -35,13 +38,47 @@ MessagingController = ($scope, $document, MessagesAPIService, ThreadsAPIService,
 
   activate = ->
     vm.newMessage = ''
+    vm.newAttachments = []
 
     $scope.$watch 'subscriberId', ->
       getThread()
 
     vm.sendMessage = sendMessage
+    vm.uploaderConfig = configureUploader(vm.threadId, 'attachment')
+
+    $scope.$watch 'vm.newAttachments', (newValue) ->
+      console.log('attachments', newValue)
 
     vm
+
+  configureUploader = (threadId, assetType) ->
+    domain = API_URL
+    category = 'message'
+
+    uploaderConfig =
+      name: "#{assetType}-uploader-#{threadId}-#{Date.now()}"
+      allowMultiple: true
+      allowCaptions: false
+      onUploadSuccess: (data) ->
+        vm.newAttachments.push
+          ownerId:  $scope.subscriberId
+          id:       data.id
+          fileName: data.name
+          filePath: data.path
+          fileType: data.type
+          fileSize: data.size
+      presign:
+        url: domain + '/v3/attachments/uploadurl'
+        params:
+          id: threadId
+          assetType: assetType
+          category: category
+      removeRecord:
+        url: domain + '/v3/attachments/:fileId'
+        params:
+          filter: 'category=' + category
+
+    uploaderConfig
 
   getThread =  ->
     if $scope.subscriberId
@@ -88,14 +125,16 @@ MessagingController = ($scope, $document, MessagesAPIService, ThreadsAPIService,
           publisherId: $scope.subscriberId
           threadId   : vm.threadId
           body       : vm.newMessage
-          attachments: []
+          attachments: vm.newAttachments
 
       vm.sending = true
 
       resource = MessagesAPIService.post message
 
       resource.$promise.then (response) ->
+        vm.uploaderConfig = configureUploader(vm.threadId, 'attachment')
         vm.newMessage = ''
+        vm.newAttachments = []
         $scope.showLast = 'scroll'
         getThread()
 
@@ -106,6 +145,6 @@ MessagingController = ($scope, $document, MessagesAPIService, ThreadsAPIService,
 
   activate()
 
-MessagingController.$inject = ['$scope', '$document', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
+MessagingController.$inject = ['$scope', '$document', 'API_URL', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'MessagingController', MessagingController
