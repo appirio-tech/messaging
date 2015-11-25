@@ -90,15 +90,17 @@ messaging {
 
     .attachments {
       margin-top: $margin-small;
+      overflow: auto;
 
       > li {
-        overflow: hidden;
+        overflow : hidden;
+        height   : 130px;
+        min-width: 150px;
 
         img {
-          width           : 150px;
-          max-height      : 130px;
-          display         : inline-block;
-          margin          : 5px;
+          width  : 100%;
+          display: inline-block;
+          margin : 5px;
         }
 
         &:first-child {
