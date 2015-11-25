@@ -12,14 +12,24 @@ messaging {
     width: $avatar-width;
   }
 
-  .messages, .respond {
-    max-width: 600px;
-    width    : 100%;
+  .messages {
+    max-width    : 700px;
+    margin-bottom: 327px; /* due to respond being fixed */
+    width        : 100%;
   }
 
   .messages {
-    overflow  : auto;
     margin-top: $margin-small;
+  }
+
+  &.dark-bg {
+    .message {
+      background-color: $white;
+
+      &::before {
+        border-right-color: $white;
+      }
+    }
   }
 
   .message {
@@ -82,7 +92,7 @@ messaging {
       margin-top: $margin-small;
 
       > li {
-          overflow: hidden;
+        overflow: hidden;
 
         img {
           width           : 150px;
@@ -99,22 +109,44 @@ messaging {
   }
 
   .respond {
-    margin-top: $vertical-big;
+    position        : fixed;
+    bottom          : 0;
+    left            : 0;
+    width           : 100%;
+    background-color: $white;
+    padding         : 25px;
+    text-align      : left;
+
+    ap-uploader {
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+
+      uploaded-files {
+        height: 184px;
+        overflow: auto;
+      }
+
+      ap-file {
+        width: 180px;
+      }
+    }
 
     .icon {
       float: left;
     }
 
     form {
-      text-align: left;
-      margin-left: $avatar-width + $margin-smallest;
+      margin-top: 15px;
 
       textarea {
-        width  : 100%;
+        width    : 100%;
+        max-width: 500px;
+        height   : 36px;
       }
 
-      > button {
-        margin-top: $vertical-smallest;
+      button {
+        margin-left: 10px;
       }
     }
   }
