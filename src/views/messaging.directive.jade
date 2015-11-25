@@ -13,14 +13,14 @@ ul.messages.flex-grow(id="messaging-message-list")
 
       p {{ message.body }}
 
-      ul.attachments(ng-if="message.attachments.length > 0")
+      ul.attachments.flex(ng-if="message.attachments.length > 0")
         li(ng-repeat="attachment in message.attachments track by $index")
-          a(href="#") {{ message.attachments.originalUrl }}
+          img(ng-src="{{attachment.thumbnailUrl}}")
 
-      a.download(ng-if="message.attachments.length > 0")
-        .icon.download.smallest
+      //- a.download(ng-if="message.attachments.length > 0")
+      //-   .icon.download.smallest
 
-        p Download all images
+      //-   p Download all images
 
   a(id="messaging-bottom-{{ vm.threadId }}")
 
@@ -35,6 +35,6 @@ ul.messages.flex-grow(id="messaging-message-list")
   form(ng-submit="vm.sendMessage()")
     textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
 
-    button.wider.action(type="submit" ng-hide="vm.sending") reply
+    button.wider.action(type="submit" ng-hide="vm.disableSend") reply
 
-    button.wider.action(disabled=true ng-show="vm.sending") sending...
+    button.wider.action(disabled=true ng-show="vm.disableSend") reply

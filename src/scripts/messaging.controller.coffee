@@ -46,8 +46,11 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
     vm.sendMessage = sendMessage
     vm.uploaderConfig = configureUploader(vm.threadId, 'attachment')
 
-    $scope.$watch 'vm.newAttachments', (newValue) ->
-      console.log('attachments', newValue)
+    $scope.$watch 'vm.uploaderUploading', (newValue) ->
+      if newValue == true
+        vm.disableSend = true
+      else
+        vm.disableSend = false
 
     vm
 
@@ -104,6 +107,8 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
             messageList = angular.element document.getElementById 'messaging-message-list'
             scrollElement = angular.element document.getElementById vm.firstUnreadMessageIndex
             messageList.scrollToElement scrollElement
+        else
+          $scope.showLast = 'scroll'
 
       resource.$promise.catch ->
 
@@ -117,9 +122,21 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
 
     messages.indexOf(unreadMessages[0])
 
+  isMessageValid = (message, attachments) ->
+    valid = true
+    if attachments.length > 0
+      if uploaderUploading
+        valid = false
+        vm.disableSend = true
+    else
+      if !vm.newMessage.length || !vm.thread
+        valid = false
+        vm.disableSend = true
+
+    valid
 
   sendMessage = ->
-    if vm.newMessage.length && vm.thread
+    if isMessageValid vm.newMessage, vm.newAttachments
       message =
         param:
           publisherId: $scope.subscriberId
@@ -127,7 +144,7 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
           body       : vm.newMessage
           attachments: vm.newAttachments
 
-      vm.sending = true
+      vm.disableSend = true
 
       resource = MessagesAPIService.post message
 
@@ -141,7 +158,7 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
       resource.$promise.catch (response) ->
 
       resource.$promise.finally ->
-        vm.sending = false
+        vm.disableSend = false
 
   activate()
 

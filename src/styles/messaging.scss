@@ -82,11 +82,14 @@ messaging {
       margin-top: $margin-small;
 
       > li {
-        width           : 50px;
-        height          : 40px;
-        background-color: purple;
-        display         : inline-block;
-        margin          : 5px;
+          overflow: hidden;
+
+        img {
+          width           : 150px;
+          max-height      : 130px;
+          display         : inline-block;
+          margin          : 5px;
+        }
 
         &:first-child {
           margin-left: 0;
