@@ -125,7 +125,7 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
   isMessageValid = (message, attachments) ->
     valid = true
     if attachments.length > 0
-      if uploaderUploading
+      if vm.uploaderUploading
         valid = false
         vm.disableSend = true
     else
