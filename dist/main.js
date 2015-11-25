@@ -2,7 +2,7 @@
   'use strict';
   var dependencies;
 
-  dependencies = ['ui.router', 'ngResource', 'app.constants', 'duScroll', 'appirio-tech-ng-ui-components', 'appirio-tech-ng-api-services'];
+  dependencies = ['ui.router', 'ngResource', 'app.constants', 'duScroll', 'appirio-tech-ng-ui-components', 'ap-file-upload', 'appirio-tech-ng-api-services'];
 
   angular.module('appirio-tech-ng-messaging', dependencies);
 
@@ -12,8 +12,8 @@
   'use strict';
   var MessagingController;
 
-  MessagingController = function($scope, $document, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) {
-    var activate, findFirstUnreadMessageIndex, getThread, markMessageRead, orderMessagesByCreationDate, sendMessage, vm;
+  MessagingController = function($scope, $document, API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) {
+    var activate, configureUploader, findFirstUnreadMessageIndex, getThread, isMessageValid, markMessageRead, orderMessagesByCreationDate, sendMessage, vm;
     vm = this;
     vm.currentUser = null;
     vm.activeThread = null;
@@ -23,6 +23,9 @@
     vm.workId = $scope.workId;
     vm.threadId = $scope.threadId;
     vm.subscriberId = $scope.subscriberId;
+    vm.uploaderUploading = null;
+    vm.uploaderHasErrors = null;
+    vm.uploaderHasFiles = null;
     orderMessagesByCreationDate = function(messages) {
       var orderedMessages;
       orderedMessages = messages != null ? messages.sort(function(previous, next) {
@@ -48,11 +51,55 @@
     };
     activate = function() {
       vm.newMessage = '';
+      vm.newAttachments = [];
       $scope.$watch('subscriberId', function() {
         return getThread();
       });
       vm.sendMessage = sendMessage;
+      vm.uploaderConfig = configureUploader(vm.threadId, 'attachment');
+      $scope.$watch('vm.uploaderUploading', function(newValue) {
+        if (newValue === true) {
+          return vm.disableSend = true;
+        } else {
+          return vm.disableSend = false;
+        }
+      });
       return vm;
+    };
+    configureUploader = function(threadId, assetType) {
+      var category, domain, uploaderConfig;
+      domain = API_URL;
+      category = 'message';
+      uploaderConfig = {
+        name: assetType + "-uploader-" + threadId + "-" + (Date.now()),
+        allowMultiple: true,
+        allowCaptions: false,
+        onUploadSuccess: function(data) {
+          return vm.newAttachments.push({
+            ownerId: $scope.subscriberId,
+            id: data.id,
+            fileName: data.name,
+            filePath: data.path,
+            fileType: data.type,
+            fileSize: data.size
+          });
+        },
+        presign: {
+          url: domain + '/v3/attachments/uploadurl',
+          params: {
+            id: threadId,
+            assetType: assetType,
+            category: category
+          }
+        },
+        removeRecord: {
+          url: domain + '/v3/attachments/:fileId',
+          params: {
+            filter: 'category=' + category
+          }
+        }
+      };
+      return uploaderConfig;
     };
     getThread = function() {
       var params, resource;
@@ -78,6 +125,8 @@
               scrollElement = angular.element(document.getElementById(vm.firstUnreadMessageIndex));
               return messageList.scrollToElement(scrollElement);
             });
+          } else {
+            return $scope.showLast = 'scroll';
           }
         });
         resource.$promise["catch"](function() {});
@@ -93,34 +142,52 @@
       });
       return messages.indexOf(unreadMessages[0]);
     };
+    isMessageValid = function(message, attachments) {
+      var valid;
+      valid = true;
+      if (attachments.length > 0) {
+        if (uploaderUploading) {
+          valid = false;
+          vm.disableSend = true;
+        }
+      } else {
+        if (!vm.newMessage.length || !vm.thread) {
+          valid = false;
+          vm.disableSend = true;
+        }
+      }
+      return valid;
+    };
     sendMessage = function() {
       var message, resource;
-      if (vm.newMessage.length && vm.thread) {
+      if (isMessageValid(vm.newMessage, vm.newAttachments)) {
         message = {
           param: {
             publisherId: $scope.subscriberId,
             threadId: vm.threadId,
             body: vm.newMessage,
-            attachments: []
+            attachments: vm.newAttachments
           }
         };
-        vm.sending = true;
+        vm.disableSend = true;
         resource = MessagesAPIService.post(message);
         resource.$promise.then(function(response) {
+          vm.uploaderConfig = configureUploader(vm.threadId, 'attachment');
           vm.newMessage = '';
+          vm.newAttachments = [];
           $scope.showLast = 'scroll';
           return getThread();
         });
         resource.$promise["catch"](function(response) {});
         return resource.$promise["finally"](function() {
-          return vm.sending = false;
+          return vm.disableSend = false;
         });
       }
     };
     return activate();
   };
 
-  MessagingController.$inject = ['$scope', '$document', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService'];
+  MessagingController.$inject = ['$scope', '$document', 'API_URL', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService'];
 
   angular.module('appirio-tech-ng-messaging').controller('MessagingController', MessagingController);
 
@@ -172,4 +239,4 @@
 
 }).call(this);
 
-angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<p>You have {{vm.thread.messages.length}} messages with {{vm.thread.messages[0].publisher.handle}}</p><ul id=\"messaging-message-list\" class=\"messages flex-grow\"><li ng-repeat=\"message in vm.thread.messages track by $index\" id=\"{{$index}}\"><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar><div class=\"message\"><a href=\"#\" class=\"name\">{{message.publisher.handle}}</a><time>{{ message.createdAt | timeLapse }}</time><p ng-if=\"message.publisher.role != null\" class=\"title\">{{message.publisher.role}}</p><p>{{ message.body }}</p></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.sending\" class=\"wider action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.sending\" class=\"wider action\">sending...</button></form></div>");}]);
+angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<p>You have {{vm.thread.messages.length}} messages with {{vm.thread.messages[0].publisher.handle}}</p><ul id=\"messaging-message-list\" class=\"messages flex-grow\"><li ng-repeat=\"message in vm.thread.messages track by $index\" id=\"{{$index}}\"><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar><div class=\"message\"><a href=\"#\" class=\"name\">{{message.publisher.handle}}</a><time>{{ message.createdAt | timeLapse }}</time><p ng-if=\"message.publisher.role != null\" class=\"title\">{{message.publisher.role}}</p><p>{{ message.body }}</p><ul ng-if=\"message.attachments.length &gt; 0\" class=\"attachments flex\"><li ng-repeat=\"attachment in message.attachments track by $index\"><img ng-src=\"{{attachment.thumbnailUrl}}\"/></li></ul></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><ap-uploader config=\"vm.uploaderConfig\" uploading=\"vm.uploaderUploading\" has-errors=\"vm.uploaderHasErrors\" has-files=\"vm.uploaderHasFiles\"></ap-uploader><form ng-submit=\"vm.sendMessage()\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.disableSend\" class=\"wider action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.disableSend\" class=\"wider action\">reply</button></form></div>");}]);
