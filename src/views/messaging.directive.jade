@@ -17,10 +17,10 @@ ul.messages(id="messaging-message-list")
         li(ng-repeat="attachment in message.attachments track by $index")
           img(ng-src="{{attachment.thumbnailUrl}}")
 
-      a.download(ng-if="message.attachments.length > 0")
-        .icon.download.smallest
+      //- a.download(ng-if="message.attachments.length > 0")
+      //-   .icon.download.smallest
 
-        p Download all images
+      //-   p Download all images
 
   a(id="messaging-bottom-{{ vm.threadId }}")
 
