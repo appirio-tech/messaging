@@ -120,10 +120,9 @@
           }
           if (vm.firstUnreadMessageIndex >= 0) {
             return angular.element(document).ready(function() {
-              var messageList, scrollElement;
-              messageList = angular.element(document.getElementById('messaging-message-list'));
+              var scrollElement;
               scrollElement = angular.element(document.getElementById(vm.firstUnreadMessageIndex));
-              return messageList.scrollToElement(scrollElement);
+              return $document.scrollToElement(scrollElement);
             });
           } else {
             return $scope.showLast = 'scroll';
@@ -239,4 +238,4 @@
 
 }).call(this);
 
-angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<ul id=\"messaging-message-list\" class=\"messages\"><li ng-repeat=\"message in vm.thread.messages track by $index\" id=\"{{$index}}\"><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar><div class=\"message elevated-bottom\"><a href=\"#\" class=\"name\">{{message.publisher.handle}}</a><time>{{ message.createdAt | timeLapse }}</time><p ng-if=\"message.publisher.role != null\" class=\"title\">{{message.publisher.role}}</p><p>{{ message.body }}</p><ul ng-if=\"message.attachments.length &gt; 0\" class=\"attachments flex\"><li ng-repeat=\"attachment in message.attachments track by $index\"><img ng-src=\"{{attachment.thumbnailUrl}}\"/></li></ul></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><ap-uploader config=\"vm.uploaderConfig\" uploading=\"vm.uploaderUploading\" has-errors=\"vm.uploaderHasErrors\" has-files=\"vm.uploaderHasFiles\"></ap-uploader><form ng-submit=\"vm.sendMessage()\" class=\"flex middle center\"><textarea placeholder=\"Send a message&hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.disableSend\" class=\"action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.disableSend\" class=\"action\">reply</button></form></div>");}]);
+angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<ul id=\"messaging-message-list\" class=\"messages\"><li ng-repeat=\"message in vm.thread.messages track by $index\" id=\"{{$index}}\"><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar><div class=\"message elevated-bottom\"><a href=\"#\" class=\"name\">{{message.publisher.handle}}</a><time>{{ message.createdAt | timeLapse }}</time><p ng-if=\"message.publisher.role != null\" class=\"title\">{{message.publisher.role}}</p><p>{{ message.body }}</p><ul ng-if=\"message.attachments.length &gt; 0\" class=\"attachments flex\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"{{attachment.thumbnailUrl}}\" target=\"_blank\"><img ng-src=\"{{attachment.thumbnailUrl}}\"/></a></li></ul></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><ap-uploader config=\"vm.uploaderConfig\" uploading=\"vm.uploaderUploading\" has-errors=\"vm.uploaderHasErrors\" has-files=\"vm.uploaderHasFiles\"></ap-uploader><form ng-submit=\"vm.sendMessage()\" class=\"flex middle center\"><textarea placeholder=\"Send a message&amp;hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.disableSend\" class=\"action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.disableSend\" class=\"action\">reply</button></form></div>");}]);
