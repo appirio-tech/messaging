@@ -104,9 +104,8 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
 
         if vm.firstUnreadMessageIndex >= 0
           angular.element(document).ready ->
-            messageList = angular.element document.getElementById 'messaging-message-list'
             scrollElement = angular.element document.getElementById vm.firstUnreadMessageIndex
-            messageList.scrollToElement scrollElement
+            $document.scrollToElement scrollElement
         else
           $scope.showLast = 'scroll'
 

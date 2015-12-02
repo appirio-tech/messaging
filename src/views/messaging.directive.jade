@@ -15,7 +15,8 @@ ul.messages(id="messaging-message-list")
 
       ul.attachments.flex(ng-if="message.attachments.length > 0")
         li(ng-repeat="attachment in message.attachments track by $index")
-          img(ng-src="{{attachment.thumbnailUrl}}")
+          a(href="{{attachment.thumbnailUrl}}" target="_blank")
+            img(ng-src="{{attachment.thumbnailUrl}}")
 
       //- a.download(ng-if="message.attachments.length > 0")
       //-   .icon.download.smallest
@@ -33,7 +34,7 @@ ul.messages(id="messaging-message-list")
   )
 
   form.flex.middle.center(ng-submit="vm.sendMessage()")
-    textarea(placeholder!="Send a message&hellip;" ng-model="vm.newMessage")
+    textarea(placeholder="Send a message&hellip;" ng-model="vm.newMessage")
 
     button.action(type="submit" ng-hide="vm.disableSend") reply
 
