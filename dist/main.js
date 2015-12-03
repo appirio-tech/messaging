@@ -13,7 +13,7 @@
   var MessagingController;
 
   MessagingController = function($scope, $document, API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) {
-    var activate, configureUploader, findFirstUnreadMessageIndex, getThread, isMessageValid, markMessageRead, orderMessagesByCreationDate, sendMessage, vm;
+    var activate, configureUploader, findFirstUnreadMessageIndex, generateProfileUrl, getThread, isMessageValid, markMessageRead, orderMessagesByCreationDate, sendMessage, vm;
     vm = this;
     vm.currentUser = null;
     vm.activeThread = null;
@@ -26,6 +26,9 @@
     vm.uploaderUploading = null;
     vm.uploaderHasErrors = null;
     vm.uploaderHasFiles = null;
+    generateProfileUrl = function(handle) {
+      return "https://www.topcoder.com/members/" + handle;
+    };
     orderMessagesByCreationDate = function(messages) {
       var orderedMessages;
       orderedMessages = messages != null ? messages.sort(function(previous, next) {
@@ -56,6 +59,7 @@
         return getThread();
       });
       vm.sendMessage = sendMessage;
+      vm.generateProfileUrl = generateProfileUrl;
       vm.uploaderConfig = configureUploader(vm.threadId, 'attachment');
       $scope.$watch('vm.uploaderUploading', function(newValue) {
         if (newValue === true) {
@@ -238,4 +242,4 @@
 
 }).call(this);
 
-angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<ul id=\"messaging-message-list\" class=\"messages\"><li ng-repeat=\"message in vm.thread.messages track by $index\" id=\"{{$index}}\"><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar><div class=\"message elevated-bottom\"><a href=\"#\" class=\"name\">{{message.publisher.handle}}</a><time>{{ message.createdAt | timeLapse }}</time><p ng-if=\"message.publisher.role != null\" class=\"title\">{{message.publisher.role}}</p><p>{{ message.body }}</p><ul ng-if=\"message.attachments.length &gt; 0\" class=\"attachments flex\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"{{attachment.thumbnailUrl}}\" target=\"_blank\"><img ng-src=\"{{attachment.thumbnailUrl}}\"/></a></li></ul></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><ap-uploader config=\"vm.uploaderConfig\" uploading=\"vm.uploaderUploading\" has-errors=\"vm.uploaderHasErrors\" has-files=\"vm.uploaderHasFiles\"></ap-uploader><form ng-submit=\"vm.sendMessage()\" class=\"flex middle center\"><textarea placeholder=\"Send a message&amp;hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.disableSend\" class=\"action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.disableSend\" class=\"action\">reply</button></form></div>");}]);
+angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<ul id=\"messaging-message-list\" class=\"messages\"><li ng-repeat=\"message in vm.thread.messages track by $index\" id=\"{{$index}}\"><a href=\"{{vm.generateProfileUrl(message.publisher.handle)}}\" target=\"_blank\"><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar></a><div class=\"message elevated-bottom\"><a href=\"{{vm.generateProfileUrl(message.publisher.handle)}}\" target=\"_blank\" class=\"name\">{{message.publisher.handle}}</a><time>{{ message.createdAt | timeLapse }}</time><p ng-if=\"message.publisher.role != null\" class=\"title\">{{message.publisher.role}}</p><p>{{ message.body }}</p><ul ng-if=\"message.attachments.length &gt; 0\" class=\"attachments flex\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href=\"{{attachment.thumbnailUrl}}\" target=\"_blank\"><img ng-src=\"{{attachment.thumbnailUrl}}\"/></a></li></ul></div></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=\"respond\"><ap-uploader config=\"vm.uploaderConfig\" uploading=\"vm.uploaderUploading\" has-errors=\"vm.uploaderHasErrors\" has-files=\"vm.uploaderHasFiles\"></ap-uploader><form ng-submit=\"vm.sendMessage()\" class=\"flex middle center\"><textarea placeholder=\"Send a message&amp;hellip;\" ng-model=\"vm.newMessage\"></textarea><button type=\"submit\" ng-hide=\"vm.disableSend\" class=\"action\">reply</button><button disabled=\"disabled\" ng-show=\"vm.disableSend\" class=\"action\">reply</button></form></div>");}]);
