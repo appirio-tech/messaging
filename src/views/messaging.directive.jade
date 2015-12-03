@@ -2,10 +2,11 @@
 
 ul.messages(id="messaging-message-list")
   li(ng-repeat="message in vm.thread.messages track by $index" id="{{$index}}")
-    avatar(avatar-url="{{ message.publisher.avatar }}")
+    a(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank")
+      avatar(avatar-url="{{ message.publisher.avatar }}")
 
     .message.elevated-bottom
-      a.name(href="#") {{message.publisher.handle}}
+      a.name(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank") {{message.publisher.handle}}
 
       time {{ message.createdAt | timeLapse }}
 

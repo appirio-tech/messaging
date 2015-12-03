@@ -14,6 +14,9 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
   vm.uploaderHasErrors = null
   vm.uploaderHasFiles = null
 
+  generateProfileUrl = (handle) ->
+    "https://www.topcoder.com/members/#{handle}"
+
   orderMessagesByCreationDate = (messages) ->
     orderedMessages = messages?.sort (previous, next) ->
       new Date(previous.createdAt) - new Date(next.createdAt)
@@ -44,6 +47,7 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
       getThread()
 
     vm.sendMessage = sendMessage
+    vm.generateProfileUrl = generateProfileUrl
     vm.uploaderConfig = configureUploader(vm.threadId, 'attachment')
 
     $scope.$watch 'vm.uploaderUploading', (newValue) ->
