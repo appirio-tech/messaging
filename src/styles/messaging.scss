@@ -40,7 +40,6 @@ messaging {
     padding         : $vertical-small;
     padding-top     : $vertical-smallest;
     position        : relative;
-    background-color: $grey-lighter; /*#F7F7F7*/
 
     &::before {
       content      : "";
