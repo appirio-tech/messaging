@@ -140,9 +140,9 @@
     };
     findFirstUnreadMessageIndex = function(messages) {
       var unreadMessages;
-      unreadMessages = messages.filter(function(message) {
+      unreadMessages = messages != null ? messages.filter(function(message) {
         return !message.read;
-      });
+      }) : void 0;
       return messages.indexOf(unreadMessages[0]);
     };
     isMessageValid = function(message, attachments) {
