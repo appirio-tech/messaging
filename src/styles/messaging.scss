@@ -1,4 +1,4 @@
-@import "work-includes";
+@import "work/work-includes";
 @import "variables";
 
 $avatar-width: 35px;
@@ -19,7 +19,7 @@ messaging {
   }
 
   .messages {
-    margin-top: $margin-small;
+    margin-top: 15px;
   }
 
   &.dark-bg {
@@ -35,12 +35,11 @@ messaging {
   .message {
     text-align      : left;
     background-color: $white;
-    margin-top      : $margin-smallest;
+    margin-top      : 10px;
     margin-left     : $avatar-width + $horizontal-small;
     padding         : $vertical-small;
     padding-top     : $vertical-smallest;
     position        : relative;
-    background-color: $neutral-color-lightest; /*#F7F7F7*/
 
     &::before {
       content      : "";
@@ -51,45 +50,44 @@ messaging {
       height       : 0;
       border-top   : 10px solid transparent;
       border-bottom: 10px solid transparent;
-      border-right :10px solid $neutral-color-lightest;
-      margin-top   : $margin-smallest;
+      border-right :10px solid $white;
+      margin-top   : 10px;
     }
 
     .name {
       font-weight: bold;
-      font-size  : $font-size-big;
+      font-size  : 16px;
     }
 
     .title {
-      font-size: $font-size-smallest;
+      font-size: 12px;
     }
 
     > p {
       margin-top: $vertical-smallest;
-      line-height: $line-height-big;
     }
 
     time {
-      margin-left: $margin-small;
+      margin-left: 10px;
     }
 
     .title {
-      margin-top: $margin-smallest/2;
+      margin-top: 10px/2;
     }
 
     > .download {
       @include vertical-align-middle();
 
-      margin-top: $margin-smallest;
+      margin-top: 10px;
       display: block;
 
       p {
-        margin: 0 0 0 $margin-smallest;
+        margin: 0 0 0 10px;
       }
     }
 
     .attachments {
-      margin-top: $margin-small;
+      margin-top: 10px;
       overflow: auto;
 
       > li {
@@ -145,7 +143,7 @@ messaging {
       textarea {
         width    : 100%;
         max-width: 500px;
-        height   : 36px;
+        height   : 40px;
       }
 
       button {
