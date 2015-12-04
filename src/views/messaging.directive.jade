@@ -1,8 +1,11 @@
-//- p You have {{vm.thread.messages.length}} messages with {{vm.thread.messages[0].publisher.handle}}
-
 ul.messages(id="messaging-message-list")
+  li.new-messages
+    p new messages
+
+    hr
+
   li(ng-repeat="message in vm.thread.messages track by $index" id="{{$index}}")
-    a(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank")
+    a.avatar(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank")
       avatar(avatar-url="{{ message.publisher.avatar }}")
 
     .message.elevated-bottom
