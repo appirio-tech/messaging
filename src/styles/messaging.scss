@@ -21,16 +21,17 @@ messaging {
 
   .new-messages {
     overflow: hidden;
+    margin  : 20px 0;
 
     p {
-      float: left;
-      color: $primary-color;
+      color      : $primary-color;
       font-weight: 400;
+      position   : absolute;
     }
 
     hr {
       margin-top      : 12px;
-      margin-left     : 10px;
+      margin-left     : 100px;
       background-color: $primary-color;
       height          : 1px;
     }
