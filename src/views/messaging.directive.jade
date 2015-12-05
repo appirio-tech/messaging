@@ -1,8 +1,4 @@
 ul.messages(id="messaging-message-list")
-  li.new-messages
-    p new messages
-
-    hr
 
   li(ng-repeat="message in vm.thread.messages track by $index" id="{{$index}}")
     a.avatar(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank")
@@ -26,6 +22,11 @@ ul.messages(id="messaging-message-list")
       //-   .icon.download.smallest
 
       //-   p Download all images
+
+    li.new-messages(ng-if="!message.read")
+      p new messages
+
+      hr
 
   a(id="messaging-bottom-{{ vm.threadId }}")
 
