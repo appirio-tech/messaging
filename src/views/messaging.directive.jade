@@ -1,8 +1,10 @@
 ul.messages(id="messaging-message-list")
 
-  li(ng-repeat="message in vm.thread.messages track by $index" id="{{$index}}")
+
+  li(ng-repeat-start="message in vm.thread.messages track by $index" id="{{$index}}")
     a.avatar(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank")
       avatar(avatar-url="{{ message.publisher.avatar }}")
+
 
     .message.elevated-bottom
       a.name(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank") {{message.publisher.handle}}
@@ -23,10 +25,10 @@ ul.messages(id="messaging-message-list")
 
       //-   p Download all images
 
-    li.new-messages(ng-if="message.showNewMessage")
-      p new messages
+  li.new-messages(ng-repeat-end ng-if="message.showNewMessage")
+    p new messages
 
-      hr
+    hr
 
   a(id="messaging-bottom-{{ vm.threadId }}")
 
