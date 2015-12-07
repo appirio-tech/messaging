@@ -106,10 +106,12 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
           lastMessage = vm.thread.messages[vm.thread.messages.length - 1]
           markMessageRead lastMessage
 
-        if vm.firstUnreadMessageIndex >= 0
+        if vm.firstUnreadMessageIndex > 0
           angular.element(document).ready ->
+            vm.thread.messages[vm.firstUnreadMessageIndex - 1].showNewMessage = true
             scrollElement = angular.element document.getElementById vm.firstUnreadMessageIndex
             $document.scrollToElement scrollElement
+
         else
           $scope.showLast = 'scroll'
 
