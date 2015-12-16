@@ -1,16 +1,31 @@
 @import "work/work-includes";
 @import "variables";
 
-$avatar-width: 35px;
+$user-width: 150px;
 
 messaging {
   display   : block;
   text-align: center;
 
-  .avatar {
-    display: block;
-    float  : left;
-    width  : $avatar-width;
+  .name {
+    @include ellipsis;
+
+    font-weight: 400;
+    font-size  : 16px;
+  }
+
+  .user-name {
+    min-width: 150px;
+    max-width: 150px;
+    text-align: right;
+
+    time {
+      display: block;
+    }
+  }
+
+  a.avatar {
+    margin-left: 10px;
   }
 
   .messages {
@@ -51,7 +66,7 @@ messaging {
 
   &.dark-bg {
     .message {
-      background-color: $white;
+      background-color: $grey-lightest;
 
       &::before {
         border-right-color: $white;
@@ -61,30 +76,16 @@ messaging {
 
   .message {
     text-align      : left;
-    background-color: $white;
+    background-color: $grey-lightest;
     margin-top      : 10px;
-    margin-left     : $avatar-width + $horizontal-small;
-    padding         : $vertical-small;
+    margin-left     : 15px;
+    padding         : 15px 20px;
     padding-top     : $vertical-smallest;
     position        : relative;
+    border-right    : 1px solid $grey-light;
 
-    &::before {
-      content      : "";
-      position     : absolute;
-      top          : 0;
-      left         : -9px;
-      width        : 0;
-      height       : 0;
-      border-top   : 10px solid transparent;
-      border-bottom: 10px solid transparent;
-      border-right :10px solid $white;
-      margin-top   : 10px;
-    }
-
-    .name {
-      font-weight: bold;
-      font-size  : 16px;
-    }
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
 
     .title {
       font-size: 12px;
@@ -92,10 +93,7 @@ messaging {
 
     > p {
       margin-top: $vertical-smallest;
-    }
-
-    time {
-      margin-left: 10px;
+      color: $grey-dark;
     }
 
     .title {
@@ -114,7 +112,6 @@ messaging {
     }
 
     .attachments {
-      margin-top: 10px;
       overflow: auto;
 
       > li {
@@ -141,9 +138,10 @@ messaging {
     bottom          : 0;
     left            : 0;
     width           : 100%;
-    background-color: $white;
+    background-color: $grey-lightest;
     padding         : 25px;
     text-align      : left;
+    border-top      : 1px solid $grey-light;
 
     ap-uploader {
       max-width: 600px;

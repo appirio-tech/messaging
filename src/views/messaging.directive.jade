@@ -1,24 +1,22 @@
 ul.messages(id="messaging-message-list")
-
-
-  li(ng-repeat-start="message in vm.thread.messages track by $index" id="{{$index}}")
-    a.avatar(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank")
-      avatar(avatar-url="{{ message.publisher.avatar }}")
-
-
-    .message.elevated-bottom
-      a.name(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank") {{message.publisher.handle}}
+  li.flex.center.middle(ng-repeat-start="message in vm.thread.messages track by $index" id="{{$index}}")
+    .user-name
+      .name(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank") {{message.publisher.handle}}
 
       time {{ message.createdAt | timeLapse }}
 
-      p.title(ng-if="message.publisher.role != null") {{message.publisher.role}}
+    a.avatar(href="{{vm.generateProfileUrl(message.publisher.handle)}}" target="_blank")
+      avatar(avatar-url="{{ message.publisher.avatar }}")
 
-      p {{ message.body }}
-
+    .message.elevated-bottom.flex-grow
       ul.attachments.flex(ng-if="message.attachments.length > 0")
         li(ng-repeat="attachment in message.attachments track by $index")
           a(href="{{attachment.thumbnailUrl}}" target="_blank")
             img(ng-src="{{attachment.thumbnailUrl}}")
+
+      p.title(ng-if="message.publisher.role != null") {{message.publisher.role}}
+
+      p {{ message.body }}
 
       //- a.download(ng-if="message.attachments.length > 0")
       //-   .icon.download.smallest
