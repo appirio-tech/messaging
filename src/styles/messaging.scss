@@ -79,7 +79,7 @@ messaging {
     background-color: $grey-lightest;
     margin-top      : 10px;
     margin-left     : 15px;
-    padding         : 15px 20px;
+    padding         : 10px 20px;
     padding-top     : $vertical-smallest;
     position        : relative;
     border-right    : 1px solid $grey-light;
@@ -92,7 +92,7 @@ messaging {
     }
 
     > p {
-      margin-top: $vertical-smallest;
+      margin-top: 0;
       color: $grey-dark;
     }
 
@@ -113,6 +113,7 @@ messaging {
 
     .attachments {
       overflow: auto;
+      margin-bottom: 10px;
 
       > li {
         overflow : hidden;
