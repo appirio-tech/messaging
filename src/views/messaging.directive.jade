@@ -11,7 +11,7 @@ ul.messages(id="messaging-message-list")
     .message.elevated-bottom.flex-grow
       ul.attachments.flex(ng-if="message.attachments.length > 0")
         li(ng-repeat="attachment in message.attachments track by $index")
-          a(href="{{attachment.thumbnailUrl}}" target="_blank")
+          button.clean(ng-click="vm.activateImageSlideViewer(attachment, message.attachments, message.publisher.handle, message.publisher.avatar, message.createdAt) ")
             img(ng-src="{{attachment.thumbnailUrl}}")
 
       p.title(ng-if="message.publisher.role != null") {{message.publisher.role}}
@@ -44,3 +44,6 @@ ul.messages(id="messaging-message-list")
     button.action(type="submit" ng-hide="vm.disableSend") reply
 
     button.action(disabled=true ng-show="vm.disableSend") reply
+
+attachment-viewer(ng-if="vm.showImageSlideViewer")
+  include attachments-viewer

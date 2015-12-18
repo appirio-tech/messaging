@@ -1,18 +1,19 @@
 'use strict'
 
-MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
-  vm                 = this
-  vm.currentUser     = null
-  vm.activeThread    = null
-  vm.sending         = false
-  vm.loadingThreads  = false
-  vm.loadingMessages = false
-  vm.workId          = $scope.workId
-  vm.threadId        = $scope.threadId
-  vm.subscriberId    = $scope.subscriberId
-  vm.uploaderUploading = null
-  vm.uploaderHasErrors = null
-  vm.uploaderHasFiles = null
+MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
+  vm                      = this
+  vm.currentUser          = null
+  vm.activeThread         = null
+  vm.sending              = false
+  vm.loadingThreads       = false
+  vm.loadingMessages      = false
+  vm.showImageSlideViewer = false
+  vm.workId               = $scope.workId
+  vm.threadId             = $scope.threadId
+  vm.subscriberId         = $scope.subscriberId
+  vm.uploaderUploading    = null
+  vm.uploaderHasErrors    = null
+  vm.uploaderHasFiles     = null
 
   generateProfileUrl = (handle) ->
     "https://www.topcoder.com/members/#{handle}"
@@ -46,9 +47,11 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
     $scope.$watch 'subscriberId', ->
       getThread()
 
-    vm.sendMessage = sendMessage
-    vm.generateProfileUrl = generateProfileUrl
-    vm.uploaderConfig = configureUploader(vm.threadId, 'attachment')
+    vm.sendMessage              = sendMessage
+    vm.generateProfileUrl       = generateProfileUrl
+    vm.uploaderConfig           = configureUploader(vm.threadId, 'attachment')
+    vm.activateImageSlideViewer = activateImageSlideViewer
+    vm.onFileChange             = onFileChange
 
     $scope.$watch 'vm.uploaderUploading', (newValue) ->
       if newValue == true
@@ -165,8 +168,19 @@ MessagingController = ($scope, $document, API_URL, MessagesAPIService, ThreadsAP
       resource.$promise.finally ->
         vm.disableSend = false
 
+  activateImageSlideViewer = (file, files, handle, avatar, date) ->
+    vm.showImageSlideViewer = true
+    vm.currentImage         = file
+    vm.currentImages        = files
+    vm.currentHandle        = handle
+    vm.currentAvatar        = avatar
+    vm.currentTitle         = $filter('timeLapse')(date)
+
+  onFileChange = (file) ->
+    vm.currentImage = file
+
   activate()
 
-MessagingController.$inject = ['$scope', '$document', 'API_URL', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
+MessagingController.$inject = ['$scope', '$document', '$filter', 'API_URL', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'MessagingController', MessagingController
