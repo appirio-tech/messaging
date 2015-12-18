@@ -76,6 +76,7 @@ messaging {
 
   .message {
     text-align      : left;
+    max-width       : 560px;
     background-color: $grey-lightest;
     margin-top      : 10px;
     margin-left     : 15px;
