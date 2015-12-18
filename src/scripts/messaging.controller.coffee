@@ -168,10 +168,18 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
       resource.$promise.finally ->
         vm.disableSend = false
 
+  setFileUrls = (files) ->
+    urlFiles = files.map (file) ->
+      file.url = file.thumbnailUrl
+      file
+
+    urlFiles
+
   activateImageSlideViewer = (file, files, handle, avatar, date) ->
     vm.showImageSlideViewer = true
+    file.url                = file.thumbnailUrl
     vm.currentImage         = file
-    vm.currentImages        = files
+    vm.currentImages        = setFileUrls files
     vm.currentHandle        = handle
     vm.currentAvatar        = avatar
     vm.currentTitle         = $filter('timeLapse')(date)

@@ -170,6 +170,10 @@ messaging {
         width    : 100%;
         max-width: 500px;
         height   : 40px;
+
+        &.resizeDisabled {
+          resize: none;
+        }
       }
 
       button {

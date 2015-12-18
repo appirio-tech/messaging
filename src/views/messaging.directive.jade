@@ -39,7 +39,7 @@ ul.messages(id="messaging-message-list")
   )
 
   form.flex.middle.center(ng-submit="vm.sendMessage()")
-    textarea(placeholder="Send a message..." ng-model="vm.newMessage")
+    textarea(placeholder="Send a message..." ng-model="vm.newMessage" ng-class="{resizeDisabled: vm.showImageSlideViewer}")
 
     button.action(type="submit" ng-hide="vm.disableSend") reply
 
