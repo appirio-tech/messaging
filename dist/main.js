@@ -12,14 +12,15 @@
   'use strict';
   var MessagingController;
 
-  MessagingController = function($scope, $document, API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) {
-    var activate, configureUploader, findFirstUnreadMessageIndex, generateProfileUrl, getThread, isMessageValid, markMessageRead, orderMessagesByCreationDate, sendMessage, vm;
+  MessagingController = function($scope, $document, $filter, API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) {
+    var activate, activateImageSlideViewer, configureUploader, findFirstUnreadMessageIndex, generateProfileUrl, getThread, isMessageValid, markMessageRead, onFileChange, orderMessagesByCreationDate, sendMessage, setFileUrls, vm;
     vm = this;
     vm.currentUser = null;
     vm.activeThread = null;
     vm.sending = false;
     vm.loadingThreads = false;
     vm.loadingMessages = false;
+    vm.showImageSlideViewer = false;
     vm.workId = $scope.workId;
     vm.threadId = $scope.threadId;
     vm.subscriberId = $scope.subscriberId;
@@ -61,6 +62,8 @@
       vm.sendMessage = sendMessage;
       vm.generateProfileUrl = generateProfileUrl;
       vm.uploaderConfig = configureUploader(vm.threadId, 'attachment');
+      vm.activateImageSlideViewer = activateImageSlideViewer;
+      vm.onFileChange = onFileChange;
       $scope.$watch('vm.uploaderUploading', function(newValue) {
         if (newValue === true) {
           return vm.disableSend = true;
@@ -188,10 +191,30 @@
         });
       }
     };
+    setFileUrls = function(files) {
+      var urlFiles;
+      urlFiles = files.map(function(file) {
+        file.url = file.thumbnailUrl;
+        return file;
+      });
+      return urlFiles;
+    };
+    activateImageSlideViewer = function(file, files, handle, avatar, date) {
+      vm.showImageSlideViewer = true;
+      file.url = file.thumbnailUrl;
+      vm.currentImage = file;
+      vm.currentImages = setFileUrls(files);
+      vm.currentHandle = handle;
+      vm.currentAvatar = avatar;
+      return vm.currentTitle = $filter('timeLapse')(date);
+    };
+    onFileChange = function(file) {
+      return vm.currentImage = file;
+    };
     return activate();
   };
 
-  MessagingController.$inject = ['$scope', '$document', 'API_URL', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService'];
+  MessagingController.$inject = ['$scope', '$document', '$filter', 'API_URL', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService'];
 
   angular.module('appirio-tech-ng-messaging').controller('MessagingController', MessagingController);
 
@@ -243,4 +266,4 @@
 
 }).call(this);
 
-angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<ul id=messaging-message-list class=messages><li ng-repeat-start=\"message in vm.thread.messages track by $index\" id={{$index}} class=\"flex center middle\"><div class=user-name><div href={{vm.generateProfileUrl(message.publisher.handle)}} target=_blank class=name>{{message.publisher.handle}}</div><time>{{ message.createdAt | timeLapse }}</time></div><a href={{vm.generateProfileUrl(message.publisher.handle)}} target=_blank class=avatar><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar></a><div class=\"message elevated-bottom flex-grow\"><ul ng-if=\"message.attachments.length &gt; 0\" class=\"attachments flex\"><li ng-repeat=\"attachment in message.attachments track by $index\"><a href={{attachment.thumbnailUrl}} target=_blank><img ng-src={{attachment.thumbnailUrl}}></a></li></ul><p ng-if=\"message.publisher.role != null\" class=title>{{message.publisher.role}}</p><p>{{ message.body }}</p></div></li><li ng-repeat-end=ng-repeat-end ng-if=message.showNewMessage class=new-messages><p>new messages</p><hr></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=respond><ap-uploader config=vm.uploaderConfig uploading=vm.uploaderUploading has-errors=vm.uploaderHasErrors has-files=vm.uploaderHasFiles></ap-uploader><form ng-submit=vm.sendMessage() class=\"flex middle center\"><textarea placeholder=\"Send a message...\" ng-model=vm.newMessage></textarea><button type=submit ng-hide=vm.disableSend class=action>reply</button><button disabled ng-show=vm.disableSend class=action>reply</button></form></div>");}]);
+angular.module("appirio-tech-ng-messaging").run(["$templateCache", function($templateCache) {$templateCache.put("views/messaging.directive.html","<ul id=messaging-message-list class=messages><li ng-repeat-start=\"message in vm.thread.messages track by $index\" id={{$index}} class=\"flex center middle\"><div class=user-name><div href={{vm.generateProfileUrl(message.publisher.handle)}} target=_blank class=name>{{message.publisher.handle}}</div><time>{{ message.createdAt | timeLapse }}</time></div><a href={{vm.generateProfileUrl(message.publisher.handle)}} target=_blank class=avatar><avatar avatar-url=\"{{ message.publisher.avatar }}\"></avatar></a><div class=\"message elevated-bottom flex-grow\"><ul ng-if=\"message.attachments.length &gt; 0\" class=\"attachments flex\"><li ng-repeat=\"attachment in message.attachments track by $index\"><button ng-click=\"vm.activateImageSlideViewer(attachment, message.attachments, message.publisher.handle, message.publisher.avatar, message.createdAt)\" class=clean><img ng-src={{attachment.thumbnailUrl}}></button></li></ul><p ng-if=\"message.publisher.role != null\" class=title>{{message.publisher.role}}</p><p>{{ message.body }}</p></div></li><li ng-repeat-end=ng-repeat-end ng-if=message.showNewMessage class=new-messages><p>new messages</p><hr></li><a id=\"messaging-bottom-{{ vm.threadId }}\"></a></ul><div class=respond><ap-uploader config=vm.uploaderConfig uploading=vm.uploaderUploading has-errors=vm.uploaderHasErrors has-files=vm.uploaderHasFiles></ap-uploader><form ng-submit=vm.sendMessage() class=\"flex middle center\"><textarea placeholder=\"Send a message...\" ng-model=vm.newMessage ng-class=\"{resizeDisabled: vm.showImageSlideViewer}\"></textarea><button type=submit ng-hide=vm.disableSend class=action>reply</button><button disabled ng-show=vm.disableSend class=action>reply</button></form></div><attachment-viewer ng-if=vm.showImageSlideViewer><modal show=vm.showImageSlideViewer background-click-close=background-click-close><image-viewer-header title={{vm.currentTitle}} avatar={{vm.currentAvatar}} handle={{vm.currentHandle}} download-url=vm.currentImage.thumbnailUrl download-allowed=download-allowed></image-viewer-header><image-slide-viewer on-file-change=vm.onFileChange(file) files=vm.currentImages starting-file=vm.currentImage></image-slide-viewer></modal></attachment-viewer>");}]);
