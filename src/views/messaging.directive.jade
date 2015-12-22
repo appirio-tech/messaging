@@ -10,7 +10,11 @@ ul.messages(id="messaging-message-list")
 
     .message.elevated-bottom.flex-grow
       ul.attachments.flex(ng-if="message.attachments.length > 0")
-        li(ng-repeat="attachment in message.attachments track by $index" ng-click="vm.activateImageSlideViewer(attachment, message.attachments, message.publisher.handle, message.publisher.avatar, message.createdAt)" style="background-image: url({{ attachment.thumbnailUrl }})")
+        li(
+          ng-repeat="attachment in message.attachments track by $index"
+          ng-click="vm.activateImageSlideViewer(attachment, message.attachments, message.publisher.handle, message.publisher.avatar, message.createdAt)"
+          style="background-image: url({{ attachment.thumbnailUrl }})"
+        )
 
       p.title(ng-if="message.publisher.role != null") {{message.publisher.role}}
 
