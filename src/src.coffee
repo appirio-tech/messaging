@@ -1,14 +1,18 @@
-require.context './styles/', true, /^(.*\.(scss$))[^.]*$/igm
-# require.context './images/', true, /^(.*\.(svg$))[^.]*$/igm
-
 require 'appirio-tech-ng-file-upload'
 require './scripts/messaging.module'
+
+# require.context './images/', true, /^(.*\.(svg$))[^.]*$/igm
+
 
 requireContextFiles = (files) ->
   paths = files.keys()
 
   for path in paths
     files path
+
+styles = require.context './styles/', true, /^(.*\.(scss$))[^.]*$/igm
+
+requireContextFiles styles
 
 require './scripts/messaging.directive'
 require './scripts/messaging.controller'
