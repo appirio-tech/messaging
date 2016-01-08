@@ -184,4 +184,12 @@ messaging {
       }
     }
   }
+
+  attachment-viewer {
+    image-slide-viewer {
+      > main {
+        height: 92vh;
+      }
+    }
+  }
 }
