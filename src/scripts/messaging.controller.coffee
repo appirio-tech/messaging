@@ -18,6 +18,10 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
   generateProfileUrl = (handle) ->
     "https://www.topcoder.com/members/#{handle}"
 
+  isImage = (file) ->
+    pattern = new RegExp('image.*')
+    pattern.test(file.fileType)
+
   orderMessagesByCreationDate = (messages) ->
     orderedMessages = messages?.sort (previous, next) ->
       new Date(previous.createdAt) - new Date(next.createdAt)
@@ -52,6 +56,7 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
     vm.uploaderConfig           = configureUploader(vm.threadId, 'attachment')
     vm.activateImageSlideViewer = activateImageSlideViewer
     vm.onFileChange             = onFileChange
+    vm.isImage                  = isImage
 
     $scope.$watch 'vm.uploaderUploading', (newValue) ->
       if newValue == true

@@ -10,20 +10,23 @@ ul.messages(id="messaging-message-list")
 
     .message.elevated-bottom.flex-grow
       ul.attachments.flex(ng-if="message.attachments.length > 0")
-        li(
-          ng-repeat="attachment in message.attachments track by $index"
+        li.image(
+          ng-repeat-start="attachment in message.attachments track by $index"
+          ng-if="vm.isImage(attachment)"
           ng-click="vm.activateImageSlideViewer(attachment, message.attachments, message.publisher.handle, message.publisher.avatar, message.createdAt)"
           style="background-image: url({{ attachment.thumbnailUrl }})"
         )
 
+        li.file(
+          ng-repeat-end
+          ng-if="!vm.isImage(attachment)"
+        )
+          a.flex.center.middle(href="{{attachment.thumbnailUrl}}")
+            img.file-icon(ng-src=require('../images/file-icon.svg'))
+
       p.title(ng-if="message.publisher.role != null") {{message.publisher.role}}
 
       p {{ message.body }}
-
-      //- a.download(ng-if="message.attachments.length > 0")
-      //-   .icon.download.smallest
-
-      //-   p Download all images
 
   li.new-messages(ng-repeat-end ng-if="message.showNewMessage")
     p new messages
