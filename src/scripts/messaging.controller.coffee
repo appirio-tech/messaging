@@ -82,6 +82,8 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
           filePath: data.path
           fileType: data.type
           fileSize: data.size
+      onFileRemoval: (fileIndex) ->
+        vm.newAttachments.splice(fileIndex, 1)
       presign:
         url: domain + '/v3/attachments/uploadurl'
         params:
