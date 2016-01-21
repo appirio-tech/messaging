@@ -112,6 +112,12 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
 
         vm.firstUnreadMessageIndex = findFirstUnreadMessageIndex vm.thread.messages
 
+        if vm.thread.unreadCount == 0
+          angular.element(document).ready ->
+            lastMessage = vm.thread.messages[vm.thread.messages.length - 1]
+            scrollElement = angular.element document.getElementById lastMessage
+            $document.scrollToElement scrollElement
+
         if vm.thread.unreadCount > 0
           lastMessage = vm.thread.messages[vm.thread.messages.length - 1]
           markMessageRead lastMessage
@@ -122,8 +128,6 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
             scrollElement = angular.element document.getElementById vm.firstUnreadMessageIndex
             $document.scrollToElement scrollElement
 
-        else
-          $scope.showLast = 'scroll'
 
       resource.$promise.catch ->
 
