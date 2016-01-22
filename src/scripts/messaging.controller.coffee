@@ -114,8 +114,7 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
 
         if vm.thread.unreadCount == 0
           angular.element(document).ready ->
-            lastMessage = vm.thread.messages[vm.thread.messages.length - 1]
-            scrollElement = angular.element document.getElementById lastMessage
+            scrollElement = angular.element document.getElementById vm.thread.messages.length - 1
             $document.scrollToElement scrollElement
 
         if vm.thread.unreadCount > 0
