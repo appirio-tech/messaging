@@ -1,14 +1,15 @@
-modal.flex.column(show="vm.showImageSlideViewer" background-click-close=true)
-  image-viewer-header.flex(
-    title ="{{vm.currentTitle}}"
-    avatar="{{vm.currentAvatar}}"
-    handle="{{vm.currentHandle}}"
-    download-url="vm.currentImage.thumbnailUrl"
-    download-allowed="true"
-  )
+modal(show="vm.showImageSlideViewer" background-click-close=true)
+  .image-viewer-container.flex.column
+    image-viewer-header.flex(
+      title ="{{vm.currentTitle}}"
+      avatar="{{vm.currentAvatar}}"
+      handle="{{vm.currentHandle}}"
+      download-url="vm.currentImage.thumbnailUrl"
+      download-allowed="true"
+    )
 
-  image-slide-viewer.flex.flex-grow(
-    on-file-change="vm.onFileChange(file)"
-    files="vm.currentImages"
-    starting-file="vm.currentImage"
-  )
+    image-slide-viewer.flex.flex-grow(
+      on-file-change="vm.onFileChange(file)"
+      files="vm.currentImages"
+      starting-file="vm.currentImage"
+    )
