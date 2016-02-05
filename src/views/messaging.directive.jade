@@ -44,11 +44,11 @@ ul.messages(id="messaging-message-list")
   )
 
   form.flex.middle.center(ng-submit="vm.sendMessage()")
-    textarea(placeholder="Send a message..." ng-model="vm.newMessage" ng-class="{resizeDisabled: vm.showImageSlideViewer}")
+    textarea(ng-if="vm.permissions.indexOf('CREATE') > -1" placeholder="Send a message..." ng-model="vm.newMessage" ng-class="{resizeDisabled: vm.showImageSlideViewer}")
 
-    button.action(type="submit" ng-hide="vm.disableSend") reply
+    textarea(ng-if="vm.permissions.indexOf('CREATE') == -1" placeholder="Messages Disabled" ng-class="{resizeDisabled: vm.showImageSlideViewer}" disabled)
 
-    button.action(disabled=true ng-show="vm.disableSend") reply
+    button.action(type="submit" ng-disabled="vm.disableSend || vm.permissions.indexOf('CREATE') == -1") reply
 
 attachment-viewer(ng-if="vm.showImageSlideViewer")
   include attachments-viewer

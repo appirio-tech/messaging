@@ -25,9 +25,10 @@ directive = ->
   controller  : 'MessagingController'
   controllerAs: 'vm'
   scope       :
-    threadId  : '@threadId'
-    workId    : '@workId'
-    subscriberId: '@subscriberId'
+    threadId:     '@'
+    workId:       '@'
+    subscriberId: '@'
+    permissions:  '='
 
 directive.$inject = []
 

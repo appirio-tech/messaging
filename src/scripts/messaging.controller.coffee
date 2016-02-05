@@ -11,6 +11,7 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
   vm.workId               = $scope.workId
   vm.threadId             = $scope.threadId
   vm.subscriberId         = $scope.subscriberId
+  vm.permissions          = $scope.permissions
   vm.uploaderUploading    = null
   vm.uploaderHasErrors    = null
   vm.uploaderHasFiles     = null
@@ -74,6 +75,7 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
       name: "#{assetType}-uploader-#{threadId}-#{Date.now()}"
       allowMultiple: true
       allowCaptions: false
+      disabled: vm.permissions.indexOf('CREATE') == -1
       onUploadSuccess: (data) ->
         vm.newAttachments.push
           ownerId:  $scope.subscriberId
