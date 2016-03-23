@@ -13,6 +13,6 @@
   },
   "dependencies": {
     "appirio-tech-ng-file-upload": "1.x.x",
-    "appirio-tech-ng-api-services": "0.x.x"
+    "appirio-tech-ng-api-services": "1.x.x"
   }
 }
