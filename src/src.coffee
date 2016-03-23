@@ -1,4 +1,5 @@
 require 'appirio-tech-ng-file-upload'
+require 'appirio-tech-ng-api-services'
 require './scripts/messaging.module'
 
 # require.context './images/', true, /^(.*\.(svg$))[^.]*$/igm

@@ -12,6 +12,7 @@
     "build": "webpack --config webpack.config.js; cp example/index.html dist/"
   },
   "dependencies": {
-    "appirio-tech-ng-file-upload": "1.x.x"
+    "appirio-tech-ng-file-upload": "1.x.x",
+    "appirio-tech-ng-api-services": "0.x.x"
   }
 }
