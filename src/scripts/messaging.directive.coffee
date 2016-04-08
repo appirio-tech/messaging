@@ -20,7 +20,7 @@ directive = ->
     scope.$watch 'showLast', showLast
 
   restrict    : 'E'
-  templateUrl : 'views/messaging.directive.html'
+  template    : require('../views/messaging.directive.jade')()
   link        : link
   controller  : 'MessagingController'
   controllerAs: 'vm'
