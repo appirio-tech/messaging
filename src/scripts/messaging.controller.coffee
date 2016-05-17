@@ -1,6 +1,6 @@
 'use strict'
 
-MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
+MessagingController = ($scope, $document, $filter, WORK_API_URL, MessagesAPIService, ThreadsAPIService, InboxesAPIService, MessageUpdateAPIService) ->
   vm                      = this
   vm.currentUser          = null
   vm.activeThread         = null
@@ -68,7 +68,7 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
     vm
 
   configureUploader = (threadId, assetType) ->
-    domain = API_URL
+    domain = WORK_API_URL
     category = 'message'
 
     uploaderConfig =
@@ -87,13 +87,13 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
       onFileRemoval: (fileIndex) ->
         vm.newAttachments.splice(fileIndex, 1)
       presign:
-        url: domain + '/v3/attachments/uploadurl'
+        url: domain + '/attachments/uploadurl'
         params:
           id: threadId
           assetType: assetType
           category: category
       removeRecord:
-        url: domain + '/v3/attachments/:fileId'
+        url: domain + '/attachments/:fileId'
         params:
           filter: 'category=' + category
 
@@ -201,6 +201,6 @@ MessagingController = ($scope, $document, $filter, API_URL, MessagesAPIService, 
 
   activate()
 
-MessagingController.$inject = ['$scope', '$document', '$filter', 'API_URL', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
+MessagingController.$inject = ['$scope', '$document', '$filter', 'WORK_API_URL', 'MessagesAPIService', 'ThreadsAPIService', 'InboxesAPIService', 'MessageUpdateAPIService']
 
 angular.module('appirio-tech-ng-messaging').controller 'MessagingController', MessagingController
